@@ -14,12 +14,14 @@ Melalui Garuda Lounge, pengguna bisa:
 yang dimana website ini akan dibangun menggunakan Django sebagai backend framework, serta memanfaatkan konsep modular apps untuk memisahkan setiap fitur utama.
 
 ## Nama Anggota Kelompok dan Pembagian Modul
-No	| Nama	                    |    NPM	 | Tugas/Modul
-1	| Sausan Farah Azzahra	    | 2406439091 | Modul Profil/Deskripsi Timnas
-2	| Muhammad Farrel Rajendra  | 2406495653 | Modul Pertandingan
-3	| Deslee Jever Phillipa	    | 2406433560 | Modul Artikel/Berita
-4	| Dzaky Ahmad Trinindito    | 2406406351 | Modul Merchandise
-5	| Tiara Widyaningrum	    | 2406431100 | Modul Profil Pemain Legend
+
+| No	| Nama	                    |    NPM	 | Tugas/Modul |
+| :---: | :--- | :--- | :--- |
+| 1	| Sausan Farah Azzahra	    | 2406439091 | Modul Profil/Deskripsi Timnas
+| 2	| Muhammad Farrel Rajendra  | 2406495653 | Modul Pertandingan
+| 3	| Deslee Jever Phillipa	    | 2406433560 | Modul Artikel/Berita
+| 4	| Dzaky Ahmad Trinindito    | 2406406351 | Modul Merchandise
+| 5	| Tiara Widyaningrum	    | 2406431100 | Modul Profil Pemain Legend
 
 ## Modul yang Diimplementasikan
   * ### Profil/Deskripsi Timnas
