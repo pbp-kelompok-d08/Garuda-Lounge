@@ -61,3 +61,5 @@ Tidak memiliki akses untuk mengubah data di website.
 ## Link Deployment PWS dan Desain FIGMA
 Link PWS :  https://muhammad-farrel46-garudalounge.pbp.cs.ui.ac.id/
 Link FIGMA : https://www.figma.com/design/XNzG0SDEzs3QQ7SuMVuUoC/GarudaLounge?node-id=0-1&t=Dey5VhTB4bqIc8u5-1 
+
+tes
