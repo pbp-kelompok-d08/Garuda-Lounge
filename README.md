@@ -1,6 +1,8 @@
 # Garuda Lounge
 
-Deskripsi mengenai Website yang akan kami buat yang bernama Garuda Lounge. Website yang kelompok kami buat bernama Garuda Lounge, yaitu sebuah fansite untuk Tim Nasional (Timnas) Sepak Bola Indonesia. Tujuan utama website ini adalah untuk menjadi wadah bagi para penggemar Timnas agar bisa mendapatkan berbagai informasi dan update terbaru seputar dunia sepak bola Indonesia, terutama yang berkaitan dengan Timnas — baik dari segi berita, profil pemain, merchandise resmi, maupun sejarah pemain legendaris.
+Deskripsi mengenai Website yang akan kami buat yang bernama Garuda Lounge. 
+Website yang kelompok kami buat bernama Garuda Lounge, yaitu sebuah fansite untuk Tim Nasional (Timnas) Sepak Bola Indonesia. Tujuan utama website ini adalah untuk menjadi wadah bagi para penggemar Timnas agar bisa mendapatkan berbagai informasi dan update terbaru seputar dunia sepak bola Indonesia, terutama yang berkaitan dengan Timnas baik dari segi berita, profil pemain, merchandise resmi, maupun sejarah pemain legendaris.
+
 Melalui Garuda Lounge, pengguna bisa:
 1. Melihat profil dan deskripsi umum Timnas Indonesia.
 2. Membaca berita terbaru seputar pertandingan dan aktivitas pemain.
@@ -47,10 +49,9 @@ Website kami memiliki dua jenis pengguna utama:
 1. Admin
 Dapat menambah, mengubah, dan menghapus data pada seluruh modul (profil, berita, merchandise, dan pemain legend).
 Bertanggung jawab menjaga agar konten di website selalu up to date dan relevan.
-
 2. User Biasa (Pengunjung)
 Dapat membaca berita, melihat profil pemain dan merchandise, serta memberikan komentar pada artikel.
 Tidak memiliki akses untuk mengubah data di website.
 
 Link PWS :  https://muhammad-farrel46-garudalounge.pbp.cs.ui.ac.id/
-Link FIGMA : 
+Link FIGMA : https://www.figma.com/design/XNzG0SDEzs3QQ7SuMVuUoC/GarudaLounge?node-id=0-1&t=Dey5VhTB4bqIc8u5-1 
