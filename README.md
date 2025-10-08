@@ -49,7 +49,8 @@ https://id.wikipedia.org/wiki/Tim_nasional_sepak_bola_Indonesia
  — informasi sejarah dan pemain
 https://www.bola.com/
  dan https://www.kompas.com/bola
- — untuk berita dan jadwal pertandingan
+ — untuk berita dan jadwal pertandingan  
+ Semua dikumpulkan dalam spreadsheet ini: https://docs.google.com/spreadsheets/d/1_xUHeyoI00OAAZLYzJDYjnDmYqQTlkzyhxSL4xnPpuY/edit?usp=sharing
 
 ## Deskripsi Role Pengguna
 Website kami memiliki dua jenis pengguna utama:
@@ -61,7 +62,5 @@ Dapat membaca berita, melihat profil pemain dan merchandise, serta memberikan ko
 Tidak memiliki akses untuk mengubah data di website.
 
 ## Link Deployment PWS dan Desain FIGMA
-Link PWS :  https://muhammad-farrel46-garudalounge.pbp.cs.ui.ac.id/
+Link PWS :  https://muhammad-farrel46-garudalounge.pbp.cs.ui.ac.id/  
 Link FIGMA : https://www.figma.com/design/XNzG0SDEzs3QQ7SuMVuUoC/GarudaLounge?node-id=0-1&t=Dey5VhTB4bqIc8u5-1 
-
-tes
