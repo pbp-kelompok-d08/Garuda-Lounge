@@ -1,9 +1,9 @@
 from django.urls import path
-from ProfileLegend import views
+from . import views
 
 app_name = 'ProfileLegend'
 
 urlpatterns = [
-    path('', views.show_profile_list, name='show_profile_list'), 
-    path('<uuid:id>/', views.show_profile_detail, name='show_profile_detail'),
+    path('', views.legend_list, name='legend_list'),
+    path('<uuid:id>/', views.legend_detail, name='legend_detail'),
 ]

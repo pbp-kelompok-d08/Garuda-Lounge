@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import LegendPlayer
 
-# Ini akan membuat tampilan admin lebih rapi
 @admin.register(LegendPlayer)
 class PlayerProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'position', 'current_club', 'age', 'market_value')
