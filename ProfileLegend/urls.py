@@ -1,7 +1,7 @@
 from django.urls import path
-from profil_legend import views
+from ProfileLegend import views
 
-app_name = 'profil_legend'
+app_name = 'ProfileLegend'
 
 urlpatterns = [
     path('', views.show_profile_list, name='show_profile_list'), 
