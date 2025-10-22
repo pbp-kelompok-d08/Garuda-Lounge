@@ -3,3 +3,11 @@
 #jadi seperti ini:
 #app_name = 'match'
 #urlpatterns = [ ...
+
+from django.urls import path
+from match.views import show_match
+
+app_name = 'match'
+urlpatterns = [
+    path('', show_match, name='show_match'),
+]
