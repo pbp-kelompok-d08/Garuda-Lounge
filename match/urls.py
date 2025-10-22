@@ -5,9 +5,9 @@
 #urlpatterns = [ ...
 
 from django.urls import path
-from match.views import show_match
+from match import views
 
 app_name = 'match'
 urlpatterns = [
-    path('', show_match, name='show_match'),
+    path('', views.show_match, name='show_match'),
 ]
