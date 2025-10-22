@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register | Garuda Lounge{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center flex-1">
+  <div class="bg-white shadow-md rounded-2xl p-8 w-full max-w-md mt-10">
+    <h2 class="text-2xl font-heading text-center text-red mb-6">Buat Akun Baru</h2>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="w-full bg-red text-white font-semibold py-2 rounded-lg hover:bg-[#8e1111] transition">Daftar</button>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-4">
+      Sudah punya akun?
+      <a href="{% url 'main:login_user' %}" class="text-red font-medium hover:underline">Login di sini</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
