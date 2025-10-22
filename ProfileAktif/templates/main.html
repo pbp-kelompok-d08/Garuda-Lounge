@@ -1,10 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Profil Pemain Aktif Timnas Indonesia</h1>
 
-<div class="player-card">
-  <img src="{{ photo_url }}" alt="{{ player_name }}" width="200">
-  <h3>{{ player_name }}</h3>
-  <p><strong>Posisi:</strong> {{ position }}</p>
-  <p><strong>Klub:</strong> {{ club }}</p>
-  <p><strong>Umur:</strong> {{ age }}</p>
-  <p><strong>Market Value:</strong> {{ market_value }}</p>
-</div>
+<a href="{% url 'ProfileAktif:create_player' %}">
+  <button>+ Tambah Pemain</button>
+</a>
+
+<hr>
+
+{% if not players %}
+  <p>Belum ada data pemain yang tersimpan.</p>
+{% else %}
+  {% for player in players %}
+  <div class="player-card">
+    {% if player.foto %}
+      <img src="{{ player.foto }}" alt="{{ player.nama }}" width="200">
+    {% else %}
+      <img src="https://via.placeholder.com/200x200?text=No+Photo" alt="No Photo">
+    {% endif %}
+
+    <h3>
+      <a href="{% url 'ProfileAktif:show_player' player.id %}">
+        {{ player.nama }}
+      </a>
+    </h3>
+
+    <p><strong>Posisi:</strong> {{ player.get_posisi_display }}</p>
+    <p><strong>Klub:</strong> {{ player.klub }}</p>
+    <p><strong>Umur:</strong> {{ player.umur }}</p>
+    <p><strong>Market Value:</strong> €{{ player.market_value }}</p>
+
+    <a href="{% url 'ProfileAktif:show_player' player.id %}">
+      <button>Detail Pemain</button>
+    </a>
+  </div>
+
+  <hr>
+  {% endfor %}
+{% endif %}
+{% endblock content %}

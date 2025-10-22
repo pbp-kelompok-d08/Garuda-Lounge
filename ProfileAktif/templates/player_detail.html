@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>
+  <a href="{% url 'ProfileAktif:show_main' %}">
+    <button>← Kembali ke Daftar Pemain</button>
+  </a>
+</p>
+
+<h1>{{ player.nama }}</h1>
+
+{% if player.foto %}
+  <img src="{{ player.foto }}" alt="{{ player.nama }}" width="300" />
+  <br /><br />
+{% endif %}
+
+<p><strong>Posisi:</strong> {{ player.get_posisi_display }}</p>
+<p><strong>Klub:</strong> {{ player.klub }}</p>
+<p><strong>Umur:</strong> {{ player.umur }}</p>
+<p><strong>Market Value:</strong> €{{ player.market_value }}</p>
+
+{% endblock %}
