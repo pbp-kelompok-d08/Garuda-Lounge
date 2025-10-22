@@ -1,32 +1,118 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Login | Garuda Lounge{% endblock %}
+{% block meta %}
+<title>Login - GarudaLounge</title>
+{% endblock meta %}
 
 {% block content %}
-<div class="flex justify-center items-center flex-1">
-  <div class="bg-white shadow-md rounded-2xl p-8 w-full max-w-md mt-10">
-    <h2 class="text-2xl font-heading text-center text-red mb-6">Login ke Garuda Lounge</h2>
+<div class="relative w-full min-h-screen flex items-center justify-center p-8 bg-[#E7E3DD] font-inter overflow-hidden">
 
-    <form method="POST" class="space-y-4">
-      {% csrf_token %}
-      <div>
-        <label for="username" class="block text-sm font-medium mb-1">Username</label>
-        <input type="text" name="username" id="username" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red focus:outline-none">
+  <!-- Card Login -->
+  <div class="relative max-w-md w-full z-10">
+    <div class="bg-white rounded-2xl border border-[#AA1515]/20 p-8 shadow-lg">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-extrabold text-[#AA1515] font-montserrat mb-2">Hello Selamat Datang</h1>
+        <p class="text-[#111111]/70">
+          Yuk masuk untuk lanjut ke <span class="text-[#AA1515] font-semibold">GarudaLounge</span>
+        </p>
       </div>
 
-      <div>
-        <label for="password" class="block text-sm font-medium mb-1">Password</label>
-        <input type="password" name="password" id="password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red focus:outline-none">
+      <!-- Form -->
+      <form id="login-form" method="POST" class="space-y-6">
+        {% csrf_token %}
+        
+        <div>
+          <label for="username" class="block text-sm font-medium text-[#111111] mb-2">Username</label>
+          <input 
+            id="username" 
+            name="username" 
+            type="text" 
+            required 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AA1515]/50 transition-all" 
+            placeholder="Masukkan username">
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-[#111111] mb-2">Password</label>
+          <input 
+            id="password" 
+            name="password" 
+            type="password" 
+            required 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AA1515]/50 transition-all" 
+            placeholder="Masukkan password">
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full bg-[#AA1515] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#8E1111] focus:outline-none focus:ring-2 focus:ring-[#AA1515]/70 focus:ring-offset-2 transition duration-300 shadow-md">
+          Masuk
+        </button>
+      </form>
+
+      <div class="mt-6 text-center pt-6 border-t border-gray-200">
+        <p class="text-[#111111]/70 text-sm">
+          Belum punya akun? 
+          <a href="{% url 'main:register_user' %}" class="text-[#AA1515] hover:underline font-medium">
+            Daftar Sekarang
+          </a>
+        </p>
       </div>
-
-      <button type="submit" class="w-full bg-red text-white font-semibold py-2 rounded-lg hover:bg-[#8e1111] transition">Login</button>
-    </form>
-
-    <p class="text-center text-sm text-gray-600 mt-4">
-      Belum punya akun?
-      <a href="{% url 'main:register_user' %}" class="text-red font-medium hover:underline">Daftar di sini</a>
-    </p>
+    </div>
   </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-3"></div>
 </div>
-{% endblock %}
+
+<!-- Toast + AJAX Script -->
+<script>
+function showToast(message, type = "success") {
+  const toastContainer = document.getElementById("toast-container");
+  const toast = document.createElement("div");
+
+  const baseStyle = "px-4 py-3 rounded-lg shadow-md text-sm font-medium transition-opacity duration-500";
+  const colorStyle = type === "success"
+    ? "bg-green-50 border border-green-200 text-green-700"
+    : "bg-red-50 border border-red-200 text-[#AA1515]";
+
+  toast.className = `${baseStyle} ${colorStyle}`;
+  toast.textContent = message;
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => (toast.style.opacity = 0), 2500);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+document.querySelector("#login-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const username = document.querySelector("#username").value;
+  const password = document.querySelector("#password").value;
+  const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+  fetch("{% url 'main:login_user' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRFToken": csrfToken
+    },
+    body: new URLSearchParams({ username, password })
+  })
+    .then(response => {
+      if (response.redirected) {
+        showToast("Login berhasil!", "success");
+        setTimeout(() => window.location.href = response.url, 1000);
+      } else if (response.status === 400 || response.status === 401) {
+        showToast("Username atau password salah", "error");
+      } else {
+        showToast("Terjadi kesalahan, coba lagi.", "error");
+      }
+    })
+    .catch(() => {
+      showToast("Gagal terhubung ke server", "error");
+    });
+});
+</script>
+{% endblock content %}

@@ -1,17 +1,14 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base_after_login.html' %}
 
 {% block content %}
-<section class="flex flex-col items-center justify-center flex-1 text-center p-10 bg-cream">
-  <h1 class="font-heading text-4xl text-red mb-4">Selamat Datang di Garuda Lounge</h1>
-  <p class="font-body text-lg text-black max-w-xl mb-6">
-    Temukan berita terbaru, jadwal pertandingan, dan eksklusif pemain Garuda di sini!
-  </p>
-  
-  {% if user.is_authenticated %}
-    <a href="{% url 'main:logout_user' %}" class="bg-red text-white px-6 py-3 rounded-xl hover:bg-[#8e1111] transition">Logout</a>
-  {% else %}
-    <a href="{% url 'main:login_user' %}" class="bg-red text-white px-6 py-3 rounded-xl hover:bg-[#8e1111] transition">Login</a>
-  {% endif %}
-</section>
+<div class="content">
+    {% for item in items %}
+    <div class="card">
+        <div style="display:flex; align-items:center; gap:20px;">
+            <h2>{{ item.title }}</h2>
+        </div>
+        <button class="lihat-btn">Lihat</button>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
