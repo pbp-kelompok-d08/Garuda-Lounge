@@ -1,13 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Match</title>
-</head>
-<body>
-    <h1>Garuda Lounge</h1>
-    <h2>Match</h2>
-    <a href="{% url 'merchandise:show_merch' %}">
-        <h3>Klik untuk melihat merchandise</h3>
-    </a>
-</body>
-</html>
+
+{% extends 'base_after_login.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content" style="position: relative;">
+
+    <!-- Tombol Back di pojok kiri atas -->
+    <div style="position: absolute; top: 10px; left: 20px;">
+        <a href="{% url 'main:show_main' %}">
+            <button style="
+                background-color: #a4161a;
+                color: white;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                ← Back to Main Page
+            </button>
+        </a>
+    </div>
+
+    <!-- Judul -->
+    <h1 style="text-align: center; color: #a4161a; margin-top: 50px;">
+        <span>Match </span> <span>Timnas </span> <span>Indonesia</span>
+    </h1>
+
+    <!-- Tombol Tambah Match -->
+    <div style="text-align: center; margin: 20px 0;">
+        <a href="{% url 'match:add_match' %}">
+            <button style="
+                background-color: #a4161a;
+                color: white;
+                border: none;
+                padding: 10px 16px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                + Tambah Match
+            </button>
+        </a>
+    </div>
+
+    <!-- Daftar match -->
+    {% if not match_list %}
+        <p style="text-align: center;">Saat ini belum ada match</p>
+    {% endif %}
+
+</div>
+{% endblock %}
