@@ -7,18 +7,16 @@ from django.http import HttpResponse
 from django.core import serializers
 from .models import LandingPage
 
-
 @login_required(login_url='/login')
 def show_main(request):
     items = [
         {"title": "Jelajahi Jadwal Match", "link": "#"},
         {"title": "Daftar Pemain Aktif", "link": "#"},
         {"title": "Koleksi Merchandise", "link": "#"},
-        {"title": "Baca Berita Menarik", "link": "#"},
+        {"title": "Baca Berita Menarik", "link": "/news/"},
         {"title": "Galeri Pemain Legend", "link": "#"},
     ]
     return render(request, "landing.html", {"items": items})
-
 
 @login_required(login_url='/login')
 def show_landingpage(request):
