@@ -1,0 +1,19 @@
+{% extends 'base_after_login.html' %}
+{% block content %}
+<p><a href="{% url 'merchandise:show_merch' %}"><button>← Back to Merchandise List</button></a></p>
+
+<h1>{{ merch.name }}</h1>
+<p><b>{{ merch.get_category_display }}
+
+{% if merch.thumbnail %}
+<img src="{{ merch.thumbnail }}" alt="Merch thumbnail" width="300">
+<br /><br />
+{% endif %}
+
+<p><b>Harga:</b> Rp.{{ merch.price }}</p>
+
+<p>{{ merch.description }}</p>
+
+<p><a href="{{ merch.product_link }}"><button>+ Buy Now</button></a></p>
+
+{% endblock content %}

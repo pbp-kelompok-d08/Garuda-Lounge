@@ -1,0 +1,76 @@
+
+{% extends 'base_after_login.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content" style="position: relative;">
+
+    <!-- Tombol Back di pojok kiri atas -->
+    <div style="position: absolute; top: 10px; left: 20px;">
+        <a href="{% url 'main:show_main' %}">
+            <button style="
+                background-color: #a4161a;
+                color: white;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                ← Back to Main Page
+            </button>
+        </a>
+    </div>
+
+    <!-- Judul -->
+    <h1 style="text-align: center; color: #a4161a; margin-top: 50px;">
+        Garuda Lounge Merchandise
+    </h1>
+
+    <!-- Tombol Tambah Merchandise -->
+    <div style="text-align: center; margin: 20px 0;">
+        <a href="{% url 'merchandise:create_merch' %}">
+            <button style="
+                background-color: #a4161a;
+                color: white;
+                border: none;
+                padding: 10px 16px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                + Tambah Merchandise
+            </button>
+        </a>
+    </div>
+
+    <!-- Daftar merchandise -->
+    {% if not merch_list %}
+        <p style="text-align: center;">Belum ada merchandise saat ini.</p>
+    {% else %}
+        {% for merch in merch_list %}
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2><a href="{% url 'merchandise:show_merch_detail' merch.id %}" style="color: #222; text-decoration: none;">
+                {{ merch.name }}
+            </a></h2>
+            {% if merch.thumbnail %}
+                <img src="{{ merch.thumbnail }}" alt="thumbnail" width="200" height="200" style="border-radius: 10px;">
+            {% endif %}
+            <p><b>Harga:</b> Rp.{{ merch.price }}</p>
+            <p>{{ merch.description|truncatewords:25 }}...</p>
+            <a href="{% url 'merchandise:show_merch_detail' merch.id %}">
+                <button style="background-color: #a4161a; color: white; border: none; padding: 6px 12px; border-radius: 6px;">See Details</button>
+            </a>
+        </div>
+        <hr style="width: 60%; margin: auto;">
+        {% endfor %}
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -17,7 +17,7 @@ def create_merch(request):
 
     if form.is_valid() and request.method == "POST":
         form.save()
-        return redirect('merchandise:show_merch')
+        return redirect('main:show_main')
 
     context = {'form': form}
     return render(request, "create_merch.html", context)
@@ -28,4 +28,5 @@ def show_merch_detail(request, id):
     context = {
         'merch': merch
     }
+
     return render(request, "merch_detail.html", context)

@@ -12,7 +12,7 @@ def show_main(request):
     items = [
         {"title": "Jelajahi Jadwal Match", "link": "#"},
         {"title": "Daftar Pemain Aktif", "link": "#"},
-        {"title": "Koleksi Merchandise", "link": "#"},
+        {"title": "Koleksi Merchandise", "link": "/merchandise/"},
         {"title": "Baca Berita Menarik", "link": "/news/"},
         {"title": "Galeri Pemain Legend", "link": "#"},
     ]

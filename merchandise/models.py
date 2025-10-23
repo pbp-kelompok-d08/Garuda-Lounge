@@ -16,8 +16,8 @@ class Merch(models.Model):
     description = models.TextField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='jersey')
     price = models.IntegerField()
-    thumbnail = models.URLField(blank=True, null=True)
-    product_link = models.URLField(blank=True, null=True)
+    thumbnail = models.URLField()
+    product_link = models.URLField()
     
     def __str__(self):
         return self.name
