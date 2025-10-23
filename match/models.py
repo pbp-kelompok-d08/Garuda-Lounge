@@ -3,16 +3,6 @@ from django.utils import timezone
 import uuid
 
 # Create your models here.
-# # class Match(models.Model):
-#     CATEGORY_CHOICES = [
-#         ('kualifikasi piala dunia', 'Kualifikasi Piala Dunia'),
-#         ('pertandingan persahabatan', 'Pertandingan Persahabatan'),
-#         ('piala aff', 'Piala AFF'),
-#         ('piala asia', 'Match'),
-#     ]
-
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
 
 # Menyimpan data semua manajer
 class Manajer(models.Model):
@@ -33,6 +23,7 @@ class Pemain(models.Model):
         ('FW', 'Penyerang'),
     ]
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nama = models.CharField(max_length=100)
     posisi = models.CharField(max_length=2, choices=POSISI_CHOICES, blank=True, null=True)
     umur = models.PositiveIntegerField(blank=True, null=True)
@@ -83,6 +74,7 @@ class Pertandingan(models.Model):
 
     tanggal_waktu = models.DateTimeField(default=timezone.now)
     stadion = models.CharField(max_length=100, blank=True, null=True)
+    highlights_url = models.URLField(max_length=500, blank=True, null=True)
 
     tim_tuan_rumah = models.ForeignKey(
         Tim, 
@@ -99,7 +91,7 @@ class Pertandingan(models.Model):
     skor_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
     skor_tamu = models.PositiveIntegerField(blank=True, null=True)
 
-    # Ini adalah "link" yang memberi tahu Django untuk menggunakan model 'DetailPemainLaga' sebagai perantara.
+    # Memberi tahu Django buat pakai model DetailPemainLaga sebagai perantara.
     pemain_bermain = models.ManyToManyField(
         Pemain,
         through='DetailPemainLaga',
@@ -114,9 +106,8 @@ class Pertandingan(models.Model):
     def __str__(self):
         return f"{self.tim_tuan_rumah} vs {self.tim_tamu} ({self.tanggal_waktu.date()})"
 
-# Statistik setiap tim dalam suatu pertandingan
+# Statistik masing-masing tim dalam suatu pertandingan
 class StatistikTimPertandingan(models.Model):
-    """Menyimpan statistik agregat (total) per tim di satu laga."""
     pertandingan = models.ForeignKey(
         Pertandingan, 
         on_delete=models.CASCADE, 
@@ -125,7 +116,7 @@ class StatistikTimPertandingan(models.Model):
     tim = models.ForeignKey(
         Tim, 
         on_delete=models.CASCADE, 
-        related_name="statistik_laga"
+        related_name="statistik_laga" # Akses: laga.statistik_laga.all()
     )
 
     # Contoh statistik
@@ -146,12 +137,9 @@ class StatistikTimPertandingan(models.Model):
     def __str__(self):
         return f"Statistik {self.tim.nama} di laga {self.pertandingan}"
 
-# Detail pemain starter, cadangan, dan siapa mengganti siapa
+# Detail pemain starter dan cadangan (pergantian pemain opsional aja)
+# Model ini jadi perantara yang menghubungkan Pertandingan dan Pemain
 class DetailPemainLaga(models.Model):
-    """
-    Model perantara (through model) yang menghubungkan Pertandingan dan Pemain.
-    Di sinilah kita menyimpan status STARTER vs CADANGAN.
-    """
     pertandingan = models.ForeignKey(
         Pertandingan, 
         on_delete=models.CASCADE,
@@ -162,13 +150,13 @@ class DetailPemainLaga(models.Model):
         on_delete=models.CASCADE,
         related_name="detail_laga" # Akses: pemain.detail_laga.all()
     )
-    # Tim mana yang dibela pemain SAAT LAGA INI
+    # Tim mana yang dibela pemain saat laga ini
     tim = models.ForeignKey(
         Tim, 
         on_delete=models.CASCADE
     )
-
-    # --- Ini adalah jawaban untuk Starter vs Cadangan ---
+ 
+    # Boolean yang menentukan siapa starter dan siapa cadangan
     is_starter = models.BooleanField(
         default=False, 
         help_text="Centang jika pemain ini adalah bagian dari Starting XI"
