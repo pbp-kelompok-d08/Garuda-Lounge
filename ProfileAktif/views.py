@@ -14,7 +14,7 @@ def show_main(request):
         context = {
             'players': [
                 {
-                    'name': 'Marselino Ferdinan',
+                    'id': '00000000-0000-0000-0000-000000000000',  # dummy UUID biar gak error
                     'position': 'Gelandang Serang',
                     'club': 'KMSK Deinze (Belgia)',
                     'age': 20,
@@ -55,18 +55,18 @@ def show_json(request):
     json_data = serializers.serialize("json", player_list)
     return HttpResponse(json_data, content_type="application/json")
 
-def show_xml_by_id(request, player_id):
-    try:
-        player_item = Player.objects.filter(pk=player_id)
-        xml_data = serializers.serialize("xml", player_item)
-        return HttpResponse(xml_data, content_type="application/xml")
-    except Player.DoesNotExist:
-        return HttpResponse(status=404)
+# def show_xml_by_id(request, player_id):
+#     try:
+#         player_item = Player.objects.filter(pk=player_id)
+#         xml_data = serializers.serialize("xml", player_item)
+#         return HttpResponse(xml_data, content_type="application/xml")
+#     except Player.DoesNotExist:
+#         return HttpResponse(status=404)
     
-def show_json_by_id(request, player_id):
-    try:
-        player_item = Player.objects.get(pk=player_id)
-        json_data = serializers.serialize("json", [player_item])
-        return HttpResponse(json_data, content_type="application/json")
-    except Player.DoesNotExist:
-        return HttpResponse(status=404)
+# def show_json_by_id(request, player_id):
+#     try:
+#         player_item = Player.objects.get(pk=player_id)
+#         json_data = serializers.serialize("json", [player_item])
+#         return HttpResponse(json_data, content_type="application/json")
+#     except Player.DoesNotExist:
+#         return HttpResponse(status=404)

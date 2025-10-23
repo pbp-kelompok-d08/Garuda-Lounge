@@ -20,11 +20,15 @@
       <img src="https://via.placeholder.com/200x200?text=No+Photo" alt="No Photo">
     {% endif %}
 
-    <h3>
-      <a href="{% url 'ProfileAktif:show_player' player.id %}">
+    <!-- <h3>
+    {% if player.id %}
+        <a href="{% url 'ProfileAktif:show_player' player.id %}">
         {{ player.nama }}
-      </a>
-    </h3>
+        </a>
+    {% else %}
+        {{ player.nama }}
+    {% endif %}
+    </h3> -->
 
     <p><strong>Posisi:</strong> {{ player.get_posisi_display }}</p>
     <p><strong>Klub:</strong> {{ player.klub }}</p>
