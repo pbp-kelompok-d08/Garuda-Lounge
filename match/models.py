@@ -24,8 +24,8 @@ class Pertandingan(models.Model):
     tanggal = models.CharField(max_length=100, blank=True, null=True)
     stadion = models.CharField(max_length=100, blank=True, null=True) # Ditampilkan paling akhir
 
-    skor_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    skor_tamu = models.PositiveIntegerField(blank=True, null=True)
+    skor_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    skor_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     pencetak_gol_tuan_rumah = models.TextField(blank=True, null=True)
     pencetak_gol_tamu = models.TextField(blank=True, null=True)
@@ -40,35 +40,35 @@ class Pertandingan(models.Model):
     manajer_tuan_rumah= models.CharField("Nama Manajer Tuan Rumah", max_length=100, blank=True, null=True)
     manajer_tamu = models.CharField("Nama Manajer Tamu", max_length=100, blank=True, null=True)
     
-    highlight = models.URLField("Highlight", max_length=500, blank=True, null=True)
+    highlight = models.URLField("Highlight", blank=True, null=True)
 
     # Statistik 
-    penguasaan_bola_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    penguasaan_bola_tamu = models.PositiveIntegerField(blank=True, null=True)
+    penguasaan_bola_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    penguasaan_bola_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    tembakan_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    tembakan_tamu = models.PositiveIntegerField(blank=True, null=True)
+    tembakan_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    tembakan_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    on_target_tuan_rumah = models.PositiveIntegerField(blank=True, null=True) # Maksudnya tembakan ke arah gawang
-    on_target_tamu = models.PositiveIntegerField(blank=True, null=True)
+    on_target_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0) # Maksudnya tembakan ke arah gawang
+    on_target_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
     
-    akurasi_umpan_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    akurasi_umpan_tamu = models.PositiveIntegerField(blank=True, null=True)
+    akurasi_umpan_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    akurasi_umpan_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    pelanggaran_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    pelanggaran_tamu = models.PositiveIntegerField(blank=True, null=True)
+    pelanggaran_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    pelanggaran_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    kartu_kuning_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    kartu_kuning_tamu = models.PositiveIntegerField(blank=True, null=True)
+    kartu_kuning_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    kartu_kuning_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    kartu_merah_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    kartu_merah_tamu = models.PositiveIntegerField(blank=True, null=True)
+    kartu_merah_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    kartu_merah_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    offside_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    offside_tamu = models.PositiveIntegerField(blank=True, null=True)
+    offside_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    offside_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
-    corner_tuan_rumah = models.PositiveIntegerField(blank=True, null=True)
-    corner_tamu = models.PositiveIntegerField(blank=True, null=True)
+    corner_tuan_rumah = models.PositiveIntegerField(blank=True, null=True, default=0)
+    corner_tamu = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     class Meta:
         verbose_name_plural = "Pertandingan Internasional"
