@@ -29,7 +29,7 @@ class Pemain(models.Model):
     umur = models.PositiveIntegerField(blank=True, null=True)
     foto_url = models.URLField(max_length=500, blank=True, null=True)
     is_pemain_legend = models.BooleanField(default=False)
-    tahun_bermain = models.CharField(max_length=100) # rentang waktu pemain tsb bermain di timnas 
+    tahun_bermain = models.CharField(max_length=100, blank=True, null=True) # rentang waktu pemain tsb bermain di timnas 
 
     class Meta:
         verbose_name_plural = "Pemain"
