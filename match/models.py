@@ -15,6 +15,7 @@ class Pertandingan(models.Model):
     # Header
     jenis_pertandingan = models.CharField("Jenis Pertandingan", max_length=100, choices=JENIS_PERTANDINGAN_CHOICES, blank=True, null=True)
 
+    # Btw kalau charfield ga diisi suatu nilai, bukan berarti dia jadi ""
     tim_tuan_rumah = models.CharField(max_length=100, blank=True, null=True)
     tim_tamu = models.CharField(max_length=100, blank=True, null=True)
 
