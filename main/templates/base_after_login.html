@@ -181,9 +181,9 @@
 
         <div class="nav-menu">
             <a href="#">match</a>
-            <a href="#">pemain</a>
+            <a href="{% url 'ProfileAktif:show_main' %}">pemain</a>
             <a href="#">merch</a>
-            <a href="#">news</a>
+            <a href="{% url 'news:show_news' %}">news</a>
             <a href="#">legend</a>
         </div>
 
@@ -197,6 +197,7 @@
                 <button class="logout-btn">Logout</button>
             </form>
         </div>
+
     </nav>
 
     {% block content %}{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base_after_login.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h1 style="color:#a4161a;">Garuda Lounge News</h1>
+
+    <a href="{% url 'news:create_news' %}">
+        <button class="lihat-btn">+ Tambah Berita</button>
+    </a>
+
+    <hr style="margin: 20px 0; border: 1px solid #a4161a;">
+
+    {% if not news_list %}
+        <p>Belum ada berita saat ini.</p>
+    {% else %}
+        {% for news in news_list %}
+        <div class="card" style="display:flex; flex-direction:column; gap:10px; padding:20px; border:2px solid #a4161a; border-radius:12px; background:#fff; width:80%; margin:0 auto 20px;">
+            
+            <h2 style="margin:0; color:#a4161a;">
+                <a href="{% url 'news:show_news_detail' news.id %}" style="text-decoration:none; color:#a4161a;">
+                    {{ news.title }}
+                </a>
+            </h2>
+
+            <p>
+                <b>{{ news.get_category_display }}</b>
+                {% if news.is_featured %} | <b>Featured</b>{% endif %}
+                {% if news.is_news_hot %} | <b>Hot</b>{% endif %}
+                | <i>{{ news.created_at|date:"d M Y H:i" }}</i>
+                | 👁️ {{ news.news_views }} views
+            </p>
+
+            {% if news.thumbnail %}
+            <img src="{{ news.thumbnail }}" alt="thumbnail" style="width:100%; max-height:300px; object-fit:cover; border-radius:8px;">
+            {% endif %}
+
+            <p>{{ news.content|truncatewords:25 }}...</p>
+
+            <div style="text-align:right;">
+                <a href="{% url 'news:show_news_detail' news.id %}">
+                    <button class="lihat-btn">Baca Selengkapnya</button>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

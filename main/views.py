@@ -5,20 +5,19 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from django.http import HttpResponse
 from django.core import serializers
+from django.urls import reverse
 from .models import LandingPage
-
 
 @login_required(login_url='/login')
 def show_main(request):
     items = [
         {"title": "Jelajahi Jadwal Match", "link": "#"},
-        {"title": "Daftar Pemain Aktif", "link": "#"},
+        {"title": "Daftar Pemain Aktif", "link": reverse("ProfileAktif:show_main")},
         {"title": "Koleksi Merchandise", "link": "#"},
-        {"title": "Baca Berita Menarik", "link": "#"},
+        {"title": "Baca Berita Menarik", "link": "/news/"},
         {"title": "Galeri Pemain Legend", "link": "#"},
     ]
     return render(request, "landing.html", {"items": items})
-
 
 @login_required(login_url='/login')
 def show_landingpage(request):

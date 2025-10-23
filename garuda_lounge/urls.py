@@ -22,7 +22,7 @@ urlpatterns = [
     path('', include('main.urls', namespace='main')),
     # path('match/', include('match.urls', namespace='match')),
     # path('merchandise/', include('merchandise.urls', namespace='merchandise')),
-    # path('news/', include('news.urls', namespace='news')),
+    path('news/', include('news.urls', namespace='news')),
     path('ProfileAktif/', include('ProfileAktif.urls', namespace='ProfileAktif')),
     # path('ProfileLegend/', include('ProfileLegend.urls', namespace='ProfileLegend')),
 ]
