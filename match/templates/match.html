@@ -2,6 +2,11 @@
 {% extends 'base_after_login.html' %}
 {% load static %}
 
+{% block meta %}
+<title>GarudaLounge - Match</title>
+{% endblock meta %}
+
+
 {% block content %}
 <div class="content" style="position: relative;">
 
@@ -27,7 +32,7 @@
 
     <!-- Judul -->
     <h1 style="text-align: center; color: #a4161a; margin-top: 50px;">
-        <span>Match </span> <span>Timnas </span> <span>Indonesia</span>
+        <span>GarudaLounge </span> <span> - </span> <span>Match</span>
     </h1>
 
     <!-- Tombol Tambah Match -->
@@ -51,8 +56,14 @@
     </div>
 
     <!-- Daftar match -->
-    {% if not match_list %}
+    {% if not pertandingan_list %}
         <p style="text-align: center;">Saat ini belum ada match</p>
+    {% else %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for pertandingan in pertandingan_list %}
+                {% include 'card_match.html' with pertandingan=pertandingan %}
+            {% endfor %}
+        </div>
     {% endif %}
 
 </div>

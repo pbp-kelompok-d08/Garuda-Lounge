@@ -7,7 +7,8 @@
         <div style="display:flex; align-items:center; gap:20px;">
             <h2>{{ item.title }}</h2>
         </div>
-        <a href="{{ item.link }}">
+        <!-- buat tes aja -->
+        <a href="{% url 'match:show_match' %}"> 
             <button class="lihat-btn">Lihat</button>
         </a>
     </div>
