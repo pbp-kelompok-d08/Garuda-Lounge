@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garuda Lounge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e7e2db;
+            margin: 0;
+        }
+
+        /* 🌟 Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f5f2ee;
+            padding: 12px 60px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-left img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .nav-left span {
+            color: #a4161a;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* 🌸 Menu tengah */
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            position: relative;
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        /* efek garis bawah pas hover */
+        .nav-menu a::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #a4161a;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-menu a:hover {
+            color: #a4161a;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        /* 🌿 Bagian kanan (profil + logout) */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #a4161a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .profile-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            background-color: #a4161a10;
+        }
+
+        .profile-section img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logout-btn {
+            background-color: #a4161a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: #7f0f12;
+            transform: scale(1.05);
+        }
+
+        /* 🧱 Konten bawah */
+        .content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: white;
+            border: 2px solid #a4161a;
+            border-radius: 18px;
+            width: 80%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: #a4161a;
+            margin: 0;
+        }
+
+        .lihat-btn {
+            background-color: #a4161a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .lihat-btn:hover {
+            background-color: #7f0f12;
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo">
+            <span>GarudaLounge</span>
+        </div>
+
+        <div class="nav-menu">
+            <a href="#">match</a>
+            <a href="#">pemain</a>
+            <a href="#">merch</a>
+            <a href="{% url 'news:show_news' %}">news</a>
+            <a href="#">legend</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="profile-section">
+                <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user profile">
+                <span>{{ request.user.username }}</span>
+            </div>
+            <form action="{% url 'main:logout_user' %}" method="post" style="margin: 0;">
+                {% csrf_token %}
+                <button class="logout-btn">Logout</button>
+            </form>
+        </div>
+
+    </nav>
+
+    {% block content %}{% endblock %}
+</body>
+</html>
