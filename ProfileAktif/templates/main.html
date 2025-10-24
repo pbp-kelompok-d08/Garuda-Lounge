@@ -106,19 +106,52 @@
     width:100%;
     height:200px;
     object-fit:cover;
+    display:block; 
   }
-  .player-content { padding:1rem; text-align:left; }
-  .player-name { font-family:'Montserrat',sans-serif; font-weight:800; color:var(--red); margin-bottom:.25rem; }
-  .player-info { font-size:0.9rem; color:#333; margin-bottom:0.3rem; }
+  .player-content {
+    padding: 1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    padding-right: 1rem; /* Tambahkan padding di kanan */
+  }
+  .player-name {
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    color:var(--red);
+    /* ubah margin biar lebih rapat: */
+    margin: .2rem 0 .1rem;
+    line-height:1.2;
+  }
+  .player-info {
+    font-size:0.9rem; color:#333;
+    /* rapetin tiap baris info: */
+    margin: .15rem 0;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;            /* Padding kiri-kanan di container tombol */
+    width: 100%;
+    box-sizing: border-box;     /* Make sure padding terhitung dalam lebar */
+  }
+
   .btn-detail {
-    background-color:var(--red);
-    color:#fff;
-    padding:0.5rem 0.8rem;
-    font-size:0.9rem;
-    border-radius:8px;
-    text-decoration:none;
-    transition:filter .2s;
+    background-color: var(--red);
+    color: #fff;
+    padding: 0.5rem;            /* Kurangi padding supaya lebih pas */
+    font-size: 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: filter 0.2s;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 0.75rem;
+    box-sizing: border-box;     /* Make sure padding and border terhitung dalam lebar */
   }
+
   .btn-detail:hover { filter:brightness(1.05); }
 
   .centered { text-align:center; padding:3rem; }
@@ -457,7 +490,10 @@
         <p class="player-info"><strong>Klub:</strong> ${player.klub}</p>
         <p class="player-info"><strong>Umur:</strong> ${player.umur}</p>
         <p class="player-info"><strong>Market Value:</strong> €${player.market_value}</p>
-        <a href="/ProfileAktif/player/${player.id}/" class="btn-detail">Detail Pemain</a>
+        <!-- Bagian tombol "Detail Pemain" -->
+        <div class="button-container">
+          <a href="/ProfileAktif/player/${player.id}/" class="btn-detail">Detail Pemain</a>
+        </div>
       </div>
     `;
     return card;
