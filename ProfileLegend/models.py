@@ -17,8 +17,8 @@ class LegendPlayer(models.Model):
     name = models.CharField(max_length=100)
     position = models.CharField(max_length=50, choices=POSITION_CHOICES)
     is_legend = models.BooleanField(default=True)
-    current_club = models.CharField(max_length=100, blank=True)
-    age = models.PositiveIntegerField(default=0)
+    club = models.CharField(max_length=100, blank=True)
+    age = models.CharField(max_length=50, blank=True)
     photo_url = models.URLField(blank=True, null=True)
     
     class Meta:
