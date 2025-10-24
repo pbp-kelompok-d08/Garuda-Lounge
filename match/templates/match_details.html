@@ -1,24 +1,265 @@
 {% extends 'base_match.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Detail: {{ pertandingan.tim_tuan_rumah }} vs {{ pertandingan.tim_tamu }}</title>
+{% endblock meta %}
+
 {% block content %}
+<div class="px-4 py-8 max-w-7xl mx-auto">
+
     <div class="mb-4">
         <a href="{% url 'match:show_match' %}">
-            <button style="
-                background-color: #a4161a;
-                color: white;
-                border: none;
-                padding: 8px 14px;
-                border-radius: 8px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: 0.3s;
-            "
+            <button style="background-color: #a4161a; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s;"
             onmouseover="this.style.backgroundColor='#6e0f11'"
             onmouseout="this.style.backgroundColor='#a4161a'">
                 ← Back to Match List
             </button>
         </a>
     </div>
-    
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden p-6 md:p-8">
+        
+        <div class="mb-6 flex justify-between items-center">
+            <span class="jenis-pertandingan" style="font-size: 14px; border-radius: 12px; background-color: #a4161a; color: white; padding: 5px 12px; font-weight: 600;">
+                {{ pertandingan.jenis_pertandingan|title }}
+            </span>
+            <span class="tanggal" style="color: rgb(0, 0, 0); padding: 5px 12px; font-weight: 600;">
+                {{ pertandingan.tanggal }}
+            </span>
+        </div>
 
 
-{% endblock content %}
+        <div class="flex justify-center items-start gap-4 md:gap-8">
+            
+            <div class="flex flex-col items-center w-1/3">
+                <img src="{{ pertandingan.bendera_tuan_rumah }}" alt="{{ pertandingan.tim_tuan_rumah }}" class="h-16 md:h-24 mb-2">
+                <span class="text-xl md:text-2xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tuan_rumah }}</span>
+            </div>
+
+            <span class="text-4xl md:text-6xl font-bold text-black">{{ pertandingan.skor_tuan_rumah }}</span>
+
+            <span class="text-4xl md:text-6xl font-light text-gray-500">-</span>
+
+            <span class="text-4xl md:text-6xl font-bold text-black">{{ pertandingan.skor_tamu }}</span>
+
+            <div class="flex flex-col items-center w-1/3">
+                <img src="{{ pertandingan.bendera_tamu }}" alt="{{ pertandingan.tim_tamu }}" class="h-16 md:h-24 mb-2">
+                <span class="text-xl md:text-2xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tamu }}</span>
+            </div>
+        </div>
+        
+       <div class="mt-6 pt-4 border-t border-gray-100">
+            <h4 class="font-semibold m-4 text-center text-lg">
+                Pencetak Gol
+            </h4>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="text-left text-sm text-gray-700">
+                    <div class="space-y-1">
+                        {{ pertandingan.pencetak_gol_tuan_rumah|linebreaksbr }}
+                    </div>
+                </div>
+
+                <div class="text-right text-sm text-gray-700">
+                    <div class="space-y-1">
+                        {{ pertandingan.pencetak_gol_tamu|linebreaksbr }}
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mt-8 text-center">
+        <div class="highlight-link" style="display: inline-block;">
+            <a href="{{ pertandingan.highlight }}" target="_blank">Lihat Highlight</a>
+        </div>
+    </div>
+
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+        
+        <div class="flex border-b border-gray-200">
+            <button id="tab-lineup" class="tab-button active">
+                Susunan Pemain
+            </button>
+            <button id="tab-stats" class="tab-button">
+                Statistik
+            </button>
+        </div>
+
+        <div>
+            <div id="content-lineup" class="tab-content p-6 md:p-8">
+                <div class="space-y-3 max-w-lg mx-auto">
+                    <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a">Starting Eleven</h3>
+                    <div class="stat-row">
+                        <span class="font-semibold">
+                            {% for player in starters_tuan_rumah %}
+                                <div class="mb-3">{{ player }}</div>
+                            {% endfor %}
+                        </span>
+                         <span class="font-semibold">
+                            {% for player in starters_tamu %}
+                                <div class="mb-3">{{ player }}</div>
+                            {% endfor %}
+                        </span>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-4 text-center"  style="color:#a4161a">Pengganti</h3>
+                    <div class="stat-row">
+                        <span class="font-semibold">
+                            {% for player in pengganti_tuan_rumah %}
+                                <div class="mb-3">{{ player }}</div>
+                            {% endfor %}
+                        </span>
+                         <span class="font-semibold">
+                            {% for player in pengganti_tamu %}
+                                <div class="mb-3">{{ player }}</div>
+                            {% endfor %}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="content-stats" class="tab-content p-6 md:p-8" style="display: none;">
+                <div class="space-y-3 max-w-lg mx-auto">
+                    <div class="stat-row">
+                        {% if pertandingan.penguasaan_bola_tuan_rumah > pertandingan.penguasaan_bola_tamu %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
+                            <span class="stat-label">Penguasaan Bola</span>
+                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
+                            <span class="stat-label">Penguasaan Bola</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.tembakan_tuan_rumah > pertandingan.tembakan_tamu %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
+                            <span class="stat-label">Tembakan</span>
+                            <span class="font-semibold">{{ pertandingan.tembakan_tamu }}</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
+                            <span class="stat-label">Tembakan</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.tembakan_tamu }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.on_target_tuan_rumah > pertandingan.on_target_tamu %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
+                            <span class="stat-label">Tembakan ke Gawang</span>
+                            <span class="font-semibold">{{ pertandingan.on_target_tamu }}</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
+                            <span class="stat-label">Tembakan ke Gawang</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.on_target_tamu }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.akurasi_umpan_tuan_rumah > pertandingan.akurasi_umpan_tamu %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
+                            <span class="stat-label">Akurasi Umpan</span>
+                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
+                            <span class="stat-label">Akurasi Umpan</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.pelanggaran_tamu > pertandingan.pelanggaran_tuan_rumah %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}%</span>
+                            <span class="stat-label">Pelanggaran</span>
+                            <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}%</span>
+                            <span class="stat-label">Pelanggaran</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.pelanggaran_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.kartu_kuning_tamu > pertandingan.kartu_kuning_tuan_rumah %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}%</span>
+                            <span class="stat-label">Kartu Kuning</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}%</span>
+                            <span class="stat-label">Kartu Kuning</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.kartu_kuning_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.kartu_merah_tamu > pertandingan.kartu_merah_tuan_rumah %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}%</span>
+                            <span class="stat-label">Kartu Merah</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}%</span>
+                            <span class="stat-label">Kartu Merah</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.kartu_merah_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.offside_tamu > pertandingan.offside_tuan_rumah %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.offside_tuan_rumah }}%</span>
+                            <span class="stat-label">Offside</span>
+                            <span class="font-semibold">{{ pertandingan.offside_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}%</span>
+                            <span class="stat-label">Offside</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.kartu_merah_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-row">
+                        {% if pertandingan.corner_tuan_rumah > pertandingan.corner_tamu %}
+                            <span class="dominant-stats font-semibold">{{ pertandingan.corner_tuan_rumah }}%</span>
+                            <span class="stat-label">Sepak Pojok</span>
+                            <span class="font-semibold">{{ pertandingan.corner_tamu }}%</span>
+                        {% else %}
+                            <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}%</span>
+                            <span class="stat-label">Sepak Pojok</span>
+                            <span class="dominant-stats font-semibold">{{ pertandingan.corner_tamu }}%</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mt-8 text-center">
+        <p class="text-lg text-gray-700 font-semibold"> Stadion {{ pertandingan.stadion }}</p>
+    </div>
+
+</div>
+
+<script>
+    const tabLineup = document.getElementById('tab-lineup');
+    const tabStats = document.getElementById('tab-stats');
+    const contentLineup = document.getElementById('content-lineup');
+    const contentStats = document.getElementById('content-stats');
+
+    tabLineup.addEventListener('click', () => {
+        // Tampilkan konten lineup, sembunyikan stats
+        contentLineup.style.display = 'block';
+        contentStats.style.display = 'none';
+
+        // Atur style tombol aktif
+        tabLineup.classList.add('active');
+        tabStats.classList.remove('active');
+    });
+
+    tabStats.addEventListener('click', () => {
+        // Tampilkan konten stats, sembunyikan lineup
+        contentLineup.style.display = 'none';
+        contentStats.style.display = 'block';
+
+        // Atur style tombol aktif
+        tabLineup.classList.remove('active');
+        tabStats.classList.add('active');
+    });
+</script>
+
+{% endblock %}

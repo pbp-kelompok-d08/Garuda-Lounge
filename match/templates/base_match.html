@@ -136,6 +136,8 @@
           transform: scale(1.05);
       }
 
+
+
       /* kustom inpur field di form */
       .custom-form-field {
         border: 2px solid #a4161a;
@@ -151,6 +153,63 @@
       .custom-form-field:focus {
         box-shadow: 0 0 0 3px #eb474c; 
       }
+
+       /* style untuk tampilan susunan pemain dan statistik setiap tim */
+      .stat-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 0;
+          border-bottom: 1px solid #f0f0f0;
+      }
+      .stat-row:last-child {
+          border-bottom: none;
+      }
+      .stat-row .stat-label {
+          font-size: 0.9em;
+          font-weight: 500;
+          text-align: center;
+          flex-grow: 1;
+          flex-basis: 40%;
+      }
+      .stat-row span:first-child {
+          text-align: left;
+          flex-basis: 40%;
+      }
+      .stat-row span:last-child {
+          text-align: right;
+          flex-basis: 40%;
+      }
+
+      /* === TAMBAHKAN STYLE UNTUK TAB SWITCHING === */
+      .tab-button {
+          flex-grow: 1; /* Lebar tombol sama rata */
+          padding: 12px 16px;
+          text-align: center;
+          font-size: 1em;
+          font-weight: 600;
+          color: #555;
+          background-color: #f9f9f9;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+      }
+      .tab-button:hover {
+          background-color: #f0f0f0;
+      }
+      .tab-button.active {
+          color: #a4161a; /* Warna merah Anda */
+          background-color: #fff;
+          border-bottom: 3px solid #a4161a;
+      }
+
+       .dominant-stats{
+            border: 1px solid #ffffff;
+            border-radius: 12px;
+            color: #ffff;
+            background-color: #a4161a;
+            padding: 5px;
+        }
     </style>
   </head>
   <body class="bg-cream min-h-screen flex flex-col">

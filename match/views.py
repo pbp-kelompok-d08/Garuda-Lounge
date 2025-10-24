@@ -25,11 +25,26 @@ def add_match(request):
 def show_match_details(request, id):
     pertandingan = get_object_or_404(Pertandingan, pk=id)
 
-    context = {
-        'pertandingan': pertandingan
-    }
+    # Field yang text nya dipisahkan oleh titik koma, kita split dulu sebelum di-render biar nampilinnya rapih
+    pencetak_gol_tuan_rumah_list = pertandingan.pencetak_gol_tuan_rumah.split(';')
+    pencetak_gol_tamu_list = pertandingan.pencetak_gol_tamu.split(';')
 
-    return render(request, "match_details.html", context)
+    starters_tuan_rumah_list = pertandingan.starter_tuan_rumah.split(';')
+    starters_tamu_list = pertandingan.starter_tamu.split(';')
+
+    pengganti_tuan_rumah_list = pertandingan.pengganti_tuan_rumah.split(';')
+    pengganti_tamu_list = pertandingan.pengganti_tamu.split(';')
+    
+    context = {
+        'pertandingan': pertandingan,
+        'pencetak_gol_tuan_rumah_list': pencetak_gol_tuan_rumah_list,
+        'pencetak_gol_tamu_list': pencetak_gol_tamu_list,
+        'starters_tuan_rumah': starters_tuan_rumah_list,
+        'starters_tamu': starters_tamu_list,
+        'pengganti_tuan_rumah': pengganti_tuan_rumah_list,
+        'pengganti_tamu': pengganti_tamu_list,
+    }
+    return render(request, 'match_details.html', context)
 
 def edit_match(request, id):
     pertandingan = get_object_or_404(Pertandingan, pk=id)
