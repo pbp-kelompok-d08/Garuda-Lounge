@@ -12,14 +12,39 @@
   <div class="relative max-w-md w-full z-10">
     <div class="bg-white rounded-2xl border border-[#AA1515]/20 p-8 shadow-lg">
       <div class="text-center mb-8">
-        <h1 class="text-3xl font-extrabold text-[#AA1515] font-montserrat mb-2">Hello Selamat Datang</h1>
+        <h1 class="text-3xl font-extrabold text-[#AA1515] font-montserrat mb-2">
+          Selamat Datang Kembali
+        </h1>
         <p class="text-[#111111]/70">
-          Yuk masuk untuk lanjut ke <span class="text-[#AA1515] font-semibold">GarudaLounge</span>
+          Masuk ke akun kamu di <span class="text-[#AA1515] font-semibold">GarudaLounge</span>
         </p>
       </div>
 
+      <!-- Form Error Display -->
+      {% if form.non_field_errors %}
+        <div class="mb-6">
+          {% for error in form.non_field_errors %}
+            <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-[#AA1515]">
+              {{ error }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="mb-6">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-[#AA1515] mb-2">
+                <strong>{{ field|title }}:</strong> {{ error }}
+              </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
       <!-- Form -->
-      <form id="login-form" method="POST" class="space-y-6">
+      <form method="POST" action="{% url 'main:login_user' %}" class="space-y-6">
         {% csrf_token %}
         
         <div>
@@ -51,6 +76,27 @@
         </button>
       </form>
 
+      <!-- Messages Django -->
+      {% if messages %}
+        <div class="mt-6">
+          {% for message in messages %}
+            <div 
+              class="
+                px-4 py-3 rounded-md text-sm border mt-2
+                {% if message.tags == 'success' %}
+                  bg-green-50 border-green-200 text-green-700
+                {% elif message.tags == 'error' %}
+                  bg-red-50 border-red-200 text-[#AA1515]
+                {% else %}
+                  bg-gray-50 border-gray-200 text-gray-700
+                {% endif %}
+              ">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       <div class="mt-6 text-center pt-6 border-t border-gray-200">
         <p class="text-[#111111]/70 text-sm">
           Belum punya akun? 
@@ -61,58 +107,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Toast Container -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-3"></div>
 </div>
-
-<!-- Toast + AJAX Script -->
-<script>
-function showToast(message, type = "success") {
-  const toastContainer = document.getElementById("toast-container");
-  const toast = document.createElement("div");
-
-  const baseStyle = "px-4 py-3 rounded-lg shadow-md text-sm font-medium transition-opacity duration-500";
-  const colorStyle = type === "success"
-    ? "bg-green-50 border border-green-200 text-green-700"
-    : "bg-red-50 border border-red-200 text-[#AA1515]";
-
-  toast.className = `${baseStyle} ${colorStyle}`;
-  toast.textContent = message;
-  toastContainer.appendChild(toast);
-
-  setTimeout(() => (toast.style.opacity = 0), 2500);
-  setTimeout(() => toast.remove(), 3000);
-}
-
-document.querySelector("#login-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const username = document.querySelector("#username").value;
-  const password = document.querySelector("#password").value;
-  const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
-
-  fetch("{% url 'main:login_user' %}", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "X-CSRFToken": csrfToken
-    },
-    body: new URLSearchParams({ username, password })
-  })
-    .then(response => {
-      if (response.redirected) {
-        showToast("Login berhasil!", "success");
-        setTimeout(() => window.location.href = response.url, 1000);
-      } else if (response.status === 400 || response.status === 401) {
-        showToast("Username atau password salah", "error");
-      } else {
-        showToast("Terjadi kesalahan, coba lagi.", "error");
-      }
-    })
-    .catch(() => {
-      showToast("Gagal terhubung ke server", "error");
-    });
-});
-</script>
 {% endblock content %}

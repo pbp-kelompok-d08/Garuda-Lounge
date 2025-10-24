@@ -1,0 +1,68 @@
+/* Input, Textarea, Select */
+.form-style form input,
+.form-style form textarea,
+.form-style form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #bcbcbc;
+    border-radius: 0.375rem;
+    background-color: #FFFFFF;
+    color: #111111;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.form-style form input:focus,
+.form-style form textarea:focus,
+.form-style form select:focus {
+    outline: none;
+    border-color: #AA1515; /* Merah khas */
+    box-shadow: 0 0 0 3px rgba(170, 21, 21, 0.2);
+}
+
+/* Checkbox */
+.form-style input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: 2px solid #bcbcbc;
+    border-radius: 0.375rem;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all 0.2s ease;
+}
+
+/* Checkbox checked */
+.form-style input[type="checkbox"]:checked {
+    background-color: #AA1515; /* Merah khas */
+    border-color: #AA1515;
+}
+
+.form-style input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+/* Checkbox focus state */
+.form-style input[type="checkbox"]:focus {
+    outline: none;
+    border-color: #AA1515;
+    box-shadow: 0 0 0 3px rgba(170, 21, 21, 0.2);
+}
+
+/* Label & text consistency */
+.form-style label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #111111;
+}

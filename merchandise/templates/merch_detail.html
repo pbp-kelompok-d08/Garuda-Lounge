@@ -1,19 +1,133 @@
-{% extends 'base_after_login.html' %}
+{% extends 'base_merch.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Merchandise Detail - GarudaLounge Merchandise</title>
+{% endblock meta %}
+
+{% block subbar %}
+<div class="subbar">
+  <a href="{% url 'merchandise:show_merch' %}" class="btn-back">← Back to Merchandise List</a>
+</div>
+{% endblock subbar %}
+
 {% block content %}
-<p><a href="{% url 'merchandise:show_merch' %}"><button>← Back to Merchandise List</button></a></p>
+<div class="bg-gray-50 w-full min-h-screen">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+    <!-- Loading State -->
+    <div id="loading-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+      <svg class="animate-spin h-8 w-8 text-green-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+      <p class="text-gray-600 mt-3">Loading merchandise detail...</p>
+    </div>
 
-<h1>{{ merch.name }}</h1>
-<p><b>{{ merch.get_category_display }}
+    <!-- Error State -->
+    <div id="error-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+      <div class="w-16 h-16 mx-auto mb-4">
+        <div class="text-red-500 text-5xl">⚠️</div>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Failed to load merchandise</h3>
+      <p class="text-gray-500">Please try again later.</p>
+    </div>
 
-{% if merch.thumbnail %}
-<img src="{{ merch.thumbnail }}" alt="Merch thumbnail" width="300">
-<br /><br />
-{% endif %}
+    <!-- Merchandise Content -->
+    <article id="merch-content" class="bg-white rounded-lg border border-gray-200 overflow-hidden hidden">
+      <div class="p-6 sm:p-8">
+        <div id="badges-container" class="flex flex-wrap items-center gap-2 mb-4"></div>
+        <h1 id="merch-name" class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4"></h1>
+        <h2 id="merch-price" class="text-2xl font-semibold text-green-600 mb-4"></h2>
+      </div>
 
-<p><b>Harga:</b> Rp.{{ merch.price }}</p>
+      <div id="featured-image-container" class="px-6 sm:px-8 hidden">
+        <img id="featured-image" src="" alt="" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
+      </div>
 
-<p>{{ merch.description }}</p>
+      <div class="p-6 sm:p-8">
+        <div class="prose prose-lg max-w-none">
+          <div id="merch-description-text" class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg"></div>
+        </div>
+      </div>
 
-<p><a href="{{ merch.product_link }}"><button>+ Buy Now</button></a></p>
+      <a href="{{ item.product_link }}">
+            <button class="buy-btn">Buy Now</button>
+        </a>
 
+      <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
+        <div class="font-medium text-gray-900">
+          <p id="merch-seller">Seller: Loading...</p>
+        </div>
+        <p class="text-sm text-gray-500">Seller</p>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<script>
+const MERCH_DETAIL_ENDPOINT = "{% url 'merchandise:show_json_by_id' merch.id %}";
+
+const loadingState = document.getElementById('loading-state');
+const errorState = document.getElementById('error-state');
+const merchContent = document.getElementById('merch-content');
+const badgesContainer = document.getElementById('badges-container');
+const merchName = document.getElementById('merch-name');
+const featuredImageContainer = document.getElementById('featured-image-container');
+const featuredImage = document.getElementById('featured-image');
+const merchDescriptionText = document.getElementById('merch-description-text');
+const merchSeller = document.getElementById('merch-seller');
+
+function showState(state) {
+  loadingState.classList.toggle('hidden', state !== 'loading');
+  errorState.classList.toggle('hidden', state !== 'error');
+  merchContent.classList.toggle('hidden', state !== 'ready');
+}
+
+function getCategoryLabel(code) {
+  const map = { jersey:'Jersey', shoes:'Shoes', gk_gloves:'GK Gloves', ball:'Ball', jacket:'Jacket', scarf:'Scarf' };
+  return map[code] || code;
+}
+
+function renderMerch(merch) {
+  merchName.textContent = merch.name;
+  document.name = `${merch.name} - GarudaLounge Merchandise`;
+
+  badgesContainer.innerHTML = '';
+  const cat = document.createElement('span');
+  cat.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white';
+  cat.textContent = getCategoryLabel(merch.category);
+  badgesContainer.appendChild(cat);
+
+document.getElementById('merch-price').textContent = `Rp.${merch.price}`;
+
+  if (merch.thumbnail) {
+    featuredImage.src = merch.thumbnail;
+    featuredImage.alt = merch.name;
+    featuredImageContainer.classList.remove('hidden');
+  } else {
+    featuredImageContainer.classList.add('hidden');
+  }
+
+  merchDescriptionText.textContent = merch.description || '';
+  merchSeller.textContent = `Seller: ${merch.user_username || 'Anonymous'}`;
+}
+
+async function loadMerchDetail() {
+  try {
+    showState('loading');
+    const res = await fetch(MERCH_DETAIL_ENDPOINT, { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderMerch(data);
+    showState('ready');
+  } catch (err) {
+    console.error('Error loading merchandise detail:', err);
+    showState('error');
+  }
+}
+
+loadMerchDetail();
+</script>
 {% endblock content %}

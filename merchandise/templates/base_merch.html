@@ -9,6 +9,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
+
   <style>
     :root {
       --cream: #e7e2db;
@@ -67,9 +68,9 @@
       <div class="nav-menu">
         <a href="/match/">match</a>
         <a href="/pemain/">pemain</a>
-        <a href="/merchandise/">merch</a>
+        <a href="/merchandise/" class="active">merch</a>
         <!-- base ini khusus halaman News, jadi tandai aktif -->
-        <a href="{% url 'news:show_news_main' %}" class="active">news</a>
+        <a href="/news/">news</a>
         <a href="/legend/">legend</a>
       </div>
 
@@ -93,17 +94,20 @@
 
 {% block subbar %}
   <div class="subbar">
-    {% if request.resolver_match.url_name == 'show_news_main' %}
+    {% if request.resolver_match.url_name == 'show_merch' %}
       <a href="{% url 'main:show_main' %}" class="btn-back">← Back to Main Page</a>
-    {% elif request.resolver_match.url_name == 'show_news_detail' %}
-      <a href="{% url 'news:show_news_main' %}" class="btn-back">← Back to News</a>
+    {% elif request.resolver_match.url_name == 'show_merch_detail' %}
+      <a href="{% url 'merchandise:show_merch' %}" class="btn-back">← Back to Merchandise</a>
     {% endif %}
   </div>
 {% endblock %}
 
   <!-- KONTEN -->
   <main>
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% include 'toast.html' %}
+    {% include 'modal.html' %}
+    {% endblock %}
   </main>
 
   {% block extra_scripts %}{% endblock %}
