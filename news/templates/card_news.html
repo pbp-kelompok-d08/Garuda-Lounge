@@ -1,0 +1,80 @@
+{% load static %}
+
+<article class="rounded-lg overflow-hidden transition-all duration-300"
+         style="background:#fff;border:1.5px solid #AA1515;box-shadow:0 3px 8px rgba(170,21,21,0.2);">
+
+  <!-- Thumbnail -->
+  <div class="relative overflow-hidden" style="aspect-ratio:16/9;">
+    {% if news.thumbnail %}
+      <img src="{{ news.thumbnail }}" alt="{{ news.title }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+    {% else %}
+      <div class="w-full h-full" style="background:#E7E3DD;"></div>
+    {% endif %}
+
+    <!-- Category Badge -->
+    <div class="absolute top-3 left-3">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium"
+            style="background:#AA1515;color:#fff;border:1px solid #fff;box-shadow:0 0 3px rgba(170,21,21,0.6);">
+        {{ news.get_category_display }}
+      </span>
+    </div>
+
+    <!-- Status Badges -->
+    <div class="absolute top-3 right-3 flex space-x-2">
+      {% if news.is_featured %}
+        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium"
+              style="background:#fff;color:#AA1515;border:1px solid #AA1515;">
+          Featured
+        </span>
+      {% endif %}
+      {% if news.is_hot %}
+        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium"
+              style="background:#AA1515;color:#fff;border:1px solid #fff;">
+          Hot
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-5">
+    <div class="flex items-center text-sm mb-3" style="color:#777;">
+      <time datetime="{{ news.created_at|date:'c' }}">{{ news.created_at|date:"d M Y" }}</time>
+      <span class="mx-2">•</span>
+      <span>{{ news.news_views }} views</span>
+    </div>
+
+    <h3 class="text-lg font-semibold mb-3 leading-tight" style="color:#AA1515;">
+      <a href="{% url 'news:show_news_detail' news.id %}" class="transition-colors"
+         style="text-decoration:none;color:inherit;">{{ news.title }}</a>
+    </h3>
+
+    <p class="text-sm mb-4 text-[#333333] overflow-hidden [display:-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical]">
+        {{ news.content|truncatewords:40 }}
+    </p>
+
+    <!-- Action Buttons -->
+    {% if user.is_authenticated and news.user_id == user.id %}
+      <div class="flex items-center justify-between pt-4" style="border-top:1px solid #f3dada;">
+        <a href="{% url 'news:show_news_detail' news.id %}" class="font-medium text-sm"
+           style="color:#AA1515;text-decoration:none;">Baca →</a>
+
+        <div class="flex space-x-2">
+          <a href="{% url 'news:edit_news' news.id %}" class="text-sm"
+             style="color:#555;text-decoration:none;">Edit</a>
+          <form action="{% url 'news:delete_news' news.id %}" method="post"
+                onsubmit="return confirm('Hapus berita ini?')">
+            {% csrf_token %}
+            <button type="submit" class="text-sm"
+                    style="color:#AA1515;background:transparent;border:none;cursor:pointer;">Delete</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <div class="pt-4" style="border-top:1px solid #f3dada;">
+        <a href="{% url 'news:show_news_detail' news.id %}" class="font-medium text-sm"
+           style="color:#AA1515;text-decoration:none;">Baca →</a>
+      </div>
+    {% endif %}
+  </div>
+</article>

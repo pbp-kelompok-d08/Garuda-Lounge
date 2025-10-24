@@ -5,6 +5,9 @@ from ProfileAktif.models import Player
 from django.http import HttpResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 
 # 🌟 halaman utama (show semua pemain, atau tampilkan Marselino kalau kosong)
@@ -36,12 +39,28 @@ def show_main(request):
 
 # 🌟 form untuk tambah pemain baru
 def create_player(request):
-    form = PlayerForm(request.POST or None)
-
-    if form.is_valid() and request.method == "POST":
-        form.save()
-        return redirect('ProfileAktif:show_main')
-
+    if request.method == "POST":
+        form = PlayerForm(request.POST)
+        
+        if form.is_valid():
+            player = form.save()
+            
+            # SELALU return JSON untuk AJAX
+            return JsonResponse({
+                'success': True,
+                'player_id': str(player.id),
+                'message': 'Pemain berhasil ditambahkan'
+            })
+        else:
+            # Jika form tidak valid
+            return JsonResponse({
+                'success': False,
+                'errors': dict(form.errors)
+            }, status=400)
+    
+    else:
+        form = PlayerForm()
+    
     return render(request, "create_player.html", {'form': form})
 
 
@@ -71,10 +90,24 @@ def show_xml(request):
     xml_data = serializers.serialize("xml", player_list)
     return HttpResponse(xml_data, content_type="application/xml")
 
+from django.http import JsonResponse
+
 def show_json(request):
-    player_list = Player.objects.all()
-    json_data = serializers.serialize("json", player_list)
-    return HttpResponse(json_data, content_type="application/json")
+    players = Player.objects.all()
+    data = [
+        {
+            'id': str(p.id),
+            'nama': p.nama,
+            'posisi': p.get_posisi_display(),  # biar muncul 'Goalkeeper' bukan 'GK'
+            'klub': p.klub,
+            'umur': p.umur,
+            'market_value': float(p.market_value),  # biar bisa dibaca JS
+            'foto': p.foto,
+        }
+        for p in players
+    ]
+    return JsonResponse(data, safe=False)
+
 
 def show_xml_by_id(request, player_id):
     try:
@@ -91,3 +124,25 @@ def show_json_by_id(request, player_id):
         return HttpResponse(json_data, content_type="application/json")
     except Player.DoesNotExist:
         return HttpResponse(status=404)
+    
+@csrf_exempt
+@require_POST
+def add_player_ajax(request):
+    name = request.POST.get("name")
+    position = request.POST.get("position")
+    age = request.POST.get("age")
+    team = request.POST.get("team")
+    photo = request.POST.get("photo")
+    user = request.user
+
+    new_player = Player(
+        name=name,
+        position=position,
+        age=age,
+        team=team,
+        photo=photo,
+        user=user
+    )
+    new_player.save()
+
+    return HttpResponse(b"CREATED", status=201)

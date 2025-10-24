@@ -13,7 +13,7 @@
             margin: 0;
         }
 
-        /* 🌟 Navbar */
+        /* Navbar */
         nav {
             display: flex;
             justify-content: space-between;
@@ -40,7 +40,7 @@
             font-size: 18px;
         }
 
-        /* 🌸 Menu tengah */
+        /* Menu tengah */
         .nav-menu {
             display: flex;
             gap: 24px;
@@ -76,7 +76,7 @@
             width: 100%;
         }
         
-        /* 🌿 Bagian kanan (profil + logout) */
+        /* Bagian kanan (profil + logout) */
         .nav-right {
             display: flex;
             align-items: center;
@@ -126,7 +126,7 @@
             transform: scale(1.05);
         }
 
-        /* 🧱 Konten bawah */
+        /* Konten bawah */
         .content {
             padding: 40px;
             display: flex;
@@ -175,7 +175,7 @@
 
     <nav>
         <div class="nav-left">
-            <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo">
+           <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo">
             <span>GarudaLounge</span>
         </div>
 
@@ -183,10 +183,9 @@
             <a href="#">match</a>
             <a href="{% url 'ProfileAktif:show_main' %}">pemain</a>
             <a href="#">merch</a>
-            <a href="{% url 'news:show_news' %}">news</a>
+            <a href="{% url 'news:show_news_main' %}" class="active">news</a>
             <a href="#">legend</a>
         </div>
-
         <div class="nav-right">
             <div class="profile-section">
                 <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user profile">
