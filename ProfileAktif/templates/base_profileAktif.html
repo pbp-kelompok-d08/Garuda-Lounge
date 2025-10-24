@@ -1,4 +1,6 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Garuda Lounge - Pemain Aktif{% endblock title %}</title>
 
-    <!-- Pastikan font Poppins sama persis -->
+    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -26,15 +28,12 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .nav-left { display:flex; align-items:center; gap:10px; }
 
         .nav-left img {
-            width: 36px;
-            height: 36px;
+             width:36px; 
+             height:36px; 
+             object-fit:contain;
         }
 
         .nav-left span {
@@ -56,28 +55,19 @@
             text-decoration: none;
             color: black;
             font-weight: 500;
-            transition: color 0.3s ease-in-out;
+            transition: color 0.3s;
         }
 
-        /* efek garis bawah pas hover */
-        .nav-menu a::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #a4161a;
-            transition: width 0.3s ease-in-out;
-        }
+        .nav-menu a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--red); transition:width .3s ease-in-out; }
 
         .nav-menu a:hover {
             color: #a4161a;
         }
 
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
+        .nav-menu a:hover::after { width:100%; }
+
+        .nav-menu .active { color:var(--red); }
+        .nav-menu .active::after { width:100%; }
 
         /* Bagian kanan (profil + logout) */
         .nav-right {
@@ -137,6 +127,7 @@
             align-items: center;
             gap: 24px;
         }
+
     </style>
 </head>
 
@@ -144,7 +135,7 @@
     <nav>
         <div class="nav-left">
             <img src="{% static 'images/garuda_logo.png' %}" alt="Garuda Lounge Logo">
-            <span>GarudaLounge</span>
+            <span>Garuda Lounge</span>
         </div>
 
         <div class="nav-menu">
@@ -167,8 +158,8 @@
         </div>
     </nav>
 
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock content %}
     {% include 'toast.html' %}
-    <!-- {% include 'modal.html' %} -->
 </body>
 </html>

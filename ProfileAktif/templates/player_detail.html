@@ -1,21 +1,91 @@
-{% extends 'base.html' %}
+{% extends 'base_profileAktif.html' %}
+
 {% block content %}
-<p>
-  <a href="{% url 'ProfileAktif:show_main' %}">
-    <button>← Kembali ke Daftar Pemain</button>
-  </a>
-</p>
+<div class="player-detail-container">
+  <!-- Kembali ke Daftar Pemain -->
+  <div class="back-button-container">
+    <a href="{% url 'ProfileAktif:show_main' %}">
+      <button class="back-btn">← Back to Player List</button>
+    </a>
+  </div>
 
-<h1>{{ player.nama }}</h1>
+  <!-- Foto Pemain -->
+  <img src="{{ player.foto }}" alt="{{ player.nama }}" width="300" style="border-radius: 10px; object-fit: cover;" />
 
-{% if player.foto %}
-  <img src="{{ player.foto }}" alt="{{ player.nama }}" width="300" />
-  <br /><br />
-{% endif %}
+  <!-- Info Pemain -->
+  <div class="info" style="text-align: left; margin-top: 20px;">
+    <h2 style="font-size: 1.8rem; color: var(--red);">{{ player.nama }}</h2>
+    <p><strong>Posisi:</strong> {{ player.get_posisi_display }}</p>
+    <p><strong>Klub:</strong> {{ player.klub }}</p>
+    <p><strong>Umur:</strong> {{ player.umur }} tahun</p>
+    <p><strong>Market Value:</strong> Rp {{ player.market_value }} Miliar</p>
+  </div>
+</div>
 
-<p><strong>Posisi:</strong> {{ player.get_posisi_display }}</p>
-<p><strong>Klub:</strong> {{ player.klub }}</p>
-<p><strong>Umur:</strong> {{ player.umur }}</p>
-<p><strong>Market Value:</strong> €{{ player.market_value }}</p>
+<style>
+  :root{
+    --bg:#E7E3DD; --red:#AA1515; --black:#111; --white:#fff;
+    --red-soft: rgba(170,21,21,.22);
+    --red-soft-2: rgba(170,21,21,.32);
+  }
+
+  .player-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  .player-detail-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .info {
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .info h2 {
+    font-size: 1.8rem;
+    color: var(--red);
+  }
+
+  .info p {
+    font-size: 1rem;
+    color: #333;
+    margin: 5px 0;
+  }
+
+  /* Styling untuk tombol kembali */
+  .back-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;  /* Tombol di kiri */
+    padding-left: 20px;           /* Tambah jarak kiri */
+    margin-bottom: 20px;
+  }
+
+  .back-btn {
+    background-color: var(--red);
+    color: var(--white);
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
+  .back-btn:hover {
+    background-color: #8b1010;  /* Ganti warna saat dihover */
+  }
+</style>
 
 {% endblock %}
