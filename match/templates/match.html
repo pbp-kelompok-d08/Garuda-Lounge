@@ -1,5 +1,5 @@
 
-{% extends 'base_after_login.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block meta %}
@@ -8,6 +8,7 @@
 
 
 {% block content %}
+{% include 'navbar.html' %}
 <div class="content" style="position: relative;">
 
     <!-- Tombol Back di pojok kiri atas -->

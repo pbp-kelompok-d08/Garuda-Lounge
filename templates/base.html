@@ -10,6 +10,8 @@
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -25,14 +27,14 @@
   </head>
   <body class="min-h-screen flex flex-col">
 
-    <!-- Navbar -->
+    <!-- Navbar
     <nav class="bg-white shadow-md border-b border-red/30 py-4 px-6 flex justify-between items-center">
       <h1 class="text-2xl font-heading text-red font-extrabold">Garuda Lounge</h1>
       <div class="space-x-4">
         <a href="{% url 'main:register_user' %}" class="text-black hover:text-red font-medium">Register</a>
         <a href="{% url 'main:login_user' %}" class="text-black hover:text-red font-medium">Login</a>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- Main Content -->
     <main class="flex-1">

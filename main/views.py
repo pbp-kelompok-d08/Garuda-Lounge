@@ -14,7 +14,7 @@ from .models import LandingPage
 @login_required(login_url='/login')
 def show_main(request):
     items = [
-        {"title": "Jelajahi Jadwal Match", "link": "#"},
+        {"title": "Jelajahi Jadwal Match", "link": "/match/"},
         {"title": "Daftar Pemain Aktif", "link": "#"},
         {"title": "Koleksi Merchandise", "link": "#"},
         {"title": "Baca Berita Menarik", "link": "/news/"},
