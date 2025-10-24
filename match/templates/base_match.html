@@ -1,0 +1,153 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Garuda Lounge{% endblock title %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+      body { 
+        font-family: 'Inter', sans-serif; 
+        background-color: #e7e2db; 
+        color: #111111; 
+        margin: 0; /* Menambahkan margin: 0 dari navbar.css */
+      }
+      .font-heading { font-family: 'Montserrat', sans-serif; }
+      .bg-cream { background-color: #e7e2db; }
+      .text-red { color: #AA1515; }
+      .bg-red { background-color: #AA1515; }
+      .border-red { border-color: #AA1515; }
+
+      /* Ganti 'body' dari navbar.css menjadi 'nav' agar font Poppins hanya berlaku di navbar */
+      nav {
+          font-family: 'Poppins', sans-serif;
+          /* Properti lain dari .nav lama (seperti display:flex, dll) 
+             sudah ditangani oleh kelas Tailwind di navbar.html */
+      }
+
+      .nav-left {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      }
+
+      .nav-left img {
+          width: 36px;
+          height: 36px;
+      }
+
+      .nav-left span {
+          color: #a4161a;
+          font-weight: 700;
+          font-size: 18px;
+      }
+
+      /* Menu tengah */
+      .nav-menu {
+          display: flex;
+          gap: 24px;
+          font-size: 14px;
+          align-items: center;
+      }
+
+      .nav-menu a {
+          position: relative;
+          text-decoration: none;
+          color: black;
+          font-weight: 500;
+          transition: color 0.3s;
+      }
+
+      /* efek garis bawah pas hover */
+      .nav-menu a::after {
+          content: "";
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background-color: #a4161a;
+          transition: width 0.3s ease-in-out;
+      }
+
+      .nav-menu a:hover {
+          color: #a4161a;
+      }
+
+      .nav-menu a:hover::after {
+          width: 100%;
+      }
+      
+      /* Bagian kanan (profil + logout) */
+      .nav-right {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+      }
+
+      .profile-section {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background-color: #fff;
+          padding: 6px 12px;
+          border-radius: 20px;
+          font-weight: 600;
+          color: #a4161a;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+          transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+          cursor: pointer;
+      }
+
+      .profile-section:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+          background-color: #a4161a10;
+      }
+
+      .profile-section img {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          object-fit: cover;
+      }
+
+      .logout-btn {
+          background-color: #a4161a;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 6px 12px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .logout-btn:hover {
+          background-color: #7f0f12;
+          transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body class="bg-cream min-h-screen flex flex-col">
+
+    {% include 'navbar_match.html' %}
+
+    <main class="flex-1 pt-16">
+      {% block content %}
+      {% endblock content %}
+      {% include 'toast.html' %}
+      {% include 'modal.html' %}
+    </main>
+
+  </body>
+</html>

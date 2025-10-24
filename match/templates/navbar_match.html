@@ -1,0 +1,98 @@
+{% load static %}
+<nav class="fixed top-0 left-0 w-full bg-white shadow-md border-b border-red/30 shadow-sm z-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <div class="flex-shrink-0"> <div class="nav-left">
+            <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo">
+            <span>GarudaLounge</span>
+          </div>
+        </div>
+
+        <div class="hidden md:flex justify-center">
+          <div class="nav-menu">
+              <a href="{% url 'match:show_match' %}">Match</a>
+              <a href="#">Pemain</a>
+              <a href="#">Merch</a>
+              <a href="{% url 'news:show_news_main' %}" class="active">News</a>
+              <a href="#">Legend</a>
+          </div>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-6">
+          {% if user.is_authenticated %}
+              <div class="nav-right">
+                  <div class="profile-section">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user profile">
+                      <span>{{ request.user.username }}</span>
+                  </div>
+                  <form action="{% url 'main:logout_user' %}" method="post" style="margin: 0;">
+                      {% csrf_token %}
+                      <button class="logout-btn">Logout</button>
+                  </form>
+              </div>
+          {% else %}
+              <div class="space-x-4">
+                  <a href="{% url 'main:register_user' %}" class="text-black hover:text-red font-medium">Register</a>
+                  <a href="{% url 'main:login_user' %}" class="bg-red text-white px-3 py-1 rounded-md hover:bg-red/90 font-medium">Login</a>
+              </div>
+          {% endif %}
+        </div>
+        
+        <div class="md:hidden flex items-center">
+          <button class="mobile-menu-button p-2 text-gray-600 hover:text-gray-900 transition-colors">
+              <span class="sr-only">Open menu</span>
+              <div class="w-6 h-6 flex flex-col justify-center items-center">
+              <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+              <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5"></span>
+              <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+              </div>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mobile-menu hidden md:hidden bg-white border-t border-gray-200">
+      <div class="px-6 py-4 space-y-4">
+          <div class="nav-menu flex-col space-y-2">
+              <a href="{% url 'match:show_match' %}">Match</a>
+              <a href="#">Pemain</a>
+              <a href="#">Merch</a>
+              <a href="{% url 'news:show_news_main' %}" class="active">News</a>
+              <a href="#">Legend</a>
+          </div>
+          
+          <div class="border-t border-gray-200 pt-4">
+          {% if user.is_authenticated %}
+              <div class="nav-right" style="flex-direction: column; align-items: stretch; gap: 10px;"> <div class="profile-section" style="justify-content: center;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user profile">
+                      <span>{{ request.user.username }}</span>
+                  </div>
+                  <form action="{% url 'main:logout_user' %}" method="post" style="margin: 0;">
+                      {% csrf_token %}
+                      <button class="logout-btn" style="width: 100%;">Logout</button>
+                  </form>
+              </div>
+          {% else %}
+              <div class="space-y-3">
+                  <a href="{% url 'main:register_user' %}" class="block w-full text-center text-black hover:text-red font-medium">Register</a>
+                  <a href="{% url 'main:login_user' %}" class="block w-full text-center bg-red text-white px-3 py-2 rounded-md hover:bg-red/90 font-medium">Login</a>
+              </div>
+          {% endif %}
+          </div>
+      </div>
+    </div>
+
+    <script>
+      // Pindahkan script ini ke file JS terpisah jika memungkinkan,
+      // tapi tidak masalah di sini untuk saat ini.
+      // Pastikan script ini tidak di-load dua kali.
+      const btn = document.querySelector("button.mobile-menu-button");
+      const menu = document.querySelector(".mobile-menu");
+      
+      btn.addEventListener("click", () => {
+          menu.classList.toggle("hidden");
+      });
+    </script>
+</nav>
