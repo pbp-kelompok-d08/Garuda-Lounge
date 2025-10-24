@@ -6,7 +6,7 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="px-4 py-8 max-w-4xl mx-auto">
+<div class="px-4 py-8 max-w-3xl mx-auto">
 
     <div class="mb-4">
         <a href="{% url 'match:show_match' %}">
@@ -33,26 +33,26 @@
 
 
             <div class="flex justify-center items-start gap-4 md:gap-8">
-                
+            
                 <div class="flex flex-col items-center w-1/3">
-                    <img src="{{ pertandingan.bendera_tuan_rumah }}" alt="{{ pertandingan.tim_tuan_rumah }}" class="h-16 md:h-24 mb-2">
-                    <span class="text-xl md:text-2xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tuan_rumah }}</span>
+                    <img src="{{ pertandingan.bendera_tuan_rumah }}" alt="{{ pertandingan.tim_tuan_rumah }}" class="h-16 md:h-20 mb-2">
+                    <span class="text-lg md:text-xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tuan_rumah }}</span>
                 </div>
 
-                <span class="text-4xl md:text-6xl font-bold text-black">{{ pertandingan.skor_tuan_rumah }}</span>
-                <span class="text-4xl md:text-6xl font-light text-gray-500">-</span>
-                <span class="text-4xl md:text-6xl font-bold text-black">{{ pertandingan.skor_tamu }}</span>
+                <span class="text-3xl md:text-5xl font-bold text-black">{{ pertandingan.skor_tuan_rumah }}</span>
+                <span class="text-3xl md:text-5xl font-light text-gray-500">-</span>
+                <span class="text-3xl md:text-5xl font-bold text-black">{{ pertandingan.skor_tamu }}</span>
 
                 <div class="flex flex-col items-center w-1/3">
-                    <img src="{{ pertandingan.bendera_tamu }}" alt="{{ pertandingan.tim_tamu }}" class="h-16 md:h-24 mb-2">
-                    <span class="text-xl md:text-2xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tamu }}</span>
+                    <img src="{{ pertandingan.bendera_tamu }}" alt="{{ pertandingan.tim_tamu }}" class="h-16 md:h-20 mb-2">
+                    <span class="text-lg md:text-xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tamu }}</span>
                 </div>
             </div>
             
             <div class="mt-6 pt-4 border-t border-gray-100">
-                <h4 class="font-semibold m-4 text-center text-lg">
+                <h5 class="font-semibold m-4 text-center text-lg">
                     Pencetak Gol
-                </h4>
+                </h5>
 
                 <div class="grid grid-cols-2 gap-6">
                     <div class="text-left text-sm text-gray-700">
