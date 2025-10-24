@@ -8,6 +8,8 @@
     <title>{% block title %}Garuda Lounge{% endblock title %}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
 
     <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
 
@@ -203,13 +205,120 @@
           border-bottom: 3px solid #a4161a;
       }
 
-       .rw{
+        .rw{
             border: 1px solid #ffffff;
             border-radius: 12px;
             color: #ffff;
             background-color: #a4161a;
             padding: 5px;
         }
+
+        .card-match {
+          background-color: #ffffff;
+          border: 1px solid #e0e0e0;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          /* max-width: 600px; -- Dihapus agar responsif dengan grid */
+          width: 100%;
+          padding: 16px;
+      }
+
+      /* Header card untuk jenis pertandingan dan tanggal */
+      .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.85em; 
+          color: #555;
+          border-bottom: 1px solid #f0f0f0;
+          padding-bottom: 12px;
+          margin-bottom: 16px;
+      }
+      
+      .card-header .jenis-pertandingan {
+          font-weight: 500;
+          font-size: 12px;
+          border: 1px solid #ffffff;
+          border-radius: 12px;
+          color: #ffff;
+          background-color: #a4161a;
+          padding: 5px;
+      }
+      
+      .card-header .tanggal {
+          text-align: right;
+          color: #000000;
+      }
+
+      /* Body kartu (tim, skor, dan highlight) */
+      .card-body {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px; 
+      }
+
+      /* Kolom kiri: berisi 2 baris tim */
+      .match-details {
+          flex-grow: 1; 
+          display: flex;
+          flex-direction: column;
+          gap: 16px; 
+      }
+
+      /* Satu baris tim (Info vs Skor) */
+      .team-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+      /* Info tim (Bendera & Nama) */
+      .team-info {
+          display: flex;
+          align-items: center;
+          gap: 12px; 
+      }
+
+      .team-info img {
+          width: 40px; 
+          height: auto;
+          border: 1px solid #eee;
+          border-radius: 4px;
+      }
+
+      .team-info span {
+          font-size: 1.1em; 
+          font-weight: 600;
+          color: #333;
+      }
+
+      /* Skor (di paling kanan baris tim) */
+      .skor {
+          font-size: 1.2em; 
+          font-weight: 700;
+          color: #111;
+          padding-left: 16px; 
+      }
+
+      /* Tombol Highlight (Kolom kanan) */
+      .highlight-link a {
+          display: block;
+          background-color: #a4161a;
+          padding: 8px 14px;
+          border-radius: 8px;
+          text-decoration: none;
+          color: #ffffff;
+          font-weight: 900;
+          font-size: 0.8em;
+          white-space: nowrap; 
+          transition: background-color 0.2s;
+      }
+
+      .highlight-link a:hover {
+          background-color: #ffff;
+          color: #a4161a;
+      }
     </style>
   </head>
   <body class="bg-cream min-h-screen flex flex-col">
@@ -220,7 +329,7 @@
       {% block content %}
       {% endblock content %}
       {% include 'toast.html' %}
-      {% include 'modal.html' %}
+      {% include 'modal_match.html' %}
     </main>
 
   </body>

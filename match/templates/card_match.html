@@ -176,29 +176,29 @@
         <!-- Action Buttons -->
         <div class="p-0.3">
     
-        {% if user.is_superuser %}
-            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
-                        <b>Match Details</b>
-                    </button>
-                </a>
-                <div class="flex space-x-2">
-                    <a href="{% url 'match:edit_match' pertandingan.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors">
-                        Edit
+            {% if user.is_superuser %}
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
+                            <b>Match Details</b>
+                        </button>
                     </a>
-                    <a href="{% url 'match:delete_match' pertandingan.id %}" class="text-red-600 hover:text-red-700 text-sm transition-colors">
-                        <b>Delete</b>
+                    <div class="flex space-x-2">
+                        <a href="{% url 'match:edit_match' pertandingan.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors">
+                            Edit
+                        </a>
+                        <a href="{% url 'match:delete_match' pertandingan.id %}" class="text-red-600 hover:text-red-700 text-sm transition-colors">
+                            <b>Delete</b>
+                        </a>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
+                        <b>Match Details</b>
                     </a>
                 </div>
-            </div>
-
-        {% else %}
-            <div class="pt-4 border-t border-gray-100">
-                <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
-                    <b>Match Details</b>
-                </a>
-            </div>
-        {% endif %}
+            {% endif %}
 
         </div>
     </div>

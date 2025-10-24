@@ -95,32 +95,25 @@
             <div>
                 <div id="content-lineup" class="tab-content p-6 md:p-8">
                     <div class="space-y-3 max-w-lg mx-auto">
+                        
                         <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a">Starting Eleven</h3>
-                        <div class="stat-row">
-                            <span class="font-semibold">
-                                {% for player in starters_tuan_rumah %}
-                                    <div class="mb-3">{{ player }}</div>
-                                {% endfor %}
-                            </span>
-                             <span class="font-semibold">
-                                {% for player in starters_tamu %}
-                                    <div class="mb-3">{{ player }}</div>
-                                {% endfor %}
-                            </span>
+                        <div class="space-y-1 text-sm">
+                            {% for tuan_rumah, tamu in starters_paired %}
+                            <div class="grid grid-cols-2 gap-4">
+                                <span class="font-semibold text-left">{{ tuan_rumah }}</span>
+                                <span class="font-semibold text-right">{{ tamu }}</span>
+                            </div>
+                            {% endfor %}
                         </div>
 
-                        <h3 class="text-lg font-semibold mb-4 text-center"  style="color:#a4161a">Pengganti</h3>
-                        <div class="stat-row">
-                            <span class="font-semibold">
-                                {% for player in pengganti_tuan_rumah %}
-                                    <div class="mb-3">{{ player }}</div>
-                                {% endfor %}
-                            </span>
-                             <span class="font-semibold">
-                                {% for player in pengganti_tamu %}
-                                    <div class="mb-3">{{ player }}</div>
-                                {% endfor %}
-                            </span>
+                        <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a; margin-top: 2rem;">Pengganti</h3>
+                        <div class="space-y-1 text-sm">
+                            {% for tuan_rumah, tamu in pengganti_paired %}
+                            <div class="grid grid-cols-2 gap-4">
+                                <span class="font-semibold text-left">{{ tuan_rumah }}</span>
+                                <span class="font-semibold text-right">{{ tamu }}</span>
+                            </div>
+                            {% endfor %}
                         </div>
 
                     </div>
@@ -149,29 +142,29 @@
                                 <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
                         </div>
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}%</span>
+                                <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}</span>
                                 <span class="stat-label" style="color:#a4161a">Pelanggaran</span>
-                                <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}%</span>
+                                <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}</span>
                         </div>
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}%</span>
+                                <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}</span>
                                 <span class="stat-label" style="color:#a4161a">Kartu Kuning</span>
-                                <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}%</span>
+                                <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}</span>
                         </div>
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}%</span>
+                                <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}</span>
                                 <span class="stat-label" style="color:#a4161a">Kartu Merah</span>
-                                <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}%</span>
+                                <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
                         </div>
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}%</span>
+                                <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}</span>
                                 <span class="stat-label" style="color:#a4161a">Offside</span>
-                                <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}%</span>
+                                <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
                         </div>
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}%</span>
+                                <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}</span>
                                 <span class="stat-label" style="color:#a4161a">Sepak Pojok</span>
-                                <span class="font-semibold">{{ pertandingan.corner_tamu }}%</span>
+                                <span class="font-semibold">{{ pertandingan.corner_tamu }}</span>
                         </div>
                     </div>
                 </div>
@@ -180,7 +173,7 @@
             <div class="border-t" style="border-color: #a4161a;">
                 <div class="p-4 mt-1 text-left">
                     <span class="text-lg font-semibold" style="color:#a4161a"> Tempat: </span>
-                    <span class="text-lg text-gray-900 font-semibold">Stadion {{ pertandingan.stadion }}</span>
+                    <span class="text-lg text-gray-900 font-semibold">{{ pertandingan.stadion }}</span>
                 </div>
             </div>
         </div>

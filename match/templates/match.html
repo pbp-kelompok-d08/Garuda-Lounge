@@ -32,8 +32,8 @@
     </h1>
 
     <div style="text-align: center; margin: 20px 0;">
-        <a href="{% url 'match:add_match' %}">
-            <button style="
+        <!-- <a href="{% url 'match:add_match' %}"> -->
+            <button onclick="showMatchModal()" style="
                 background-color: #a4161a;
                 color: white;
                 border: none;
@@ -47,18 +47,199 @@
             onmouseout="this.style.backgroundColor='#a4161a'">
                 + Tambah Match
             </button>
-        </a>
+        <!-- </a> -->
+    </div>
+    <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+      <svg class="animate-spin h-8 w-8 text-red-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+      <p class="text-gray-600 mt-3">Loading matches...</p>
     </div>
 
-    {% if not pertandingan_list %}
-        <p style="text-align: center;">Saat ini belum ada match</p>
-    {% else %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for pertandingan in pertandingan_list %}
-                {% include 'card_match.html' with pertandingan=pertandingan %}
-            {% endfor %}
-        </div>
-    {% endif %}
+    <div id="error" class="hidden">
+        <p class="text-center text-red-600">Gagal memuat pertandingan.</p>
+    </div>
 
+    <div id="grid" class="hidden">
+        </div>
+
+    <div id="empty" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada pertandingan</h3>
+      <p class="text-gray-500 mb-6">Tambahkan pertandingan baru untuk ditampilkan di sini.</p>
+      <a href="{% url 'match:add_match' %}" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+        + Tambah Match
+      </a>
+    </div>
 </div>
-{% endblock %}
+
+
+<script>
+
+// Configuration
+const MATCH_API_ENDPOINT = "{% url 'match:show_match_json' %}";
+const CURRENT_USER_ID = "{{ user.id|default_if_none:'' }}"; // Untuk tombol Edit/Delete
+const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";
+
+// DOM Elements
+const loadingSpinner = document.getElementById('loading');
+const errorMessage = document.getElementById('error');
+const emptyStateDisplay = document.getElementById('empty');
+const matchGridContainer = document.getElementById('grid');
+
+// State Variable
+let allMatchData = [];
+
+function toTitleCase(str) {
+  if (!str) return ''; // Mengatasi string kosong
+  return str.toLowerCase().split(' ').map(function(word) {
+    // huruf pertama kapital, lalu gabung dengan sisanya
+    return (word.charAt(0).toUpperCase() + word.slice(1));
+  }).join(' ');
+}
+
+// Show/hide page sections
+function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
+  loadingSpinner.classList.toggle('hidden', !showLoading);
+  errorMessage.classList.toggle('hidden', !showError);
+  emptyStateDisplay.classList.toggle('hidden', !showEmpty);
+  matchGridContainer.classList.toggle('hidden', !showGrid);
+  
+  if (showGrid) {
+    // Terapkan kelas grid dari match.html lama Anda
+    matchGridContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+  }
+}
+
+/**
+ * ===================================================================
+ * FUNGSI UTAMA BARU: Membangun Kartu Pertandingan
+ * Ini adalah pengganti buildNewsCardElement()
+ * ===================================================================
+ */
+function buildMatchCardElement(item) {
+    const article = document.createElement('article');
+    // Ini adalah HTML/CSS dari file card_match.html Anda sebelumnya
+    article.className = 'card-match'; 
+
+    // Sanitasi data untuk keamanan (dari main.html)
+    const sanitizedJenis = DOMPurify.sanitize(item.jenis_pertandingan);
+    const jenis = toTitleCase(sanitizedJenis);
+    const tanggal = DOMPurify.sanitize(item.tanggal);
+    const benderaTuanRumah = DOMPurify.sanitize(item.bendera_tuan_rumah);
+    const timTuanRumah = DOMPurify.sanitize(item.tim_tuan_rumah);
+    const skorTuanRumah = DOMPurify.sanitize(item.skor_tuan_rumah);
+    const benderaTamu = DOMPurify.sanitize(item.bendera_tamu);
+    const timTamu = DOMPurify.sanitize(item.tim_tamu);
+    const skorTamu = DOMPurify.sanitize(item.skor_tamu);
+    const highlightLink = DOMPurify.sanitize(item.highlight);
+
+   // URL untuk tombol (dari main.html)
+    const linkDetail = `{% url 'match:show_match_details' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+    const linkEdit = `{% url 'match:edit_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+    const linkDelete = `{% url 'match:delete_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+
+    // Tombol Edit/Delete (hanya untuk superuser)
+    let editDeleteHtml = ''; 
+    if (IS_SUPERUSER_STRING === "true") {
+        editDeleteHtml = `<div class='flex space-x-2'>
+            <a href='${linkEdit}' class='text-gray-600 hover:text-gray-700 text-sm transition-colors'>Edit</a>
+            <a href='${linkDelete}' class='text-red-600 hover:text-red-700 text-sm font-bold transition-colors' onclick='return confirm("Yakin ingin menghapus match ini?")'>Delete</a>
+          </div>`;
+    }
+
+    // Ini adalah struktur HTML dari file card_match.html Anda
+    const cardHtml = `
+        <div class="card-header">
+            <span class="jenis-pertandingan">
+                ${jenis}
+            </span>
+            <span class="tanggal">
+                ${tanggal}
+            </span>
+        </div>
+
+        <div class="card-body">
+            <div class="match-details">
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="${benderaTuanRumah}" alt="Bendera ${timTuanRumah}">
+                        <span>${timTuanRumah}</span>
+                    </div>
+                    <span class="skor">${skorTuanRumah}</span>
+                </div>
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="${benderaTamu}" alt="Bendera ${timTamu}">
+                        <span>${timTamu}</span>
+                    </div>
+                    <span class="skor">${skorTamu}</span>
+                </div>
+            </div>
+            <div class="highlight-link">
+                <a href="${highlightLink}" target="_blank">Lihat Highlight</a>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                <a href="${linkDetail}" class="text-gray-900 hover:text-black font-bold text-sm transition-colors">
+                    Match Details
+                </a>
+                ${editDeleteHtml}
+            </div>
+        </div>
+    `;
+    
+    article.innerHTML = cardHtml;
+    return article;
+}
+
+// Render semua kartu pertandingan
+function renderAllMatchCards(matchItems) {
+  matchGridContainer.innerHTML = '';
+  if (matchItems.length === 0) {
+    displayPageSection({ showEmpty: true });
+  } else {
+    matchItems.forEach(item => {
+      const cardElement = buildMatchCardElement(item);
+      matchGridContainer.appendChild(cardElement);
+    });
+    displayPageSection({ showGrid: true });
+  }
+}
+
+// Fetch data pertandingan dari server
+async function fetchMatchesFromServer() {
+  try {
+    displayPageSection({ showLoading: true });
+    
+    const response = await fetch(MATCH_API_ENDPOINT, {
+      headers: { 'Accept': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Gagal mengambil data pertandingan dari server');
+    }
+
+    const matchData = await response.json();
+    allMatchData = matchData || [];
+    
+    renderAllMatchCards(allMatchData);
+  } catch (error) {
+    console.error('Error memuat pertandingan:', error);
+    displayPageSection({ showError: true });
+  }
+}
+
+// Initialize page
+function initializeMatchPage() {
+  // Tidak ada filter, jadi langsung fetch data
+  fetchMatchesFromServer();
+}
+
+// Start application
+initializeMatchPage();
+
+</script>
+{% endblock content%}
