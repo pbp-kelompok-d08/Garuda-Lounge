@@ -37,8 +37,8 @@ def show_match_details(request, id):
     
     context = {
         'pertandingan': pertandingan,
-        'pencetak_gol_tuan_rumah_list': pencetak_gol_tuan_rumah_list,
-        'pencetak_gol_tamu_list': pencetak_gol_tamu_list,
+        'pencetak_gol_tuan_rumah': pencetak_gol_tuan_rumah_list,
+        'pencetak_gol_tamu': pencetak_gol_tamu_list,
         'starters_tuan_rumah': starters_tuan_rumah_list,
         'starters_tamu': starters_tamu_list,
         'pengganti_tuan_rumah': pengganti_tuan_rumah_list,
