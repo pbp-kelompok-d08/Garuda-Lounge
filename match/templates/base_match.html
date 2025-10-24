@@ -135,6 +135,22 @@
           background-color: #7f0f12;
           transform: scale(1.05);
       }
+
+      /* kustom inpur field di form */
+      .custom-form-field {
+        border: 2px solid #a4161a;
+        
+        /* hapus outline biru bawaan browser saat di-klik */
+        outline: none;
+        
+        transition: all 0.2s ease-in-out;
+      }
+
+      /* style saat field di-hover atau di-klik */
+      .custom-form-field:hover,
+      .custom-form-field:focus {
+        box-shadow: 0 0 0 3px #eb474c; 
+      }
     </style>
   </head>
   <body class="bg-cream min-h-screen flex flex-col">

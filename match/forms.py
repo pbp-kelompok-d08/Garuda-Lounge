@@ -2,6 +2,16 @@ from django.forms import ModelForm
 from match.models import Pertandingan
 
 class PertandinganForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PertandinganForm, self).__init__(*args, **kwargs)
+        
+        # Definisikan kelas styling Tailwind
+        tailwind_classes = "mt-1 block w-full rounded-md shadow-sm sm:text-sm custom-form-field"
+        
+        # Terapkan kelas ke semua field
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': tailwind_classes})
+
     class Meta:
         model = Pertandingan
         fields = [

@@ -1,0 +1,24 @@
+{% extends 'base_match.html' %}
+{% block content %}
+    <div class="mb-4">
+        <a href="{% url 'match:show_match' %}">
+            <button style="
+                background-color: #a4161a;
+                color: white;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                ← Back to Match List
+            </button>
+        </a>
+    </div>
+    
+
+
+{% endblock content %}

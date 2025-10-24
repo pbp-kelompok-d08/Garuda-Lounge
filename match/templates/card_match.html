@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Card</title>
     <style>
-        /* Menggunakan font yang umum dan bersih */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f4f4;
@@ -15,7 +14,7 @@
             padding: 20px;
         }
 
-        /* Kontainer kartu utama, meniru gambar */
+        /* Kontainer card pertandingan */
         .card-match {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
@@ -26,12 +25,12 @@
             padding: 16px;
         }
 
-        /* Bagian header kartu (Jenis Pertandingan & Tanggal) */
+        /* Header card untuk jenis pertandingan dan tanggal */
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85em; /* 14px jika root 16px */
+            font-size: 0.85em; /* 14px beda sama root yang 16px */
             color: #555;
             border-bottom: 1px solid #f0f0f0;
             padding-bottom: 12px;
@@ -46,12 +45,12 @@
             text-align: right;
         }
 
-        /* Bagian body kartu (Tim, Skor, & Highlight) */
+        /* Body kartu (tim, skor, dan highlight) */
         .card-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px; /* Jarak antara detail match dan tombol highlight */
+            gap: 16px; /* jarak antara bendera dan skor dengan tombol highlight */
         }
 
         /* Kolom kiri: berisi 2 baris tim */
@@ -114,6 +113,23 @@
         .highlight-link a:hover {
             background-color: #e0e0e0;
         }
+
+        .jenis-pertandingan{
+            font-size: 12px;
+            border: 1px solid #ffffff;
+            border-radius: 12px;
+            color: #ffff;
+            background-color: #a4161a;
+            padding: 5px;
+        }
+
+        .tanggal{
+            color: #000000
+        }
+
+        .action-button{
+            font-size: 8px;
+        }
     </style>
 </head>
 <body>
@@ -122,7 +138,7 @@
         
         <div class="card-header">
             <span class="jenis-pertandingan">
-                {{ pertandingan.jenis_pertandingan }}
+                {{ pertandingan.jenis_pertandingan|title }}
             </span>
             <span class="tanggal">
                 {{ pertandingan.tanggal }}
@@ -154,6 +170,35 @@
             <div class="highlight-link">
                 <a href="{{ pertandingan.highlight }}" target="_blank">Lihat Highlight</a>
             </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="p-0.3">
+    
+        {% if user.is_superuser %}
+            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
+                        <b>Match Details</b>
+                    </button>
+                </a>
+                <div class="flex space-x-2">
+                    <a href="{% url 'match:edit_match' pertandingan.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors">
+                        Edit
+                    </a>
+                    <a href="{% url 'match:delete_match' pertandingan.id %}" class="text-red-600 hover:text-red-700 text-sm transition-colors">
+                        <b>Delete</b>
+                    </a>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="pt-4 border-t border-gray-100">
+                <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
+                    <b>Match Details</b>
+                </a>
+            </div>
+        {% endif %}
 
         </div>
     </div>
