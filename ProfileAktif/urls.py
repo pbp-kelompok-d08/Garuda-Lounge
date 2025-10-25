@@ -9,7 +9,7 @@ urlpatterns = [
     path('player/<uuid:id>/', show_player, name='show_player'),
     path('xml/', show_xml, name='show_xml'),
     path('json/', show_json, name='show_json'),
-    path('xml/<str:news_id>/', show_xml_by_id, name='show_xml_by_id'),
-    path('json/<str:news_id>/', show_json_by_id, name='show_json_by_id'),
+    path('xml/<str:player_id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<str:player_id>/', show_json_by_id, name='show_json_by_id'),
     path('add-player-ajax/', add_player_ajax, name='add_player_ajax'),
 ]

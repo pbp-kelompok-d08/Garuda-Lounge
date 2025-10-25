@@ -401,7 +401,7 @@
     
     <div class="form-container">
       <!-- HAPUS ID="playerForm" dan biarkan form submit normal -->
-      <form method="POST" action="{% url 'ProfileAktif:create_player' %}">
+      <form id="playerForm" method="POST" action="{% url 'ProfileAktif:create_player' %}">
         {% csrf_token %}
         
         <div class="form-group">
@@ -535,71 +535,58 @@
     }
   }
 
-// Handle form submission with AJAX - FIXED VERSION
-document.addEventListener('DOMContentLoaded', function() {
+  // === AJAX submit untuk form Tambah Pemain ===
+  // Pakai event delegation supaya tetap nempel meski modal dimuat ulang.
+  document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('playerForm');
-    
-    if (form) {
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('Form submitted!'); // Debug
-            
-            // Show loading state
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Memproses...';
-            submitBtn.disabled = true;
-            
-            try {
-                const formData = new FormData(this);
-                
-                const response = await fetch(this.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                    }
-                });
-                
-                const data = await response.json();
-                console.log('Response:', data);
-                
-                if (data.success) {
-                    // SUCCESS - close modal & refresh data
-                    closePlayerModal();
-                    this.reset();
-                    fetchPlayers(); // Refresh player list
-                    showToast('Berhasil!', 'Pemain berhasil ditambahkan', 'success');
-                } else {
-                    // VALIDATION ERRORS
-                    console.error('Validation errors:', data.errors);
-                    let errorMessage = 'Data tidak valid. ';
-                    
-                    // Show specific error messages
-                    if (data.errors) {
-                        for (let field in data.errors) {
-                            errorMessage += data.errors[field][0] + ' ';
-                        }
-                    }
-                    
-                    showToast('Gagal!', errorMessage, 'error');
-                }
-            } catch (error) {
-                console.error('Network error:', error);
-                showToast('Error!', 'Terjadi kesalahan jaringan', 'error');
-            } finally {
-                // Reset button state
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector('.submit-btn');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Memproses...';
+      submitBtn.disabled = true;
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          }
         });
-        
-        console.log('Form event listener attached successfully!');
-    } else {
-        console.error('Form element not found!');
-    }
-});
+
+        const data = await response.json();
+        console.log('Response:', data);
+
+        if (data.success) {
+          closePlayerModal();
+          form.reset();
+          fetchPlayers(); // refresh grid
+          if (typeof showToast === 'function')
+            showToast('Berhasil!', 'Pemain berhasil ditambahkan', 'success');
+        } else {
+          let msg = 'Data tidak valid.';
+          if (data.errors) {
+            msg = Object.values(data.errors).flat().join(' ');
+          }
+          if (typeof showToast === 'function')
+            showToast('Gagal!', msg, 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        if (typeof showToast === 'function')
+          showToast('Error!', 'Terjadi kesalahan jaringan', 'error');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+  });
 
   // Initial fetch
   fetchPlayers();

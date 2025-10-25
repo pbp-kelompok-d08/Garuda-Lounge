@@ -128,19 +128,19 @@ def show_json_by_id(request, player_id):
 @csrf_exempt
 @require_POST
 def add_player_ajax(request):
-    name = request.POST.get("name")
-    position = request.POST.get("position")
-    age = request.POST.get("age")
-    team = request.POST.get("team")
-    photo = request.POST.get("photo")
+    nama = request.POST.get("nama")
+    posisi = request.POST.get("position")
+    umur = request.POST.get("age")
+    klub = request.POST.get("team")
+    foto = request.POST.get("photo")
     user = request.user
 
     new_player = Player(
-        name=name,
-        position=position,
-        age=age,
-        team=team,
-        photo=photo,
+        nama=nama,
+        posisi=posisi,
+        umur=umur,
+        klub=klub,
+        foto=foto,
         user=user
     )
     new_player.save()

@@ -161,5 +161,65 @@
     {% block content %}
     {% endblock content %}
     {% include 'toast.html' %}
+    <style>
+        /* ==== Override toast agar tidak butuh Tailwind ==== */
+        #toast-component{
+            position: fixed;
+            bottom: 32px;      /* ~bottom-8 */
+            right: 32px;       /* ~right-8  */
+            display: none;     /* default sembunyi */
+            align-items: center;
+            gap: 12px;         /* ~gap-4 */
+            padding: 16px 24px;/* ~p-4 px-6 */
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 9999;
+
+            /* animasi masuk/keluar */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity .25s ease, transform .25s ease;
+            background: #ffffff;      /* default look (akan diubah toast.js sesuai type) */
+            border: 2px solid #111111;
+            color: #111111;
+        }
+
+        /* state tampil */
+        #toast-component.toast-show{
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        </style>
+
+        <script>
+        // Wrapper: pastikan showToast juga menampilkan komponen tanpa Tailwind.
+        document.addEventListener('DOMContentLoaded', function () {
+            const toast = document.getElementById('toast-component');
+            if (!toast) return;
+
+            const originalShowToast = window.showToast; // dari static/js/toast.js
+
+            window.showToast = function(title, message, type = 'normal', duration = 3000) {
+            // biar warna/ikon/teks tetap dihandle oleh file asli
+            if (typeof originalShowToast === 'function') {
+                originalShowToast(title, message, type, duration);
+            }
+
+            // tampilkan (tanpa tailwind)
+            toast.style.display = 'flex';
+            // reflow kecil agar transition apply
+            // eslint-disable-next-line no-unused-expressions
+            toast.offsetHeight; 
+            toast.classList.add('toast-show');
+
+            // auto hide
+            setTimeout(() => {
+                toast.classList.remove('toast-show');
+                setTimeout(() => { toast.style.display = 'none'; }, 280);
+            }, duration);
+            };
+        });
+        </script>
 </body>
 </html>
