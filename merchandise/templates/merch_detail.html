@@ -1,133 +1,125 @@
 {% extends 'base_merch.html' %}
 {% load static %}
 
-{% block meta %}
-<title>Merchandise Detail - GarudaLounge Merchandise</title>
-{% endblock meta %}
-
-{% block subbar %}
-<div class="subbar">
-  <a href="{% url 'merchandise:show_merch' %}" class="btn-back">← Back to Merchandise List</a>
-</div>
-{% endblock subbar %}
+{% block title %}Merchandise Detail - GarudaLounge Merchandise{% endblock %}
 
 {% block content %}
-<div class="bg-gray-50 w-full min-h-screen">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-    <!-- Loading State -->
-    <div id="loading-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center">
-      <svg class="animate-spin h-8 w-8 text-green-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-      </svg>
-      <p class="text-gray-600 mt-3">Loading merchandise detail...</p>
-    </div>
-
-    <!-- Error State -->
-    <div id="error-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
-      <div class="w-16 h-16 mx-auto mb-4">
-        <div class="text-red-500 text-5xl">⚠️</div>
-      </div>
-      <h3 class="text-lg font-medium text-gray-900 mb-2">Failed to load merchandise</h3>
-      <p class="text-gray-500">Please try again later.</p>
-    </div>
-
-    <!-- Merchandise Content -->
-    <article id="merch-content" class="bg-white rounded-lg border border-gray-200 overflow-hidden hidden">
-      <div class="p-6 sm:p-8">
-        <div id="badges-container" class="flex flex-wrap items-center gap-2 mb-4"></div>
-        <h1 id="merch-name" class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4"></h1>
-        <h2 id="merch-price" class="text-2xl font-semibold text-green-600 mb-4"></h2>
-      </div>
-
-      <div id="featured-image-container" class="px-6 sm:px-8 hidden">
-        <img id="featured-image" src="" alt="" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
-      </div>
-
-      <div class="p-6 sm:p-8">
-        <div class="prose prose-lg max-w-none">
-          <div id="merch-description-text" class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg"></div>
-        </div>
-      </div>
-
-      <a href="{{ item.product_link }}">
-            <button class="buy-btn">Buy Now</button>
-        </a>
-
-      <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
-        <div class="font-medium text-gray-900">
-          <p id="merch-seller">Seller: Loading...</p>
-        </div>
-        <p class="text-sm text-gray-500">Seller</p>
-      </div>
-    </article>
-
-  </div>
+<!-- STATES -->
+<div id="loading-state" class="bg-white rounded-xl2 border border-gray-200 p-10 text-center shadow-sub">
+  <div class="animate-spin h-8 w-8 text-brandred inline-block border-4 border-t-transparent rounded-full"></div>
+  <p class="text-gray-600 mt-3">Loading merch detail...</p>
 </div>
 
+<div id="error-state" class="bg-white rounded-xl2 border border-gray-200 p-10 text-center shadow-sub hidden">
+  <div class="text-brandred text-5xl mb-2">⚠️</div>
+  <h3 class="text-lg font-semibold text-ink mb-1">Failed to load merch</h3>
+  <p class="text-gray-500">Please try again later.</p>
+</div>
+
+<!-- ARTICLE -->
+<article id="article-content" class="bg-white rounded-xl2 border border-gray-200 overflow-hidden shadow-soft hidden">
+  <div class="p-6 sm:p-8">
+    <div id="badges-container" class="flex flex-wrap items-center gap-2 mb-4"></div>
+    <h1 id="article-name" class="font-heading font-extrabold text-ink text-3xl sm:text-4xl leading-tight mb-3"></h1>
+    <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
+      <span id="article-price"></span>
+    </div>
+  </div>
+
+  <div id="featured-image-container" class="px-6 sm:px-8 hidden">
+    <img id="featured-image" src="" alt="" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-xl2 shadow-sub">
+  </div>
+
+  <div class="p-6 sm:p-8">
+    <div id="article-description-text" class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg"></div>
+  </div>
+
+  <div>
+    <a href="{{ merch.product_link }}"><button type="button" class="bg-brandred text-white px-4 py-2 rounded-xl2 font-bold active:translate-y-px">Buy Now</button></a>
+  </div>
+
+  <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
+    <p id="article-seller" class="font-semibold text-ink">Seller: Loading...</p>
+    <p class="text-xs text-gray-500">Seller</p>
+  </div>
+</article>
+
 <script>
-const MERCH_DETAIL_ENDPOINT = "{% url 'merchandise:show_json_by_id' merch.id %}";
+  /* Endpoints */
+  const MERCH_DETAIL_ENDPOINT = "{% url 'merchandise:show_json_by_id' merch.id %}";
 
-const loadingState = document.getElementById('loading-state');
-const errorState = document.getElementById('error-state');
-const merchContent = document.getElementById('merch-content');
-const badgesContainer = document.getElementById('badges-container');
-const merchName = document.getElementById('merch-name');
-const featuredImageContainer = document.getElementById('featured-image-container');
-const featuredImage = document.getElementById('featured-image');
-const merchDescriptionText = document.getElementById('merch-description-text');
-const merchSeller = document.getElementById('merch-seller');
+  /* CSRF via cookie (benar untuk fetch) */
+  function getCookie(name){
+    const v = `; ${document.cookie}`.split(`; ${name}=`);
+    if (v.length === 2) return v.pop().split(';').shift();
+  }
+  const CSRF = getCookie('csrftoken');
 
-function showState(state) {
-  loadingState.classList.toggle('hidden', state !== 'loading');
-  errorState.classList.toggle('hidden', state !== 'error');
-  merchContent.classList.toggle('hidden', state !== 'ready');
-}
+  /* DOM */
+  const loadingState = document.getElementById('loading-state');
+  const errorState   = document.getElementById('error-state');
+  const articleEl    = document.getElementById('article-content');
 
-function getCategoryLabel(code) {
-  const map = { jersey:'Jersey', shoes:'Shoes', gk_gloves:'GK Gloves', ball:'Ball', jacket:'Jacket', scarf:'Scarf' };
-  return map[code] || code;
-}
+  const badgesEl     = document.getElementById('badges-container');
+  const nameEl      = document.getElementById('article-name');
+  const priceEl      = document.getElementById('article-price');
+  const figWrapEl    = document.getElementById('featured-image-container');
+  const figEl        = document.getElementById('featured-image');
+  const descriptionEl    = document.getElementById('article-description-text');
+  const sellerEl     = document.getElementById('article-seller');
 
-function renderMerch(merch) {
-  merchName.textContent = merch.name;
-  document.name = `${merch.name} - GarudaLounge Merchandise`;
-
-  badgesContainer.innerHTML = '';
-  const cat = document.createElement('span');
-  cat.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white';
-  cat.textContent = getCategoryLabel(merch.category);
-  badgesContainer.appendChild(cat);
-
-document.getElementById('merch-price').textContent = `Rp.${merch.price}`;
-
-  if (merch.thumbnail) {
-    featuredImage.src = merch.thumbnail;
-    featuredImage.alt = merch.name;
-    featuredImageContainer.classList.remove('hidden');
-  } else {
-    featuredImageContainer.classList.add('hidden');
+  function showState(s){
+    loadingState.classList.toggle('hidden', s !== 'loading');
+    errorState.classList.toggle('hidden',   s !== 'error');
+    articleEl.classList.toggle('hidden',    s !== 'ready');
   }
 
-  merchDescriptionText.textContent = merch.description || '';
-  merchSeller.textContent = `Seller: ${merch.user_username || 'Anonymous'}`;
-}
-
-async function loadMerchDetail() {
-  try {
-    showState('loading');
-    const res = await fetch(MERCH_DETAIL_ENDPOINT, { headers: { 'Accept': 'application/json' } });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    renderMerch(data);
-    showState('ready');
-  } catch (err) {
-    console.error('Error loading merchandise detail:', err);
-    showState('error');
+  function catLabel(x){
+    const m = { jersey:'Jersey', shoes:'Shoes', match:'Match', gk_gloves:'GK_Gloves', ball:'Ball', jacket:'Jacket', scarf:'Scarf' };
+    return m[x] || x;
   }
-}
 
-loadMerchDetail();
+  function badge(text, extraClass){
+    const span = document.createElement('span');
+    span.className = `inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold ${extraClass}`;
+    span.textContent = text;
+    return span;
+  }
+
+  function renderArticle(n){
+    nameEl.textContent = n.name || '';
+    document.name = `${n.name || 'Merchandise Detail'} - GarudaLounge Merchandise`;
+
+    badgesEl.innerHTML = '';
+    badgesEl.appendChild(badge(catLabel(n.category), 'bg-ink text-white'));
+
+    if (n.thumbnail){
+      figEl.src = n.thumbnail;
+      figEl.alt = n.name || '';
+      figWrapEl.classList.remove('hidden');
+    } else {
+      figWrapEl.classList.add('hidden');
+    }
+
+    descriptionEl.textContent = n.description || '';
+    sellerEl.textContent  = `Author: ${n.user_username || 'Anonymous'}`;
+  }
+
+  async function loadMerch(){
+    try{
+      showState('loading');
+      const r = await fetch(MERCH_DETAIL_ENDPOINT, { headers: { 'Accept': 'application/json' }});
+      if (!r.ok) throw new Error('Failed to fetch');
+      const n = await r.json();
+      renderArticle(n);
+      showState('ready');
+    }catch(e){
+      console.error(e);
+      showState('error');
+    }
+  }
+
+  // init
+  loadMerch();
 </script>
-{% endblock content %}
+{% endblock %}

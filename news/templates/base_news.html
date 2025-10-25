@@ -6,103 +6,95 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>{% block title %}Garuda Lounge{% endblock %}</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Fonts: Montserrat (800/900) & Inter (500/600) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Montserrat:wght@800;900&display=swap" rel="stylesheet" />
 
-  <style>
-    :root {
-      --cream: #e7e2db;
-      --red: #a4161a;
-      --dark-red: #7f0f12;
-      --black: #111111;
-      --white: #ffffff;
+  <!-- Tailwind CDN + custom palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#E7E3DD',
+            brandred: '#AA1515',
+            ink: '#111111',
+            pure: '#FFFFFF',
+          },
+          boxShadow: {
+            soft: '0 6px 18px rgba(17,17,17,0.08)',
+            sub: '0 2px 6px rgba(17,17,17,0.06)',
+          },
+          borderRadius: { xl2: '14px' },
+          fontFamily: {
+            heading: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
     }
-    body { font-family: 'Poppins', sans-serif; background-color: var(--cream); margin:0; color:var(--black); }
-
-    /* Navbar */
-    header { background:#f5f2ee; box-shadow:0 2px 5px rgba(0,0,0,.05); position:sticky; top:0; z-index:10; }
-    nav { display:flex; justify-content:space-between; align-items:center; padding:12px 60px; }
-    .nav-left { display:flex; align-items:center; gap:10px; }
-    .nav-left img { width:36px; height:36px; object-fit:contain; }
-    .nav-left span { color:var(--red); font-weight:700; font-size:18px; }
-
-    .nav-menu { display:flex; gap:24px; font-size:14px; align-items:center; }
-    .nav-menu a { position:relative; text-decoration:none; color:var(--black); font-weight:500; transition:color .3s; }
-    .nav-menu a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--red); transition:width .3s ease-in-out; }
-    .nav-menu a:hover { color:var(--red); }
-    .nav-menu a:hover::after { width:100%; }
-    .nav-menu .active { color:var(--red); }
-    .nav-menu .active::after { width:100%; }
-
-    .nav-right { display:flex; align-items:center; gap:16px; }
-    .profile-section { display:flex; align-items:center; gap:8px; background:var(--white); padding:6px 12px; border-radius:20px; font-weight:600; color:var(--red);
-                       box-shadow:0 2px 4px rgba(0,0,0,.05); transition:transform .2s, box-shadow .2s, background-color .2s; cursor:pointer; }
-    .profile-section:hover { transform:translateY(-2px); box-shadow:0 3px 8px rgba(0,0,0,.1); background-color:#a4161a10; }
-    .profile-section img { width:28px; height:28px; border-radius:50%; object-fit:cover; }
-    .logout-btn { background:var(--red); color:var(--white); border:none; border-radius:6px; padding:6px 12px; font-weight:600; cursor:pointer; transition:background .3s, transform .2s; }
-    .logout-btn:hover { background:var(--dark-red); transform:scale(1.05); }
-
-    /* Subbar (opsional) */
-    .subbar { display:flex; align-items:center; padding:10px 60px 0; gap:10px; }
-    .btn-back { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#fff; background:#a4161a; border:none; border-radius:6px; padding:6px 10px; text-decoration:none; transition:background .2s ease, transform .15s ease; }
-    .btn-back:hover { background:#7f0f12; transform:translateY(-1px); }
-
-    main { padding:40px; }
-  </style>
+  </script>
 
   {% block extra_head %}{% endblock %}
 </head>
-<body>
-
-  <!-- NAVBAR -->
-  <header>
-    <nav>
-      <!-- kiri -->
-      <div class="nav-left">
-        <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo" />
-        <span>GarudaLounge</span>
+<body class="min-h-screen bg-cream text-ink font-body font-medium">
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-10 bg-white/70 backdrop-blur-md shadow-sub">
+    <nav class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo" class="w-9 h-9 object-contain" />
+        <span class="font-heading font-extrabold text-brandred text-lg tracking-tight">GarudaLounge</span>
       </div>
 
-      <!-- tengah -->
-      <div class="nav-menu">
-        <a href="/match/">match</a>
-        <a href="/pemain/">pemain</a>
-        <a href="/merchandise/">merch</a>
-        <!-- base ini khusus halaman News, jadi tandai aktif -->
-        <a href="{% url 'news:show_news_main' %}" class="active">news</a>
-        <a href="/legend/">legend</a>
-      </div>
+      {% with urlname=request.resolver_match.url_name %}
+      <div class="hidden sm:flex items-center gap-6 text-sm font-semibold">
+        <a href="/match/"  class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">match</a>
+        <a href="/pemain/" class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">pemain</a>
+        <a href="/merchandise/"  class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">merch</a>
 
-      <!-- kanan -->
-      <div class="nav-right">
+        <a href="{% url 'news:show_news_main' %}"
+           class="relative {% if urlname in 'show_news_main show_news_detail show_news_detail_slug create_news edit_news' %}text-brandred{% endif %} hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:bg-brandred after:transition-all {% if urlname in 'show_news_main show_news_detail show_news_detail_slug create_news edit_news' %}after:w-full{% else %}after:w-0 hover:after:w-full{% endif %}">
+           news
+        </a>
+
+        <a href="/legend/" class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">legend</a>
+      </div>
+      {% endwith %}
+
+      <div class="flex items-center gap-3">
         {% if request.user.is_authenticated %}
-          <div class="profile-section">
-            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user" />
+          <div class="flex items-center gap-2 bg-pure px-3 py-1.5 rounded-full shadow-sub text-brandred font-semibold">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user" class="w-7 h-7 rounded-full object-cover" />
             <span>{{ request.user.username }}</span>
           </div>
-          <form action="{% url 'main:logout_user' %}" method="post" style="margin:0;">
+          <form action="{% url 'main:logout_user' %}" method="post" class="m-0">
             {% csrf_token %}
-            <button class="logout-btn">Logout</button>
+            <button class="bg-brandred text-white px-3.5 py-2 rounded-xl2 font-bold active:translate-y-px">Logout</button>
           </form>
         {% else %}
-          <a href="/login/" class="logout-btn" style="text-decoration:none;">Login</a>
+          <a href="{% url 'main:login' %}" class="bg-brandred text-white px-3.5 py-2 rounded-xl2 font-bold active:translate-y-px">Login</a>
         {% endif %}
       </div>
     </nav>
   </header>
 
-{% block subbar %}
-  <div class="subbar">
-    {% if request.resolver_match.url_name == 'show_news_main' %}
-      <a href="{% url 'main:show_main' %}" class="btn-back">← Back to Main Page</a>
-    {% elif request.resolver_match.url_name == 'show_news_detail' %}
-      <a href="{% url 'news:show_news_main' %}" class="btn-back">← Back to News</a>
+  <!-- Subbar (otomatis by url_name) -->
+  {% with urlname=request.resolver_match.url_name %}
+  <div class="max-w-6xl mx-auto px-6 pt-2">
+    {% if urlname == 'show_news_main' %}
+      <a href="{% url 'main:show_main' %}" class="inline-flex items-center gap-2 text-sm font-bold text-white bg-brandred px-3 py-2 rounded-xl2 shadow-sub">← Back to Main Page</a>
+    {% elif urlname in 'show_news_detail show_news_detail_slug create_news edit_news' %}
+      <a href="{% url 'news:show_news_main' %}" class="inline-flex items-center gap-2 text-sm font-bold text-white bg-brandred px-3 py-2 rounded-xl2 shadow-sub">← Back to News</a>
     {% endif %}
   </div>
-{% endblock %}
+  {% endwith %}
 
-  <!-- KONTEN -->
-  <main>
+  <main class="max-w-6xl mx-auto px-6 py-8">
+    {% if messages %}
+      {% for m in messages %}
+        <div class="mb-3 rounded-xl2 border border-emerald-200 bg-emerald-50 px-3 py-2 text-emerald-800 shadow-sub">{{ m }}</div>
+      {% endfor %}
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 

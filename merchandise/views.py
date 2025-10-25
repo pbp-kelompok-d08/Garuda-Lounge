@@ -30,7 +30,14 @@ def show_merch(request):
 
     return render(request, "merchandise.html", context)
 
+@login_required(login_url='/login')
+def show_merch_detail(request, id):
+    merch = get_object_or_404(Merch, pk=id)
+    return render(request, "merch_detail.html", {"merch": merch})
+
+
 #  CREATE MERCH
+@login_required(login_url='/login')
 def create_merch(request):
     form = MerchForm(request.POST or None)
 
@@ -41,18 +48,14 @@ def create_merch(request):
         messages.success(request, "Merchandise berhasil ditambahkan.")
         return redirect('merchandise:show_merch')
 
-    context = {'form': form}
+    context = {'form': form,
+               'action_url': reverse('merchandise:create_merch'),
+                'page_title': 'Tambah Merchandise Baru',
+                'submit_label': 'Publish Merch'}
     return render(request, "create_merch.html", context)
 
-#  DETAIL MERCH
-@login_required(login_url='/login')
-def show_merch_detail(request, id):
-    merch = get_object_or_404(Merch, pk=id)
-
-    context = {'merch': merch}
-    return render(request, "merch_detail.html", context)
-
 #  EDIT MERCH
+@login_required(login_url='/login')
 def edit_merch(request, id):
     merch = get_object_or_404(Merch, pk=id)
     form = MerchForm(request.POST or None, instance=merch)
@@ -62,31 +65,46 @@ def edit_merch(request, id):
         messages.success(request, "Merchandise berhasil diperbarui.")
         return redirect('merchandise:show_merch_detail', merch.id)
 
-    context = {'form': form}
+    context = {'form': form,
+                'action_url': reverse('merchandise:edit_merch', args=[merch.id]),
+                'page_title': 'Edit Merchandise',
+                'page_subtitle': 'Update your merchandise',
+                'submit_label': 'Update Merch'}
     return render(request, "create_merch.html", context)
 
 #  DELETE MERCH
+@require_POST
+@login_required(login_url='/login')
 def delete_merch(request, id):
-    merch = get_object_or_404(Merch, pk=id)
-    merch.delete()
-    messages.success(request, "Merchandise berhasil dihapus.")
-    return HttpResponseRedirect(reverse('merchandise:show_merch'))
+     # 1) cek ada/tidak
+    try:
+        n = Merch.objects.get(pk=id)
+    except Merch.DoesNotExist:
+        return JsonResponse({'error': 'Not found'}, status=404)
+
+    # 2) cek kepemilikan
+    if n.user_id != request.user.id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    # 3) hapus
+    n.delete()
+    return JsonResponse({'ok': True})
 
 #  AJAX CREATE MERCH
-@csrf_exempt
+@login_required(login_url='/login')
 @require_POST
 def add_merch_entry_ajax(request):
     name = strip_tags(request.POST.get("name", "")).strip()
     description = strip_tags(request.POST.get("description", "")).strip()
     category = request.POST.get("category", "")
-    price = request.POST.get("price", 0)
+    price = request.POST.get("price", "")
     thumbnail = request.POST.get("thumbnail", "")
     product_link = request.POST.get("product_link", "")
 
-    if not name or not description or not category:
-        return HttpResponse(b"BAD REQUEST", status=400)
+    if not name or not description or not category or not price or not thumbnail or not product_link:
+        return JsonResponse({"error": "semua field wajib diisi"}, status=400)
 
-    new_merch = Merch(
+    new_merch = Merch.objects.create(
         name=name,
         description=description,
         category=category,
@@ -95,9 +113,16 @@ def add_merch_entry_ajax(request):
         product_link=product_link,
         user=request.user
     )
-    new_merch.save()
+    data={
+        'id': str(new_merch.id),
+        'name': new_merch.name,
+        'description': new_merch.description,
+        'category': new_merch.category,
+        'thumbnail': new_merch.thumbnail,
+        'product_link': new_merch.product_link
+    }
 
-    return HttpResponse(b"CREATED", status=201)
+    return JsonResponse(data, status=201)
 
 #  JSON / XML SERIALIZERS
 def show_xml(request):

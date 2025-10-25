@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.contrib.auth.models import User
 
 class Merch(models.Model):
     CATEGORY_CHOICES = [
@@ -12,6 +13,9 @@ class Merch(models.Model):
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True, related_name='merch'
+    )
     name = models.CharField(max_length=255)
     description = models.TextField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='jersey')
