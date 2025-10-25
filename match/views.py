@@ -196,7 +196,7 @@ def get_edit_form_html(request, id):
     form = PertandinganForm(instance=pertandingan) # Buat form yang sudah diisi
     
     # Render file partial _partial_edit_form.html menjadi string
-    html = render_to_string('match\templates\form.html', {'form': form}, request=request)
+    html = render_to_string('form.html', {'form': form}, request=request)
     
     return JsonResponse({'html': html})
 

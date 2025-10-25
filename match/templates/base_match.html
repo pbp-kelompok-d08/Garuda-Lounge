@@ -68,7 +68,7 @@
           transition: color 0.3s;
       }
 
-      /* efek garis bawah pas hover */
+      /* Efek garis bawah pas hover */
       .nav-menu a::after {
           content: "";
           position: absolute;
@@ -138,19 +138,14 @@
           transform: scale(1.05);
       }
 
-
-
       /* kustom inpur field di form */
       .custom-form-field {
-        border: 2px solid #a4161a;
-        
-        /* hapus outline biru bawaan browser saat di-klik */
+        border: 2px solid #000000;
         outline: none;
-        
         transition: all 0.2s ease-in-out;
       }
 
-      /* style saat field di-hover atau di-klik */
+      /* style saat field di-hover */
       .custom-form-field:hover,
       .custom-form-field:focus {
         box-shadow: 0 0 0 3px #eb474c; 
@@ -230,7 +225,7 @@
           align-items: center;
           font-size: 0.85em; 
           color: #555;
-          border-bottom: 1px solid #f0f0f0;
+          border-bottom: 2px solid #AA1515;
           padding-bottom: 12px;
           margin-bottom: 16px;
       }
@@ -256,6 +251,8 @@
           justify-content: space-between;
           align-items: center;
           gap: 16px; 
+          border-bottom: 2px solid #AA1515;
+          padding-bottom: 16px;
       }
 
       /* Kolom kiri: berisi 2 baris tim */
@@ -312,13 +309,40 @@
           font-weight: 900;
           font-size: 0.8em;
           white-space: nowrap; 
-          transition: background-color 0.2s;
+          transition: all 0.2s ease-in-out;
       }
 
       .highlight-link a:hover {
-          background-color: #ffff;
-          color: #a4161a;
+        transform: scale(1.05);
       }
+
+      /* Samakan ukuran tombol macth details, edit, dan delete */
+      .card-action-link {
+          font-size: 0.875rem; 
+          font-weight: 500; 
+          color: #374151; 
+          text-decoration: none;
+          background: none; 
+          border: none; 
+          padding: 0; 
+          cursor: pointer;
+          transition: all 0.2s ease-in-out;
+      }
+
+      .card-action-link.card-action-detail {
+          color: #000000;
+          font-weight: 700; 
+      }
+
+      .card-action-link.card-action-delete {
+          color: #AA1515;
+          font-weight: 500;
+      }
+      
+      .card-action-link:hover {
+          transform: scale(1.05);
+      }
+
     </style>
   </head>
   <body class="bg-cream min-h-screen flex flex-col">
@@ -331,7 +355,7 @@
       {% include 'toast.html' %}
       {% include 'modal_add_match.html' %}
       {% include 'modal_edit_match.html' %}
-    </main>
+    </main> 
 
   </body>
 </html>

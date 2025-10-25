@@ -144,9 +144,10 @@ function buildMatchCardElement(item) {
     // Tombol Edit/Delete (hanya untuk superuser)
     let editDeleteHtml = ''; 
     if (IS_SUPERUSER_STRING === "true") {
+        // 1. Perbaiki HTML yang rusak & tambahkan kelas baru
         editDeleteHtml = `<div class='flex space-x-2'>
-            <button type="button" onclick="showEditModal('${item.id}')" class='text-gray-600 hover:text-gray-700 text-sm transition-colors'>Edit</button>
-            <a href='${linkDelete}' ... >Delete</a>
+            <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
+            <a href='${linkDelete}' class='card-action-link card-action-delete' onclick='return confirm("Yakin ingin menghapus match ini?")'>Delete</a>
           </div>`;
     }
 
@@ -183,9 +184,9 @@ function buildMatchCardElement(item) {
             </div>
         </div>
 
-        <div class="p-4">
-            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                <a href="${linkDetail}" class="text-gray-900 hover:text-black font-bold text-sm transition-colors">
+        <div class="px-3 pt-3 pb-0">
+            <div class="flex items-center justify-between">
+                <a href="${linkDetail}" class="card-action-link card-action-detail">
                     Match Details
                 </a>
                 ${editDeleteHtml}
