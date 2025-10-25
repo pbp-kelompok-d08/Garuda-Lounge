@@ -117,7 +117,7 @@ document.getElementById('merch-price').textContent = `Rp.${merch.price}`;
 async function loadMerchDetail() {
   try {
     showState('loading');
-    const res = await fetch(MERCH_DETAIL_ENDPOINT, { headers: { Accept: 'application/json' } });
+    const res = await fetch(MERCH_DETAIL_ENDPOINT, { headers: { 'Accept': 'application/json' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     renderMerch(data);

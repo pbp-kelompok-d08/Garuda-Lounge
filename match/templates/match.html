@@ -1,0 +1,248 @@
+{% extends 'base_match.html' %}
+{% load static %}
+
+{% block meta %}
+<title>GarudaLounge - Match</title>
+{% endblock meta %}
+
+
+{% block content %}
+<div class="content px-4 py-8 max-w-7xl mx-auto"> 
+    <div class="mb-4"> <a href="{% url 'main:show_main' %}">
+            <button style="
+                background-color: #a4161a;
+                color: white;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                ← Back to Main Page
+            </button>
+        </a>
+    </div>
+
+    <h1 style="text-align: center; color: #a4161a; margin-top: 0; margin-bottom: 20px; font-size: 2.25rem;" class="font-heading">
+        <span>Garuda </span> <span>Lounge </span> <span>Match</span>
+    </h1>
+
+    {% if user.is_superuser %}
+      <div style="text-align: center; margin: 20px 0;">
+          <!-- <a href="{% url 'match:add_match' %}"> -->
+              <button onclick="showMatchModal()" style="
+                  background-color: #a4161a;
+                  color: white;
+                  border: none;
+                  padding: 10px 16px;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: 0.3s;
+              "
+              onmouseover="this.style.backgroundColor='#6e0f11'"
+              onmouseout="this.style.backgroundColor='#a4161a'">
+                  + Tambah Match
+              </button>
+          <!-- </a> -->
+      </div>
+    {% endif %}
+
+    <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+      <svg class="animate-spin h-8 w-8 text-red-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+      <p class="text-gray-600 mt-3">Loading matches...</p>
+    </div>
+
+    <div id="error" class="hidden">
+        <p class="text-center text-red-600">Gagal memuat pertandingan.</p>
+    </div>
+
+    <div id="grid" class="hidden">
+        </div>
+
+    <div id="empty" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada pertandingan</h3>
+      <p class="text-gray-500 mb-6">Tambahkan pertandingan baru untuk ditampilkan di sini.</p>
+      <a href="{% url 'match:add_match' %}" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+        + Tambah Match
+      </a>
+    </div>
+</div>
+
+
+<script>
+
+// Configuration
+const MATCH_API_ENDPOINT = "{% url 'match:show_match_json' %}";
+const CURRENT_USER_ID = "{{ user.id|default_if_none:'' }}"; // Untuk tombol Edit/Delete
+const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";
+
+// DOM Elements
+const loadingSpinner = document.getElementById('loading');
+const errorMessage = document.getElementById('error');
+const emptyStateDisplay = document.getElementById('empty');
+const matchGridContainer = document.getElementById('grid');
+
+// State Variable
+let allMatchData = [];
+
+function toTitleCase(str) {
+  if (!str) return ''; // Mengatasi string kosong
+  return str.toLowerCase().split(' ').map(function(word) {
+    // huruf pertama kapital, lalu gabung dengan sisanya
+    return (word.charAt(0).toUpperCase() + word.slice(1));
+  }).join(' ');
+}
+
+// Show/hide page sections
+function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
+  loadingSpinner.classList.toggle('hidden', !showLoading);
+  errorMessage.classList.toggle('hidden', !showError);
+  emptyStateDisplay.classList.toggle('hidden', !showEmpty);
+  matchGridContainer.classList.toggle('hidden', !showGrid);
+  
+  if (showGrid) {
+    // Terapkan kelas grid dari match.html lama Anda
+    matchGridContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+  }
+}
+
+/**
+ * ===================================================================
+ * FUNGSI UTAMA BARU: Membangun Kartu Pertandingan
+ * Ini adalah pengganti buildNewsCardElement()
+ * ===================================================================
+ */
+function buildMatchCardElement(item) {
+    const article = document.createElement('article');
+    // Ini adalah HTML/CSS dari file card_match.html Anda sebelumnya
+    article.className = 'card-match'; 
+
+    // Sanitasi data untuk keamanan (dari main.html)
+    const sanitizedJenis = DOMPurify.sanitize(item.jenis_pertandingan);
+    const jenis = toTitleCase(sanitizedJenis);
+    const tanggal = DOMPurify.sanitize(item.tanggal);
+    const benderaTuanRumah = DOMPurify.sanitize(item.bendera_tuan_rumah);
+    const timTuanRumah = DOMPurify.sanitize(item.tim_tuan_rumah);
+    const skorTuanRumah = DOMPurify.sanitize(item.skor_tuan_rumah);
+    const benderaTamu = DOMPurify.sanitize(item.bendera_tamu);
+    const timTamu = DOMPurify.sanitize(item.tim_tamu);
+    const skorTamu = DOMPurify.sanitize(item.skor_tamu);
+    const highlightLink = DOMPurify.sanitize(item.highlight);
+
+   // URL untuk tombol (dari main.html)
+    const linkDetail = `{% url 'match:show_match_details' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+    //const linkEdit = `{% url 'match:edit_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+    const linkDelete = `{% url 'match:delete_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+
+    // Tombol Edit/Delete (hanya untuk superuser)
+    let editDeleteHtml = ''; 
+    if (IS_SUPERUSER_STRING === "true") {
+        // 1. Perbaiki HTML yang rusak & tambahkan kelas baru
+        editDeleteHtml = `<div class='flex space-x-2'>
+            <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
+            <a href='${linkDelete}' class='card-action-link card-action-delete' onclick='return confirm("Yakin ingin menghapus match ini?")'>Delete</a>
+          </div>`;
+    }
+
+    // Ini adalah struktur HTML dari file card_match.html Anda
+    const cardHtml = `
+        <div class="card-header">
+            <span class="jenis-pertandingan">
+                ${jenis}
+            </span>
+            <span class="tanggal">
+                ${tanggal}
+            </span>
+        </div>
+
+        <div class="card-body">
+            <div class="match-details">
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="${benderaTuanRumah}" alt="Bendera ${timTuanRumah}">
+                        <span>${timTuanRumah}</span>
+                    </div>
+                    <span class="skor">${skorTuanRumah}</span>
+                </div>
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="${benderaTamu}" alt="Bendera ${timTamu}">
+                        <span>${timTamu}</span>
+                    </div>
+                    <span class="skor">${skorTamu}</span>
+                </div>
+            </div>
+            <div class="highlight-link">
+                <a href="${highlightLink}" target="_blank">Lihat Highlight</a>
+            </div>
+        </div>
+
+        <div class="px-3 pt-3 pb-0">
+            <div class="flex items-center justify-between">
+                <a href="${linkDetail}" class="card-action-link card-action-detail">
+                    Match Details
+                </a>
+                ${editDeleteHtml}
+            </div>
+        </div>
+    `;
+    
+    article.innerHTML = cardHtml;
+    return article;
+}
+
+// Render semua kartu pertandingan
+function renderAllMatchCards(matchItems) {
+  matchGridContainer.innerHTML = '';
+  if (matchItems.length === 0) {
+    displayPageSection({ showEmpty: true });
+  } else {
+    matchItems.forEach(item => {
+      const cardElement = buildMatchCardElement(item);
+      matchGridContainer.appendChild(cardElement);
+    });
+    displayPageSection({ showGrid: true });
+  }
+}
+
+// Fetch data pertandingan dari server
+async function fetchMatchesFromServer() {
+  try {
+    displayPageSection({ showLoading: true });
+    
+    const response = await fetch(MATCH_API_ENDPOINT, {
+      headers: { 'Accept': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Gagal mengambil data pertandingan dari server');
+    }
+
+    const matchData = await response.json();
+    allMatchData = matchData || [];
+    
+    renderAllMatchCards(allMatchData);
+  } catch (error) {
+    console.error('Error memuat pertandingan:', error);
+    displayPageSection({ showError: true });
+  }
+}
+
+// Initialize page
+function initializeMatchPage() {
+  // Tidak ada filter, jadi langsung fetch data
+  fetchMatchesFromServer();
+}
+
+// Start application
+initializeMatchPage();
+
+</script>
+{% endblock content%}

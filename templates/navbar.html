@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garuda Lounge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e7e2db;
+            margin: 0;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f5f2ee;
+            padding: 12px 60px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-left img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .nav-left span {
+            color: #a4161a;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Menu tengah */
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            position: relative;
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        /* efek garis bawah pas hover */
+        .nav-menu a::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #a4161a;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-menu a:hover {
+            color: #a4161a;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        /* Bagian kanan (profil + logout) */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #a4161a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .profile-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            background-color: #a4161a10;
+        }
+
+        .profile-section img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logout-btn {
+            background-color: #a4161a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: #7f0f12;
+            transform: scale(1.05);
+        }
+
+        /* Konten bawah */
+        .content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: white;
+            border: 2px solid #a4161a;
+            border-radius: 18px;
+            width: 80%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: #a4161a;
+            margin: 0;
+        }
+
+        .lihat-btn {
+            background-color: #a4161a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .lihat-btn:hover {
+            background-color: #7f0f12;
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="fixed top-0 left-0 w-full bg-white shadow-md border-b border-red/30 shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+            <!-- Desktop Navigation -->
+            <div class="nav-left">
+            <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo">
+                <span>GarudaLounge</span>
+            </div>
+
+            <div class="nav-menu">
+                <a href="{% url 'match:show_match' %}">Match</a>
+                <a href="#">Pemain</a>
+                <a href="#">Merch</a>
+                <a href="{% url 'news:show_news_main' %}" class="active">News</a>
+                <a href="#">Legend</a>
+            </div>
+            
+            <!-- Desktop User Section -->
+            <div class="hidden md:flex items-center space-x-6">
+            {% if user.is_authenticated %}
+                <div class="nav-right">
+                    <div class="profile-section">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user profile">
+                        <span>{{ request.user.username }}</span>
+                    </div>
+                    <form action="{% url 'main:logout_user' %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <button class="logout-btn">Logout</button>
+                    </form>
+                </div>
+            {% else %}
+                <h1 class="text-2xl font-heading text-red font-extrabold">Garuda Lounge</h1>
+                <div class="space-x-4">
+                    <a href="{% url 'main:register_user' %}" class="text-black hover:text-red font-medium">Register</a>
+                    <a href="{% url 'main:login_user' %}" class="text-black hover:text-red font-medium">Login</a>
+                </div>
+            {% endif %}
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+            <button class="mobile-menu-button p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                <span class="sr-only">Open menu</span>
+                <div class="w-6 h-6 flex flex-col justify-center items-center">
+                <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+                <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5"></span>
+                <span class="bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+                </div>
+            </button>
+            </div>
+        </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu hidden md:hidden bg-white border-t border-gray-200">
+        <div class="px-6 py-4 space-y-4">
+            <!-- Mobile Navigation Links -->
+           <div class="nav-left">
+                <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo">
+                    <span>GarudaLounge</span>
+            </div>
+
+            <div class="nav-menu">
+                <a href="#">match</a>
+                <a href="#">pemain</a>
+                <a href="#">merch</a>
+                <a href="{% url 'news:show_news_main' %}" class="active">news</a>
+                <a href="#">legend</a>
+            </div>
+            
+            <!-- Mobile User Section -->
+            <div class="border-t border-gray-200 pt-4">
+            {% if user.is_authenticated %}
+                <div class="nav-right">
+                    <div class="profile-section">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user profile">
+                        <span>{{ request.user.username }}</span>
+                    </div>
+                    <form action="{% url 'main:logout_user' %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <button class="logout-btn">Logout</button>
+                    </form>
+                </div>
+            {% else %}
+                <h1 class="text-2xl font-heading text-red font-extrabold">Garuda Lounge</h1>
+                <div class="space-x-4">
+                    <a href="{% url 'main:register_user' %}" class="text-black hover:text-red font-medium">Register</a>
+                    <a href="{% url 'main:login_user' %}" class="text-black hover:text-red font-medium">Login</a>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+        </div>
+        <script>
+        const btn = document.querySelector("button.mobile-menu-button");
+        const menu = document.querySelector(".mobile-menu");
+        
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+        });
+        </script>
+    </nav>
+</body>
+</html>

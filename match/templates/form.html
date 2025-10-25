@@ -1,0 +1,17 @@
+{% csrf_token %}
+{% for field in form %}
+<div>
+    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-900 mb-1" style="color:#a4161a">
+    <b>{{ field.label }}</b>
+    </label>
+    <div class="text-sm font-medium text-gray-900">
+    {{ field }}
+    </div>
+    {% if field.help_text %}
+    <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+    {% endif %}
+    {% for error in field.errors %}
+    <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+    {% endfor %}
+</div>
+{% endfor %}    

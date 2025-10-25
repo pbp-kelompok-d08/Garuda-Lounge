@@ -1,0 +1,222 @@
+{% extends 'base_match.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Detail: {{ pertandingan.tim_tuan_rumah }} vs {{ pertandingan.tim_tamu }}</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="px-4 py-8 max-w-4xl mx-auto">
+
+    <div class="mb-4">
+        <a href="{% url 'match:show_match' %}">
+            <button style="background-color: #a4161a; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s;"
+            onmouseover="this.style.backgroundColor='#6e0f11'"
+            onmouseout="this.style.backgroundColor='#a4161a'">
+                ← Back to Match List
+            </button>
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+
+        <div class="p-6 md:p-8">
+            
+            <div class="mb-6 flex justify-between items-center">
+                <span class="jenis-pertandingan" style="font-size: 14px; border-radius: 12px; background-color: #a4161a; color: white; padding: 5px 12px; font-weight: 600;">
+                    {{ pertandingan.jenis_pertandingan|title }}
+                </span>
+                <span class="tanggal" style="color: rgb(0, 0, 0); padding: 5px 12px; font-weight: 600;">
+                    {{ pertandingan.tanggal }}
+                </span>
+            </div>
+
+
+            <div class="flex justify-center items-start gap-4 md:gap-8">
+            
+                <div class="flex flex-col items-center w-1/3">
+                    <img src="{{ pertandingan.bendera_tuan_rumah }}" alt="{{ pertandingan.tim_tuan_rumah }}" class="h-16 md:h-20 mb-2">
+                    <span class="text-lg md:text-xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tuan_rumah }}</span>
+                </div>
+
+                <span class="text-3xl md:text-5xl font-bold text-black">{{ pertandingan.skor_tuan_rumah }}</span>
+                <span class="text-3xl md:text-5xl font-light text-gray-500">-</span>
+                <span class="text-3xl md:text-5xl font-bold text-black">{{ pertandingan.skor_tamu }}</span>
+
+                <div class="flex flex-col items-center w-1/3">
+                    <img src="{{ pertandingan.bendera_tamu }}" alt="{{ pertandingan.tim_tamu }}" class="h-16 md:h-20 mb-2">
+                    <span class="text-lg md:text-xl font-bold text-gray-800 text-center">{{ pertandingan.tim_tamu }}</span>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-100">
+                <h5 class="font-semibold m-4 text-center text-lg" style="color:#a4161a">
+                    Pencetak Gol
+                </h5>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="text-left text-sm text-gray-700">
+                        <div>
+                            {% for player in pencetak_gol_tuan_rumah %}
+                                <div class="mb-1 font-semibold">{{ player }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="text-right text-sm text-gray-700">
+                        <div>
+                            {% for player in pencetak_gol_tamu %}
+                                <div class="mb-1 font-semibold">{{ player }}</div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="p-6 text-center border-t" style="border-color: #AA1515;">
+            <a href="{{ pertandingan.highlight }}" target="_blank"
+               style="background-color: #a4161a; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block;"
+               onmouseover="this.style.backgroundColor='#6e0f11'"
+               onmouseout="this.style.backgroundColor='#a4161a'">
+                Lihat Highlight
+            </a>
+        </div>
+       
+        <div class="border-t" style="border-color: #AA1515;">
+            {% if pertandingan.jenis_pertandingan|title != "Pertandingan Persahabatan" %}
+            <div class="flex border-b border-gray-200">
+                <button id="tab-lineup" class="tab-button active">
+                    Susunan Pemain
+                </button>
+                <button id="tab-stats" class="tab-button">
+                    Statistik
+                </button>
+            </div>
+
+            <div>
+                <div id="content-lineup" class="tab-content p-6 md:p-8">
+                    <div class="space-y-3 max-w-lg mx-auto">
+                        
+                        <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a">Starting Eleven</h3>
+                        <div class="space-y-1 text-sm">
+                            {% for tuan_rumah, tamu in starters_paired %}
+                            <div class="grid grid-cols-2 gap-4">
+                                <span class="font-semibold text-left">{{ tuan_rumah }}</span>
+                                <span class="font-semibold text-right">{{ tamu }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a; margin-top: 2rem;">Pengganti</h3>
+                        <div class="space-y-1 text-sm">
+                            {% for tuan_rumah, tamu in pengganti_paired %}
+                            <div class="grid grid-cols-2 gap-4">
+                                <span class="font-semibold text-left">{{ tuan_rumah }}</span>
+                                <span class="font-semibold text-right">{{ tamu }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="content-stats" class="tab-content p-6 md:p-8" style="display: none;">
+                    <div class="space-y-3 max-w-lg mx-auto">
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
+                            <span class="stat-label" style="color:#a4161a">Penguasaan Bola</span>
+                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Tembakan</span>
+                            <span class="font-semibold">{{ pertandingan.tembakan_tamu }}</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Tembakan ke Gawang</span>
+                            <span class="font-semibold">{{ pertandingan.on_target_tamu }}</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
+                            <span class="stat-label" style="color:#a4161a">Akurasi Umpan</span>
+                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Pelanggaran</span>
+                            <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Kartu Kuning</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Kartu Merah</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Offside</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Sepak Pojok</span>
+                            <span class="font-semibold">{{ pertandingan.corner_tamu }}</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="border-t" style="border-color: #AA1515;">
+                <div class="p-4 mt-1 text-left">
+                    <span class="text-lg font-semibold" style="color:#a4161a"> Tempat: </span>
+                    <span class="text-lg text-gray-900 font-semibold">{{ pertandingan.stadion }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const tabLineup = document.getElementById('tab-lineup');
+    const tabStats = document.getElementById('tab-stats');
+    const contentLineup = document.getElementById('content-lineup');
+    const contentStats = document.getElementById('content-stats');
+
+    tabLineup.addEventListener('click', () => {
+        // Tampilkan konten lineup, sembunyikan stats
+        contentLineup.style.display = 'block';
+        contentStats.style.display = 'none';
+
+        // Atur style tombol aktif
+        tabLineup.classList.add('active');
+        tabStats.classList.remove('active');
+    });
+
+    tabStats.addEventListener('click', () => {
+        // Tampilkan konten stats, sembunyikan lineup
+        contentLineup.style.display = 'none';
+        contentStats.style.display = 'block';
+
+        // Atur style tombol aktif
+        tabLineup.classList.remove('active');
+        tabStats.classList.add('active');
+    });
+</script>
+
+{% endblock %}

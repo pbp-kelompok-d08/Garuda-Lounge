@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Card</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Kontainer card pertandingan */
+        .card-match {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            width: 100%;
+            padding: 16px;
+        }
+
+        /* Header card untuk jenis pertandingan dan tanggal */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em; /* 14px beda sama root yang 16px */
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .card-header .jenis-pertandingan {
+            font-weight: 500;
+        }
+        
+        .card-header .tanggal {
+            text-align: right;
+        }
+
+        /* Body kartu (tim, skor, dan highlight) */
+        .card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px; /* jarak antara bendera dan skor dengan tombol highlight */
+        }
+
+        /* Kolom kiri: berisi 2 baris tim */
+        .match-details {
+            flex-grow: 1; /* Ambil sisa ruang */
+            display: flex;
+            flex-direction: column;
+            gap: 16px; /* Jarak antara baris tim tuan rumah dan tim tamu */
+        }
+
+        /* Satu baris tim (Info vs Skor) */
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Info tim (Bendera & Nama) */
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Jarak antara bendera dan nama */
+        }
+
+        .team-info img {
+            width: 40px; /* Ukuran bendera */
+            height: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .team-info span {
+            font-size: 1.1em; /* 18px */
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Skor (di paling kanan baris tim) */
+        .skor {
+            font-size: 1.2em; /* 20px */
+            font-weight: 700;
+            color: #111;
+            padding-left: 16px; /* Jarak agar tidak menempel nama tim jika nama terlalu panjang */
+        }
+
+        /* Tombol Highlight (Kolom kanan) */
+        .highlight-link a {
+            display: block;
+            background-color: #f0f0f0;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9em;
+            white-space: nowrap; /* Mencegah teks "Lihat Highlight" terpotong */
+            transition: background-color 0.2s;
+        }
+
+        .highlight-link a:hover {
+            background-color: #e0e0e0;
+        }
+
+        .jenis-pertandingan{
+            font-size: 12px;
+            border: 1px solid #ffffff;
+            border-radius: 12px;
+            color: #ffff;
+            background-color: #a4161a;
+            padding: 5px;
+        }
+
+        .tanggal{
+            color: #000000
+        }
+
+        .action-button{
+            font-size: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-match">
+        
+        <div class="card-header">
+            <span class="jenis-pertandingan">
+                {{ pertandingan.jenis_pertandingan|title }}
+            </span>
+            <span class="tanggal">
+                {{ pertandingan.tanggal }}
+            </span>
+        </div>
+
+        <div class="card-body">
+            
+            <div class="match-details">
+                
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="{{ pertandingan.bendera_tuan_rumah }}" alt="Bendera {{ pertandingan.tim_tuan_rumah }}">
+                        <span>{{ pertandingan.tim_tuan_rumah }}</span>
+                    </div>
+                    <span class="skor">{{ pertandingan.skor_tuan_rumah }}</span>
+                </div>
+
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="{{ pertandingan.bendera_tamu }}" alt="Bendera {{ pertandingan.tim_tamu }}">
+                        <span>{{ pertandingan.tim_tamu }}</span>
+                    </div>
+                    <span class="skor">{{ pertandingan.skor_tamu }}</span>
+                </div>
+
+            </div>
+
+            <div class="highlight-link">
+                <a href="{{ pertandingan.highlight }}" target="_blank">Lihat Highlight</a>
+            </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="p-0.3">
+    
+            {% if user.is_superuser %}
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
+                            <b>Match Details</b>
+                        </button>
+                    </a>
+                    <div class="flex space-x-2">
+                        <a href="{% url 'match:edit_match' pertandingan.id %}" class="text-gray-600 hover:text-gray-700 text-sm transition-colors">
+                            Edit
+                        </a>
+                        <a href="{% url 'match:delete_match' pertandingan.id %}" class="text-red-600 hover:text-red-700 text-sm transition-colors">
+                            <b>Delete</b>
+                        </a>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="{% url 'match:show_match_details' pertandingan.id %}" class="text-gray-900 hover:text-gray-1000 text-sm transition-colors">
+                        <b>Match Details</b>
+                    </a>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</body>
+</html>

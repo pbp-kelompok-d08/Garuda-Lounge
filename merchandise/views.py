@@ -12,8 +12,6 @@ from django.contrib import messages
 from .models import Merch
 from .forms import MerchForm
 
-import datetime
-
 #  MAIN MERCH PAGE (List)
 @login_required(login_url='/login')
 def show_merch(request):
