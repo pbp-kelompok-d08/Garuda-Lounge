@@ -20,31 +20,11 @@
         </p>
       </div>
 
-      <!-- Form Error Display -->
-      {% if form.non_field_errors %}
-        <div class="mb-6">
-          {% for error in form.non_field_errors %}
-            <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-[#AA1515]">
-              {{ error }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      {% if form.errors %}
-        <div class="mb-6">
-          {% for field, errors in form.errors.items %}
-            {% for error in errors %}
-              <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-[#AA1515] mb-2">
-                <strong>{{ field|title }}:</strong> {{ error }}
-              </div>
-            {% endfor %}
-          {% endfor %}
-        </div>
-      {% endif %}
+      <!-- Message Box untuk AJAX -->
+      <div id="messageBox" style="display: none;" class="mb-6"></div>
 
       <!-- Form -->
-      <form method="POST" action="{% url 'main:login_user' %}" class="space-y-6">
+      <form id="loginForm" class="space-y-6">
         {% csrf_token %}
         
         <div>
@@ -71,31 +51,11 @@
 
         <button 
           type="submit" 
+          id="loginButton"
           class="w-full bg-[#AA1515] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#8E1111] focus:outline-none focus:ring-2 focus:ring-[#AA1515]/70 focus:ring-offset-2 transition duration-300 shadow-md">
           Masuk
         </button>
       </form>
-
-      <!-- Messages Django -->
-      {% if messages %}
-        <div class="mt-6">
-          {% for message in messages %}
-            <div 
-              class="
-                px-4 py-3 rounded-md text-sm border mt-2
-                {% if message.tags == 'success' %}
-                  bg-green-50 border-green-200 text-green-700
-                {% elif message.tags == 'error' %}
-                  bg-red-50 border-red-200 text-[#AA1515]
-                {% else %}
-                  bg-gray-50 border-gray-200 text-gray-700
-                {% endif %}
-              ">
-              {{ message }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
 
       <div class="mt-6 text-center pt-6 border-t border-gray-200">
         <p class="text-[#111111]/70 text-sm">
@@ -108,4 +68,57 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const messageBox = document.getElementById('messageBox');
+    const loginButton = document.getElementById('loginButton');
+    
+    // Disable button saat loading
+    loginButton.disabled = true;
+    loginButton.textContent = 'Memproses...';
+    
+    try {
+      const response = await fetch("{% url 'main:login_ajax' %}", {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const data = await response.json();
+      
+      messageBox.style.display = 'block';
+      
+      if (data.status) {
+        // Success
+        messageBox.className = 'px-4 py-3 rounded-md text-sm border bg-green-50 border-green-200 text-green-700 mb-6';
+        messageBox.textContent = data.message;
+        
+        // Redirect ke halaman utama setelah 1 detik
+        setTimeout(() => {
+          window.location.href = "{% url 'main:show_main' %}";
+        }, 1000);
+      } else {
+        // Error
+        messageBox.className = 'px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-[#AA1515] mb-6';
+        messageBox.textContent = data.message;
+        
+        // Enable button kembali
+        loginButton.disabled = false;
+        loginButton.textContent = 'Masuk';
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      messageBox.style.display = 'block';
+      messageBox.className = 'px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-[#AA1515] mb-6';
+      messageBox.textContent = 'Terjadi kesalahan! Silakan coba lagi.';
+      
+      // Enable button kembali
+      loginButton.disabled = false;
+      loginButton.textContent = 'Masuk';
+    }
+  });
+</script>
 {% endblock content %}
