@@ -29,7 +29,31 @@
   .card-body{ padding:12px; display:flex; flex-direction:column; gap:8px; }
   .h3{ font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.1rem; margin:0; color:var(--red); }
   .meta{ font-size:.9rem; color:#6b6b6b; }
-  .excerpt{ color:#333; font-size:.95rem; line-height:1.5; overflow:hidden; }
+  .excerpt {
+    color: #333;
+    font-size: .95rem;
+    line-height: 1.55;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;  /* Safari, Chrome lama */
+    line-clamp: 6;          /* properti standar modern */
+
+    overflow: hidden;
+    max-height: calc(1.55em * 6);
+    word-break: break-word;
+  }
+
+
+  /* mobile: tampilkan lebih sedikit baris biar rapi */
+  @media (max-width:640px){
+  .excerpt{
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    max-height: calc(1.55em * 4);
+  }
+}
+
   .modal-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); backdrop-filter:blur(5px); display:none; justify-content:center; align-items:center; z-index:100; animation:fadeIn .25s ease-out; }
   .modal-card{ background:#fff; border:2px solid var(--red); border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.25); padding:24px 28px; width:90%; max-width:550px; transform:scale(.97); animation:scaleUp .25s ease-out forwards; }
   .featured-row{ display:inline-flex; align-items:center; gap:8px; margin-top:12px; white-space:nowrap; }
@@ -101,6 +125,27 @@
   <div id="loading" class="empty" style="display:none;">Loading…</div>
   <div id="empty" class="empty" style="display:none;">Belum ada berita saat ini.</div>
   <div id="grid" class="grid" style="display:none;"></div>
+
+  <!-- Toast Component -->
+  <div 
+      id="toast-component"
+      class="fixed bottom-8 right-8 p-4 px-8 rounded-xl shadow-xl z-50 
+            opacity-0 translate-y-64 transition-all duration-300 
+            flex items-center gap-4 bg-[#FFFFFF] border-2 border-[#111111]"
+  >
+      <span id="toast-icon" class="text-2xl text-[#AA1515]"></span>
+      <div>
+          <h3 id="toast-title" class="font-['Montserrat'] font-extrabold text-[#111111] text-lg">
+              This is a Sample Title
+          </h3>
+          <p id="toast-message" class="font-['Inter'] text-[#111111]/80 text-sm line-clamp-3">
+              This is a Sample Message
+          </p>
+      </div>
+  </div>
+
+  <!-- Load Toast JS -->
+  <script src="{% static 'js/toast.js' %}"></script>
 </div>
 
 <script>
@@ -278,11 +323,22 @@
       gridEl.prepend(buildNewsCard(temp));
 
       closeModal();
+      
+      // 🎉 Tampilkan Toast Success
+      if (typeof showToast === 'function') {
+        showToast('Berita Berhasil Ditambahkan!', 'Berita kamu sudah dipublish.', 'success');
+      }
+      
       // reset ke ALL supaya terlihat
       activeFilter = 'all'; setTabs();
       fetchNews();
     }catch(err){
-      alert("❌ " + (err.message || "Gagal membuat berita."));
+      // ❌ Tampilkan Toast Error
+      if (typeof showToast === 'function') {
+        showToast('Gagal Menambah Berita!', err.message || 'Terjadi kesalahan saat mempublish berita.', 'error');
+      } else {
+        alert("no" + (err.message || "Gagal membuat berita."));
+      }
       console.error(err);
     }
   });
@@ -314,8 +370,19 @@
         card.style.opacity = '1';
         card.style.transform = 'none';
         btn.disabled = false;
-        alert('❌ Gagal menghapus.');
+        
+        // ❌ Toast Error
+        if (typeof showToast === 'function') {
+          showToast('Gagal Menghapus!', 'Berita tidak bisa dihapus.', 'error');
+        } else {
+          alert('Gagal menghapus.');
+        }
         return;
+      }
+
+      // Toast Success
+      if (typeof showToast === 'function') {
+        showToast('Berita Berhasil Dihapus!', 'Berita sudah dihapus dari daftar.', 'success');
       }
 
       card.style.opacity = '0';
@@ -326,7 +393,13 @@
       card.style.opacity = '1';
       card.style.transform = 'none';
       btn.disabled = false;
-      alert('❌ Gagal menghapus.');
+      
+      // ❌ Toast Error
+      if (typeof showToast === 'function') {
+        showToast('Gagal Menghapus!', 'Terjadi kesalahan.', 'error');
+      } else {
+        alert('Gagal menghapus.');
+      }
       console.error(err);
     }
   });
