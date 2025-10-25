@@ -6,6 +6,7 @@ from match.forms import PertandinganForm
 from match.models import Pertandingan
 import json
 import itertools
+from django.template.loader import render_to_string
 
 # Create your views here.
 def show_match(request):
@@ -126,25 +127,6 @@ def show_match_json(request):
     ]
 
     return JsonResponse(data, safe=False)
-
-@require_POST # Memastikan view ini hanya menerima request POST
-def add_match_ajax(request):
-    """
-    Menangani pembuatan Pertandingan baru via AJAX dari modal.
-    """
-    # request.POST akan berisi data dari FormData
-    form = PertandinganForm(request.POST) 
-
-    if form.is_valid():
-        # Jika data valid, simpan objek baru ke database
-        form.save()
-        
-        # Kirim balasan sukses
-        return JsonResponse({'status': 'success', 'message': 'Match added successfully!'})
-    else:
-        # Jika form tidak valid, kirim kembali daftar error
-        # status=400 memberi tahu browser bahwa ini adalah bad request
-        return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
     
 def show_json_by_id(request, match_id):
     try:
@@ -191,3 +173,42 @@ def show_json_by_id(request, match_id):
         return JsonResponse(data)
     except Pertandingan.DoesNotExist:
         return JsonResponse({'detail': 'Not found'}, status=404)
+
+@require_POST # Memastikan view ini hanya menerima request POST
+def add_match_ajax(request):
+    # request.POST akan berisi data dari FormData
+    form = PertandinganForm(request.POST) 
+
+    if form.is_valid():
+        # Jika data valid, simpan objek baru ke database
+        form.save()
+        
+        # Kirim balasan sukses
+        return JsonResponse({'status': 'success', 'message': 'Match added successfully!'})
+    else:
+        # Jika form tidak valid, kirim kembali daftar error
+        # status=400 memberi tahu browser bahwa ini adalah bad request
+        return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+    
+# Ambil data dari match yang udah ada untuk dibuatkan form edit nya
+def get_edit_form_html(request, id):
+    pertandingan = get_object_or_404(Pertandingan, pk=id)
+    form = PertandinganForm(instance=pertandingan) # Buat form yang sudah diisi
+    
+    # Render file partial _partial_edit_form.html menjadi string
+    html = render_to_string('match\templates\form.html', {'form': form}, request=request)
+    
+    return JsonResponse({'html': html})
+
+@require_POST # Memastikan view ini hanya menerima request POST
+def edit_match_ajax(request, id):
+    pertandingan = get_object_or_404(Pertandingan, pk=id)
+    
+    # Validasi data yang masuk dengan instance yang ada
+    form = PertandinganForm(request.POST, instance=pertandingan) 
+    
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'status': 'success', 'message': 'Match updated!'})
+    else:
+        return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)

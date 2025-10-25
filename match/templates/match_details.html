@@ -50,7 +50,7 @@
             </div>
             
             <div class="mt-6 pt-4 border-t border-gray-100">
-                <h5 class="font-semibold m-4 text-center text-lg">
+                <h5 class="font-semibold m-4 text-center text-lg" style="color:#a4161a">
                     Pencetak Gol
                 </h5>
 
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-        <div class="p-6 text-center border-t" style="border-color: #a4161a;">
+        <div class="p-6 text-center border-t" style="border-color: #AA1515;">
             <a href="{{ pertandingan.highlight }}" target="_blank"
                style="background-color: #a4161a; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block;"
                onmouseover="this.style.backgroundColor='#6e0f11'"
@@ -81,8 +81,9 @@
                 Lihat Highlight
             </a>
         </div>
-        <div class="border-t" style="border-color: #a4161a;">
-            
+       
+        <div class="border-t" style="border-color: #AA1515;">
+            {% if pertandingan.jenis_pertandingan|title != "Pertandingan Persahabatan" %}
             <div class="flex border-b border-gray-200">
                 <button id="tab-lineup" class="tab-button active">
                     Susunan Pemain
@@ -121,63 +122,74 @@
 
                 <div id="content-stats" class="tab-content p-6 md:p-8" style="display: none;">
                     <div class="space-y-3 max-w-lg mx-auto">
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
-                                <span class="stat-label" style="color:#a4161a">Penguasaan Bola</span>
-                                <span class="font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
+                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
+                            <span class="stat-label" style="color:#a4161a">Penguasaan Bola</span>
+                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Tembakan</span>
-                                <span class="font-semibold">{{ pertandingan.tembakan_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Tembakan</span>
+                            <span class="font-semibold">{{ pertandingan.tembakan_tamu }}</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Tembakan ke Gawang</span>
-                                <span class="font-semibold">{{ pertandingan.on_target_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Tembakan ke Gawang</span>
+                            <span class="font-semibold">{{ pertandingan.on_target_tamu }}</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
-                                <span class="stat-label" style="color:#a4161a">Akurasi Umpan</span>
-                                <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
+                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
+                            <span class="stat-label" style="color:#a4161a">Akurasi Umpan</span>
+                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Pelanggaran</span>
-                                <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Pelanggaran</span>
+                            <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Kartu Kuning</span>
-                                <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Kartu Kuning</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Kartu Merah</span>
-                                <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Kartu Merah</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Offside</span>
-                                <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Offside</span>
+                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
                         </div>
+
                         <div class="stat-row">
-                                <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}</span>
-                                <span class="stat-label" style="color:#a4161a">Sepak Pojok</span>
-                                <span class="font-semibold">{{ pertandingan.corner_tamu }}</span>
+                            <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}</span>
+                            <span class="stat-label" style="color:#a4161a">Sepak Pojok</span>
+                            <span class="font-semibold">{{ pertandingan.corner_tamu }}</span>
                         </div>
+
                     </div>
                 </div>
             </div>
-        </div>
-            <div class="border-t" style="border-color: #a4161a;">
+            {% endif %}
+
+            <div class="border-t" style="border-color: #AA1515;">
                 <div class="p-4 mt-1 text-left">
                     <span class="text-lg font-semibold" style="color:#a4161a"> Tempat: </span>
                     <span class="text-lg text-gray-900 font-semibold">{{ pertandingan.stadion }}</span>
                 </div>
             </div>
         </div>
-
+    </div>
 </div>
 
 <script>

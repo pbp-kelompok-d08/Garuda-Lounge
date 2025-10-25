@@ -7,8 +7,7 @@
 
 
 {% block content %}
-<div class="content px-4 py-8 max-w-7xl mx-auto">
-
+<div class="content px-4 py-8 max-w-7xl mx-auto"> 
     <div class="mb-4"> <a href="{% url 'main:show_main' %}">
             <button style="
                 background-color: #a4161a;
@@ -31,24 +30,27 @@
         <span>Garuda </span> <span>Lounge </span> <span>Match</span>
     </h1>
 
-    <div style="text-align: center; margin: 20px 0;">
-        <!-- <a href="{% url 'match:add_match' %}"> -->
-            <button onclick="showMatchModal()" style="
-                background-color: #a4161a;
-                color: white;
-                border: none;
-                padding: 10px 16px;
-                border-radius: 8px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: 0.3s;
-            "
-            onmouseover="this.style.backgroundColor='#6e0f11'"
-            onmouseout="this.style.backgroundColor='#a4161a'">
-                + Tambah Match
-            </button>
-        <!-- </a> -->
-    </div>
+    {% if user.is_superuser %}
+      <div style="text-align: center; margin: 20px 0;">
+          <!-- <a href="{% url 'match:add_match' %}"> -->
+              <button onclick="showMatchModal()" style="
+                  background-color: #a4161a;
+                  color: white;
+                  border: none;
+                  padding: 10px 16px;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: 0.3s;
+              "
+              onmouseover="this.style.backgroundColor='#6e0f11'"
+              onmouseout="this.style.backgroundColor='#a4161a'">
+                  + Tambah Match
+              </button>
+          <!-- </a> -->
+      </div>
+    {% endif %}
+
     <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
       <svg class="animate-spin h-8 w-8 text-red-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -136,15 +138,15 @@ function buildMatchCardElement(item) {
 
    // URL untuk tombol (dari main.html)
     const linkDetail = `{% url 'match:show_match_details' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
-    const linkEdit = `{% url 'match:edit_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
+    //const linkEdit = `{% url 'match:edit_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
     const linkDelete = `{% url 'match:delete_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
 
     // Tombol Edit/Delete (hanya untuk superuser)
     let editDeleteHtml = ''; 
     if (IS_SUPERUSER_STRING === "true") {
         editDeleteHtml = `<div class='flex space-x-2'>
-            <a href='${linkEdit}' class='text-gray-600 hover:text-gray-700 text-sm transition-colors'>Edit</a>
-            <a href='${linkDelete}' class='text-red-600 hover:text-red-700 text-sm font-bold transition-colors' onclick='return confirm("Yakin ingin menghapus match ini?")'>Delete</a>
+            <button type="button" onclick="showEditModal('${item.id}')" class='text-gray-600 hover:text-gray-700 text-sm transition-colors'>Edit</button>
+            <a href='${linkDelete}' ... >Delete</a>
           </div>`;
     }
 
