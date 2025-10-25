@@ -1,16 +1,5 @@
 {% extends 'base_after_login.html' %}
 
 {% block content %}
-<div class="content">
-    {% for item in items %}
-    <div class="card">
-        <div style="display:flex; align-items:center; gap:20px;">
-            <h2>{{ item.title }}</h2>
-        </div>
-        <a href="{{ item.link }}">
-            <button class="lihat-btn">Lihat</button>
-        </a>
-    </div>
-    {% endfor %}
-</div>
+
 {% endblock %}

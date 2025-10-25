@@ -11,4 +11,8 @@ urlpatterns = [
     path('register/', views.register_user, name='register_user'),
     path('json/', views.show_json, name='show_json'),
     path('xml/', views.show_xml, name='show_xml'),
+    
+    # AJAX endpoints
+    path('login-ajax/', views.login_ajax, name='login_ajax'),
+    path('register-ajax/', views.register_ajax, name='register_ajax'),
 ]
