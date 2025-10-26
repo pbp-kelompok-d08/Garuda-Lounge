@@ -1,0 +1,76 @@
+{% extends 'base_after_login.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .legend-content {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    /* Style card */
+    .legend-card {
+        font-family: 'Inter', sans-serif;
+        background-color: #FFFFFF;
+        border: 2px solid #AA1515;
+        border-radius: 18px;
+        width: 80%;
+        max-width: 900px;
+        padding: 24px 32px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    .legend-card h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800; /* ExtraBold */
+        font-size: 20px;
+        color: #AA1515; 
+        margin: 0 0 12px 0;
+    }
+
+    .legend-card p {
+        color: #111111;
+        margin: 4px 0;
+        font-size: 15px;
+    }
+
+    .legend-card p strong {
+        font-weight: 600; /* Medium/SemiBold */
+    }
+
+</style>
+
+<div class="legend-content">
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 32px; color: #AA1515;">
+            Galeri Pemain Legend
+        </h1>
+        <p style="font-size: 18px; color: #111111;">Mengenal lebih dekat para pahlawan Timnas Indonesia.</p>
+    </div>
+
+    {% if legends_list %}
+        {% for legend in legends_list %}
+        <div class="legend-card">
+            <h2>{{ legend.nama }}</h2>
+            <p><strong>Posisi:</strong> {{ legend.posisi }}</p>
+            <p><strong>Klub:</strong> {{ legend.klub }}</p>
+            <p><strong>Info:</strong> {{ legend.umur }}</p>
+
+            {% if legend.is_deceased %}
+            <p style="color: #AA1515; font-weight: 600; margin-top: 8px;">(Alm.)</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="legend-card">
+            <h2>Belum Ada Data</h2>
+            <p>Data pemain legend belum ditambahkan. Silakan cek kembali nanti.</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
