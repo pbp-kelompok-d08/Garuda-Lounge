@@ -66,12 +66,9 @@
     // Simpan ID di hidden input
     document.getElementById('edit_match_id').value = matchId;
 
-    // 1. Ambil HTML form yang sudah di-render untuk match ini
-    // (Anda harus membuat URL 'match:get_edit_form_html' ini)
     const response = await fetch(`/match/${matchId}/get-form-html/`);
     const data = await response.json();
-    
-    // 2. Suntikkan HTML form ke dalam modal
+
     loadingSpinner.style.display = 'none';
     formContent.innerHTML = data.html;
   }
@@ -90,7 +87,6 @@
     const matchId = document.getElementById('edit_match_id').value;
     const form = document.querySelector('#editMatchForm');
     
-    // (Anda harus membuat URL 'match:edit_match_ajax' ini)
     const res = await fetch(`/match/${matchId}/edit-ajax/`, {
       method: "POST",
       body: new FormData(form),
