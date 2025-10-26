@@ -32,7 +32,6 @@
 
     <div class="mb-6 flex flex-wrap justify-center items-center gap-4"> 
         
-      {% if user.is_superuser %}
         <div> 
             <button type="button" onclick="showMatchModal()" style="
                     background-color: #a4161a;
@@ -49,7 +48,6 @@
                 + Tambah Match
             </button>
         </div>
-      {% endif %}
 
 
       <!-- <div class="flex flex-wrap justify-center gap-3"> -->
@@ -95,7 +93,7 @@
 <script>
 // Configuration
 const MATCH_API_ENDPOINT = "{% url 'match:show_match_json' %}";
-const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";  // Untuk tombol Edit/Delete
+// const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";  // Untuk tombol Edit/Delete
 
 // DOM Elements
 const loadingSpinner = document.getElementById('loading');
@@ -163,12 +161,12 @@ function buildMatchCardElement(item) {
 
     // Tombol edit dan delete (hanya untuk superuser)
     let editDeleteHtml = ''; 
-    if (IS_SUPERUSER_STRING === "true") {
+    // if (IS_SUPERUSER_STRING === "true") {
         editDeleteHtml = `<div class='flex space-x-2'>
             <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
             <a href='${linkDelete}' class='card-action-link card-action-delete'>Delete</a>
           </div>`;
-    }
+    // }
 
     const cardHtml = `
         <div class="card-header">
