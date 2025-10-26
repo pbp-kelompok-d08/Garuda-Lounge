@@ -1,0 +1,49 @@
+<!-- Modal untuk Tambah Pemain -->
+<div id="playerModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closePlayerModal()">&times;</span>
+    <h2 style="color: var(--red); margin-bottom: 20px;">Tambah Pemain Baru</h2>
+    
+    <form id="playerForm" method="POST" action="{% url 'ProfileAktif:create_player' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="nama">Nama</label>
+        <input type="text" id="nama" name="nama" placeholder="Masukkan nama pemain" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="posisi">Posisi</label>
+        <select id="posisi" name="posisi" required style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">
+          <option value="">Pilih posisi</option>
+          <option value="GK">Goalkeeper</option>
+          <option value="DF">Defender</option>
+          <option value="MF">Midfielder</option>
+          <option value="FW">Forward</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="klub">Klub</label>
+        <input type="text" id="klub" name="klub" placeholder="Nama klub pemain" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="umur">Umur</label>
+        <input type="number" id="umur" name="umur" placeholder="Masukkan umur" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="market_value">Market Value (€)</label>
+        <input type="number" id="market_value" name="market_value" placeholder="Contoh: 150000" step="0.01" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="foto">URL Foto</label>
+        <input type="url" id="foto" name="foto" placeholder="https://contoh.com/foto.jpg">
+        <small style="color: #666;">Opsional. Gunakan URL gambar lengkap.</small>
+      </div>
+      
+      <button type="submit" class="submit-btn">Tambah Pemain</button>
+    </form>
+  </div>
+</div>

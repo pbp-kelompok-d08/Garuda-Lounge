@@ -1,0 +1,197 @@
+{% extends 'base_news.html' %}
+{% load static %}
+
+{% block title %}News Detail - GarudaLounge News{% endblock %}
+
+{% block content %}
+<!-- STATES -->
+<div id="loading-state" class="bg-white rounded-xl2 border border-gray-200 p-10 text-center shadow-sub">
+  <div class="animate-spin h-8 w-8 text-brandred inline-block border-4 border-t-transparent rounded-full"></div>
+  <p class="text-gray-600 mt-3">Loading news detail...</p>
+</div>
+
+<div id="error-state" class="bg-white rounded-xl2 border border-gray-200 p-10 text-center shadow-sub hidden">
+  <div class="text-brandred text-5xl mb-2">⚠️</div>
+  <h3 class="text-lg font-semibold text-ink mb-1">Failed to load news</h3>
+  <p class="text-gray-500">Please try again later.</p>
+</div>
+
+<!-- ARTICLE -->
+<article id="article-content" class="bg-white rounded-xl2 border border-gray-200 overflow-hidden shadow-soft hidden">
+  <div class="p-6 sm:p-8">
+    <div id="badges-container" class="flex flex-wrap items-center gap-2 mb-4"></div>
+    <h1 id="article-title" class="font-heading font-extrabold text-ink text-3xl sm:text-4xl leading-tight mb-3"></h1>
+    <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
+      <time id="article-date"></time>
+      <span id="article-views"></span>
+    </div>
+  </div>
+
+  <div id="featured-image-container" class="px-6 sm:px-8 hidden">
+    <img id="featured-image" src="" alt="" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-xl2 shadow-sub">
+  </div>
+
+  <div class="p-6 sm:p-8">
+    <div id="article-content-text" class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg"></div>
+  </div>
+
+  <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
+    <p id="article-author" class="font-semibold text-ink">Author: Loading...</p>
+    <p class="text-xs text-gray-500">Author</p>
+  </div>
+</article>
+
+<!-- COMMENTS -->
+<section class="mt-6 border-t border-gray-200 p-6 sm:p-8 bg-white rounded-xl2 shadow-sub">
+  <h2 class="text-xl font-heading font-extrabold text-ink mb-4">Comments</h2>
+
+  <div id="comments-container" class="space-y-4 mb-6">
+    <p id="no-comments" class="text-gray-500 text-sm">No comments yet.</p>
+  </div>
+
+  {% if user.is_authenticated %}
+  <form id="comment-form" class="flex gap-2">
+    {% csrf_token %}
+    <textarea id="comment-input" rows="2" class="w-full border border-gray-300 rounded-xl2 p-2 focus:outline-none focus:ring-2 focus:ring-ink/20" placeholder="Write a comment..."></textarea>
+    <button type="submit" class="bg-brandred text-white px-4 py-2 rounded-xl2 font-bold active:translate-y-px">Post</button>
+  </form>
+  {% else %}
+  <p class="text-sm text-gray-500">Please <a href="{% url 'main:login' %}" class="text-brandred underline">login</a> to comment.</p>
+  {% endif %}
+</section>
+
+<script>
+  /* Endpoints */
+  const NEWS_DETAIL_ENDPOINT = "{% url 'news:show_json_by_id' news.id %}";
+  const COMMENTS_ENDPOINT    = "{% url 'news:get_comments'   news.id %}";
+  const ADD_COMMENT_ENDPOINT = "{% url 'news:add_comment'    news.id %}";
+
+  /* CSRF via cookie (benar untuk fetch) */
+  function getCookie(name){
+    const v = `; ${document.cookie}`.split(`; ${name}=`);
+    if (v.length === 2) return v.pop().split(';').shift();
+  }
+  const CSRF = getCookie('csrftoken');
+
+  /* DOM */
+  const loadingState = document.getElementById('loading-state');
+  const errorState   = document.getElementById('error-state');
+  const articleEl    = document.getElementById('article-content');
+
+  const badgesEl     = document.getElementById('badges-container');
+  const titleEl      = document.getElementById('article-title');
+  const dateEl       = document.getElementById('article-date');
+  const viewsEl      = document.getElementById('article-views');
+  const figWrapEl    = document.getElementById('featured-image-container');
+  const figEl        = document.getElementById('featured-image');
+  const contentEl    = document.getElementById('article-content-text');
+  const authorEl     = document.getElementById('article-author');
+
+  const commentsWrap = document.getElementById('comments-container');
+  const noComments   = document.getElementById('no-comments');
+  const formEl       = document.getElementById('comment-form');
+  const inputEl      = document.getElementById('comment-input');
+
+  function showState(s){
+    loadingState.classList.toggle('hidden', s !== 'loading');
+    errorState.classList.toggle('hidden',   s !== 'error');
+    articleEl.classList.toggle('hidden',    s !== 'ready');
+  }
+
+  function catLabel(x){
+    const m = { update:'Update', exclusive:'Exclusive', match:'Match', rumor:'Rumor', analysis:'Analysis', transfer:'Transfer' };
+    return m[x] || x;
+  }
+
+  function badge(text, extraClass){
+    const span = document.createElement('span');
+    span.className = `inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold ${extraClass}`;
+    span.textContent = text;
+    return span;
+  }
+
+  function renderArticle(n){
+    titleEl.textContent = n.title || '';
+    document.title = `${n.title || 'News Detail'} - GarudaLounge News`;
+
+    badgesEl.innerHTML = '';
+    badgesEl.appendChild(badge(catLabel(n.category), 'bg-ink text-white'));
+    if (n.is_featured) badgesEl.appendChild(badge('Featured', 'bg-yellow-100 text-yellow-800'));
+    if ((n.news_views||0) > 20) badgesEl.appendChild(badge('Hot', 'bg-red-100 text-brandred'));
+
+    if (n.created_at){
+      dateEl.textContent = new Date(n.created_at).toLocaleString();
+    } else { dateEl.textContent = ''; }
+    viewsEl.textContent = `${n.news_views||0} views`;
+
+    if (n.thumbnail){
+      figEl.src = n.thumbnail;
+      figEl.alt = n.title || '';
+      figWrapEl.classList.remove('hidden');
+    } else {
+      figWrapEl.classList.add('hidden');
+    }
+
+    contentEl.textContent = n.content || '';
+    authorEl.textContent  = `Author: ${n.user_username || 'Anonymous'}`;
+  }
+
+  async function loadNews(){
+    try{
+      showState('loading');
+      const r = await fetch(NEWS_DETAIL_ENDPOINT, { headers: { 'Accept': 'application/json' }});
+      if (!r.ok) throw new Error('Failed to fetch');
+      const n = await r.json();
+      renderArticle(n);
+      showState('ready');
+    }catch(e){
+      console.error(e);
+      showState('error');
+    }
+  }
+
+  async function loadComments(){
+    try{
+      const r = await fetch(COMMENTS_ENDPOINT);
+      const data = await r.json();
+      const items = Array.isArray(data.comments) ? data.comments : [];
+      commentsWrap.innerHTML = '';
+      if (!items.length){ noComments.classList.remove('hidden'); return; }
+      noComments.classList.add('hidden');
+      items.forEach(c=>{
+        const el = document.createElement('div');
+        el.className = 'border border-gray-200 p-3 rounded-xl2 bg-white shadow-sub';
+        el.innerHTML = `
+          <p class="font-semibold text-sm">${c.user}</p>
+          <p>${c.content}</p>
+          <p class="text-xs text-gray-500 mt-1">${c.created_at}</p>
+        `;
+        commentsWrap.appendChild(el);
+      });
+    }catch(e){ console.error('comments', e); }
+  }
+
+  if (formEl){
+    formEl.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const content = (inputEl.value || '').trim();
+      if (!content) return;
+
+      try{
+        const r = await fetch(ADD_COMMENT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json', 'X-CSRFToken': CSRF },
+          body: JSON.stringify({ content })
+        });
+        if (!r.ok) throw new Error('Failed');
+        inputEl.value = '';
+        loadComments();
+      }catch(_){ alert('Failed to post comment'); }
+    });
+  }
+
+  // init
+  loadNews();
+  loadComments();
+</script>
+{% endblock %}

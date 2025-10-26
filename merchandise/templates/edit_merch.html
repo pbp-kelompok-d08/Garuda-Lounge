@@ -1,0 +1,64 @@
+{% extends 'base_merch.html' %}
+{% load static %}
+
+{% block title %}Edit Merchandise - GarudaLounge{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-cream">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-6">
+      <a href="{% url 'merchandise:show_merch' %}" class="inline-flex items-center gap-1 text-sm font-semibold text-brandred hover:text-brandred/80">← Back to Merchandise List</a>
+    </div>
+
+    <div class="bg-white rounded-xl2 border border-brandred/30 shadow-sub p-6 sm:p-8">
+      <h1 class="font-heading text-3xl font-extrabold text-brandred mb-2">Edit Merchandise</h1>
+      <p class="text-gray-600 mb-8">Perbarui merchandise kamu.</p>
+
+      <form method="POST" class="space-y-5">
+        {% csrf_token %}
+
+        <div>
+          <label for="{{ form.name.id_for_label }}" class="block text-sm font-semibold text-ink mb-2">Nama</label>
+          {{ form.name }}
+          {{ form.name.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.description.id_for_label }}" class="block text-sm font-semibold text-ink mb-2">Deskripsi</label>
+          {{ form.description }}
+          {{ form.description.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.category.id_for_label }}" class="block text-sm font-semibold text-ink mb-2">Kategori</label>
+          {{ form.category }}
+          {{ form.category.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.price.id_for_label }}" class="block text-sm font-semibold text-ink mb-2">Price</label>
+          {{ form.price }}
+          {{ form.price.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.thumbnail.id_for_label }}" class="block text-sm font-semibold text-ink mb-2">Thumbnail URL</label>
+          {{ form.thumbnail }}
+          {{ form.thumbnail.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.product_link.id_for_label }}" class="block text-sm font-semibold text-ink mb-2">Product URL</label>
+          {{ form.product_link }}
+          {{ form.product_link.errors }}
+        </div>
+
+        <div class="flex justify-end gap-3 pt-5 border-t border-gray-200">
+          <a href="{% url 'merchandise:show_merch' %}" class="px-4 py-2 border border-brandred text-brandred font-semibold rounded-xl2 hover:bg-brandred hover:text-white transition">Cancel</a>
+          <button class="px-4 py-2 bg-brandred text-white font-semibold rounded-xl2 hover:bg-brandred/90 transition">Update Merchandise</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

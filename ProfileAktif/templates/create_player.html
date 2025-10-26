@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Tambah Pemain Baru</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+    <tr>
+      <td></td>
+      <td>
+        <input type="submit" value="Tambah Pemain" />
+      </td>
+    </tr>
+  </table>
+</form>
+
+<p><a href="{% url 'ProfileAktif:show_main' %}">← Kembali ke Daftar Pemain</a></p>
+{% endblock %}

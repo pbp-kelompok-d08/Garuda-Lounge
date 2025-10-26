@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Garuda Lounge{% endblock title %}</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+     <!-- Add DOMPurify here -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Colors -->
+    <style>
+      body { font-family: 'Inter', sans-serif; background-color: #E7E3DD; color: #111111; }
+      .font-heading { font-family: 'Montserrat', sans-serif; }
+      .bg-cream { background-color: #E7E3DD; }
+      .text-red { color: #AA1515; }
+      .bg-red { background-color: #AA1515; }
+      .border-red { border-color: #AA1515; }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md border-b border-red/30 py-4 px-6 flex justify-between items-center">
+      <h1 class="text-2xl font-heading text-red font-extrabold">Garuda Lounge</h1>
+      <div class="space-x-4">
+        <a href="{% url 'main:register_user' %}" class="text-black hover:text-red font-medium">Register</a>
+        <a href="{% url 'main:login_user' %}" class="text-black hover:text-red font-medium">Login</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+      {% block content %}
+      {% endblock content %}
+      {% include 'toast.html' %}
+      {% include 'modal.html' %}
+    </main>
+
+  </body>
+</html>

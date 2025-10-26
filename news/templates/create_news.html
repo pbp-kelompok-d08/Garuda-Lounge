@@ -1,0 +1,55 @@
+{% extends 'base_news.html' %}
+{% load static %}
+
+{% block title %}{{ page_title|default:"Tambah Berita" }} - GarudaLounge{% endblock %}
+
+{% block subbar %}
+  <div class="subbar">
+    <a href="{% url 'news:show_news_main' %}" class="btn-back">← Back to News</a>
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="bg-[#E7E3DD] w-full min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold text-[#a4161a] mb-2">{{ page_title|default:"Tambah Berita Baru" }}</h1>
+    <p class="text-[#555] mb-6">{{ page_subtitle|default:"Share your football news and stories with the community" }}</p>
+
+    <div class="bg-white rounded-lg border border-[#a4161a]/30 p-6 sm:p-8">
+      <!-- ⬇️ gunakan action_url yang dikirim view -->
+      <form method="POST" action="{{ action_url }}" class="space-y-5">
+        {% csrf_token %}
+
+        <div>
+          <label for="{{ form.title.id_for_label }}" class="block font-semibold mb-2">Title</label>
+          {{ form.title }}
+        </div>
+
+        <div>
+          <label for="{{ form.content.id_for_label }}" class="block font-semibold mb-2">Content</label>
+          {{ form.content }}
+        </div>
+
+        <div>
+          <label for="{{ form.category.id_for_label }}" class="block font-semibold mb-2">Category</label>
+          {{ form.category }}
+        </div>
+
+        <div>
+          <label for="{{ form.thumbnail.id_for_label }}" class="block font-semibold mb-2">Thumbnail URL</label>
+          {{ form.thumbnail }}
+        </div>
+
+        <label class="inline-flex items-center gap-2">
+          {{ form.is_featured }} <span>Featured News</span>
+        </label>
+
+        <div class="flex gap-3 pt-4 border-t border-[#a4161a]/20">
+          <a href="{% url 'news:show_news_main' %}" class="btn btn-outline" style="text-decoration:none">Cancel</a>
+          <button type="submit" class="btn">{{ submit_label|default:"Publish News" }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

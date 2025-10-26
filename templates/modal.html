@@ -1,0 +1,136 @@
+<!-- Modal Create News -->
+<div id="create-modal" class="modal-overlay hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+  <div class="modal-content bg-white rounded-2xl shadow-[6px_6px_0_#111] border-2 border-[#111111] w-11/12 sm:w-3/5 lg:w-2/5 xl:w-1/3 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-200">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-[#E7E3DD] rounded-t-2xl">
+      <div>
+        <h3 class="text-xl font-extrabold font-[Montserrat] text-[#111111]">
+          Tambah Berita Baru
+        </h3>
+        <p class="text-sm text-[#555] mt-1 font-[Inter]">
+          Bagikan berita dan cerita sepak bola kamu di sini.
+        </p>
+      </div>
+      <button type="button"
+              class="text-[#111111] hover:bg-[#ffffffcc] rounded-md p-2 transition"
+              onclick="closeCreateModal()"
+              aria-label="Close">
+        ✕
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="px-6 py-5 space-y-5 font-[Inter] text-[#111111]">
+      <form id="create-news-form">
+        {% csrf_token %}
+        <!-- Title -->
+        <div>
+          <label for="title" class="block text-sm font-semibold mb-2">Judul</label>
+          <input type="text" id="title" name="title"
+                 class="w-full border-2 border-[#111111] rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#AA1515]"
+                 placeholder="Masukkan judul berita" required>
+        </div>
+
+        <!-- Content -->
+        <div>
+          <label for="content" class="block text-sm font-semibold mb-2">Konten</label>
+          <textarea id="content" name="content" rows="4"
+                    class="w-full border-2 border-[#111111] rounded-xl px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#AA1515]"
+                    placeholder="Masukkan isi berita" required></textarea>
+        </div>
+
+        <!-- Category -->
+        <div>
+          <label for="category" class="block text-sm font-semibold mb-2">Kategori</label>
+          <select id="category" name="category"
+                  class="w-full border-2 border-[#111111] rounded-xl px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#AA1515]" required>
+            <option value="">Pilih kategori</option>
+            <option value="match">Match</option>
+            <option value="exclusive">Exclusive</option>
+            <option value="update">Update</option>
+            <option value="analysis">Analysis</option>
+            <option value="rumor">Rumor</option>
+          </select>
+        </div>
+
+        <!-- Thumbnail -->
+        <div>
+          <label for="thumbnail" class="block text-sm font-semibold mb-2">URL Thumbnail</label>
+          <input type="url" id="thumbnail" name="thumbnail"
+                 class="w-full border-2 border-[#111111] rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#AA1515]"
+                 placeholder="https://example.com/image.jpg">
+          <p class="text-xs text-gray-500 mt-1">Opsional. Tempel URL gambar lengkap.</p>
+        </div>
+
+        <!-- Featured -->
+        <div class="flex items-center mt-3">
+          <input id="is_featured" name="is_featured" type="checkbox"
+                 class="w-4 h-4 text-[#AA1515] border-2 border-[#111111] rounded focus:ring-[#AA1515]">
+          <label for="is_featured" class="ml-2 text-sm font-semibold">Berita Utama</label>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex flex-col sm:flex-row gap-3 px-6 py-5 border-t border-gray-200 bg-[#E7E3DD] rounded-b-2xl">
+      <button type="button"
+              class="order-2 sm:order-1 w-full sm:w-auto px-6 py-3 border-2 border-[#111111] text-[#111111] bg-white rounded-xl font-bold hover:bg-[#f5f5f5] transition"
+              onclick="closeCreateModal()">
+        Batal
+      </button>
+      <button type="submit"
+              form="create-news-form"
+              class="order-1 sm:order-2 w-full sm:w-auto px-6 py-3 bg-[#AA1515] text-white rounded-xl font-bold border-2 border-[#111111] hover:brightness-110 hover:-translate-y-0.5 transition">
+        Publikasikan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  const modal = document.getElementById('create-modal');
+  const modalContent = modal.querySelector('.modal-content');
+
+  function openCreateModal() {
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 30);
+  }
+
+  function closeCreateModal() {
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => modal.classList.add('hidden'), 180);
+  }
+
+  async function addNewsEntry() {
+    try {
+      const res = await fetch("{% url 'news:add_news_entry_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#create-news-form')),
+      });
+
+      if (!res.ok) throw new Error('Gagal menambahkan berita');
+      document.getElementById("create-news-form").reset();
+      closeCreateModal();
+
+      if (typeof showToast === 'function') {
+        showToast('Sukses', 'Berita berhasil ditambahkan!', 'success');
+      }
+
+      document.dispatchEvent(new CustomEvent('newsAdded'));
+    } catch (err) {
+      console.error(err);
+      showToast('Error', 'Gagal menambahkan berita.', 'error');
+    }
+  }
+
+  document.getElementById("create-news-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    addNewsEntry();
+  });
+</script>

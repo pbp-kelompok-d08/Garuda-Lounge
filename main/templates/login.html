@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Login - GarudaLounge</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="relative w-full min-h-screen flex items-center justify-center p-8 bg-[#E7E3DD] font-inter overflow-hidden">
+
+  <!-- Card Login -->
+  <div class="relative max-w-md w-full z-10">
+    <div class="bg-white rounded-2xl border border-[#AA1515]/20 p-8 shadow-lg">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-extrabold text-[#AA1515] font-montserrat mb-2">
+          Selamat Datang Kembali
+        </h1>
+        <p class="text-[#111111]/70">
+          Masuk ke akun kamu di <span class="text-[#AA1515] font-semibold">GarudaLounge</span>
+        </p>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" class="space-y-6">
+        {% csrf_token %}
+        
+        <div>
+          <label for="username" class="block text-sm font-medium text-[#111111] mb-2">Username</label>
+          <input 
+            id="username" 
+            name="username" 
+            type="text" 
+            required 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AA1515]/50 transition-all" 
+            placeholder="Masukkan username">
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-[#111111] mb-2">Password</label>
+          <input 
+            id="password" 
+            name="password" 
+            type="password" 
+            required 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#AA1515]/50 transition-all" 
+            placeholder="Masukkan password">
+        </div>
+
+        <button 
+          type="submit" 
+          id="loginButton"
+          class="w-full bg-[#AA1515] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#8E1111] focus:outline-none focus:ring-2 focus:ring-[#AA1515]/70 focus:ring-offset-2 transition duration-300 shadow-md">
+          Masuk
+        </button>
+      </form>
+
+      <div class="mt-6 text-center pt-6 border-t border-gray-200">
+        <p class="text-[#111111]/70 text-sm">
+          Belum punya akun? 
+          <a href="{% url 'main:register_user' %}" class="text-[#AA1515] hover:underline font-medium">
+            Daftar Sekarang
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Component -->
+<div 
+    id="toast-component"
+    class="fixed bottom-8 right-8 p-4 px-8 rounded-xl shadow-xl z-50 
+           opacity-0 translate-y-64 transition-all duration-300 
+           flex items-center gap-4 bg-[#FFFFFF] border-2 border-[#111111]"
+>
+    <span id="toast-icon" class="text-2xl text-[#AA1515]"></span>
+    <div>
+        <h3 id="toast-title" class="font-['Montserrat'] font-extrabold text-[#111111] text-lg">
+            This is a Sample Title
+        </h3>
+        <p id="toast-message" class="font-['Inter'] text-[#111111]/80 text-sm line-clamp-3">
+            This is a Sample Message
+        </p>
+    </div>
+</div>
+
+<!-- Load Toast JS dari file eksternal -->
+<script src="{% static 'js/toast.js' %}"></script>
+
+<script>
+  // Login Form Submit
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const loginButton = document.getElementById('loginButton');
+    
+    // Disable button saat loading
+    loginButton.disabled = true;
+    loginButton.textContent = 'Memproses...';
+    
+    try {
+      const response = await fetch("{% url 'main:login_ajax' %}", {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const data = await response.json();
+      
+      if (data.status) {
+        // Success - Show toast dengan format: showToast(title, message, type, duration)
+        showToast('Login Berhasil!', data.message, 'success');
+        
+        // Redirect ke halaman utama setelah 1 detik
+        setTimeout(() => {
+          window.location.href = "{% url 'main:show_main' %}";
+        }, 1000);
+      } else {
+        // Error - Show toast
+        showToast('Login Gagal!', data.message, 'error');
+        
+        // Enable button kembali
+        loginButton.disabled = false;
+        loginButton.textContent = 'Masuk';
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showToast('Error!', 'Terjadi kesalahan! Silakan coba lagi.', 'error');
+      
+      // Enable button kembali
+      loginButton.disabled = false;
+      loginButton.textContent = 'Masuk';
+    }
+  });
+</script>
+{% endblock content %}

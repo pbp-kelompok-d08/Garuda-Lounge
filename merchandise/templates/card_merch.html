@@ -1,0 +1,63 @@
+{% load static %}
+
+<article class="bg-white border border-brandred rounded-xl2 shadow-soft overflow-hidden transition-all duration-300 hover:shadow-md">
+  <!-- Thumbnail -->
+  <div class="relative overflow-hidden aspect-[16/9]">
+    {% if merch.thumbnail %}
+      <img src="{{ merch.thumbnail }}" alt="{{ merch.title }}"
+           class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+    {% else %}
+      <div class="w-full h-full bg-cream"></div>
+    {% endif %}
+
+    <!-- Category badge -->
+    <div class="absolute top-3 left-3">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-brandred text-white border border-white shadow-[0_0_3px_rgba(170,21,21,0.6)]">
+        {{ merch.get_category_display }}
+      </span>
+    </div>
+
+  <!-- Body -->
+  <div class="p-5">
+    <div class="flex items-center text-sm text-gray-500 mb-3">
+      <span>Rp.{{ merch.price }}</span>
+    </div>
+
+    <h3 class="text-lg font-heading font-extrabold text-brandred mb-2 leading-tight">
+      <a href="{% url 'merchandise:show_merch_detail' merch.id %}" class="hover:text-brandred/80 transition-colors">
+        {{ news.name }}
+      </a>
+    </h3>
+
+    <p class="text-sm text-gray-800 line-clamp-3">
+      {{ merch.description|truncatewords:10 }}
+    </p>
+
+    <!-- Actions -->
+    {% if user.is_authenticated and merch.user_id == user.id %}
+      <div class="flex items-center justify-between pt-4 border-t border-rose-100">
+      <a href="{% url 'merchandise:show_merch_detail' merch.id %}" class="font-semibold text-sm text-brandred hover:underline">
+        Lihat →
+      </a>
+      <div class="flex gap-2">
+        <a href="{% url 'merchandise:edit_merch' merch.id %}" class="text-sm text-gray-600 hover:text-brandred transition">Edit</a>
+
+        <!-- Tombol delete langsung (AJAX) -->
+        <button
+          type="button"
+          class="delete-news text-sm text-brandred hover:text-red-700 transition"
+          data-url="{% url 'merchandise:delete_merch' merch.id %}">
+          Delete
+        </button>
+      </div>
+    </div>
+    
+    {% else %}
+      <div class="pt-4 border-t border-rose-100">
+        <a href="{% url 'merchandise:show_merch_detail' merch.id %}" class="font-semibold text-sm text-brandred hover:underline">
+          Lihat →
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</article>
