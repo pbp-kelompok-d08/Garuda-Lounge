@@ -1,148 +1,197 @@
 {% extends 'base_news.html' %}
 {% load static %}
 
-{% block meta %}
-<title>News Detail - GarudaLounge News</title>
-{% endblock meta %}
-
-{% block subbar %}
-<div class="subbar">
-  <a href="{% url 'news:show_news_main' %}" class="btn-back">← Back to News</a>
-</div>
-{% endblock subbar %}
+{% block title %}News Detail - GarudaLounge News{% endblock %}
 
 {% block content %}
-<div class="bg-gray-50 w-full min-h-screen">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-    <!-- Loading State -->
-    <div id="loading-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center">
-      <svg class="animate-spin h-8 w-8 text-green-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-      </svg>
-      <p class="text-gray-600 mt-3">Loading news detail...</p>
-    </div>
-
-    <!-- Error State -->
-    <div id="error-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
-      <div class="w-16 h-16 mx-auto mb-4">
-        <div class="text-red-500 text-5xl">⚠️</div>
-      </div>
-      <h3 class="text-lg font-medium text-gray-900 mb-2">Failed to load news</h3>
-      <p class="text-gray-500">Please try again later.</p>
-    </div>
-    
-    <!-- Article Content -->
-    <article id="article-content" class="bg-white rounded-lg border border-gray-200 overflow-hidden hidden">
-      <div class="p-6 sm:p-8">
-        <div id="badges-container" class="flex flex-wrap items-center gap-2 mb-4"></div>
-        <h1 id="article-title" class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4"></h1>
-        <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
-          <time id="article-date"></time>
-          <span id="article-views"></span>
-        </div>
-      </div>
-
-      <div id="featured-image-container" class="px-6 sm:px-8 hidden">
-        <img id="featured-image" src="" alt="" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
-      </div>
-
-      <div class="p-6 sm:p-8">
-        <div class="prose prose-lg max-w-none">
-          <div id="article-content-text" class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg"></div>
-        </div>
-      </div>
-
-      <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
-        <div class="font-medium text-gray-900">
-          <p id="article-author">Author: Loading...</p>
-        </div>
-        <p class="text-sm text-gray-500">Author</p>
-      </div>
-    </article>
-
-  </div>
+<!-- STATES -->
+<div id="loading-state" class="bg-white rounded-xl2 border border-gray-200 p-10 text-center shadow-sub">
+  <div class="animate-spin h-8 w-8 text-brandred inline-block border-4 border-t-transparent rounded-full"></div>
+  <p class="text-gray-600 mt-3">Loading news detail...</p>
 </div>
 
+<div id="error-state" class="bg-white rounded-xl2 border border-gray-200 p-10 text-center shadow-sub hidden">
+  <div class="text-brandred text-5xl mb-2">⚠️</div>
+  <h3 class="text-lg font-semibold text-ink mb-1">Failed to load news</h3>
+  <p class="text-gray-500">Please try again later.</p>
+</div>
+
+<!-- ARTICLE -->
+<article id="article-content" class="bg-white rounded-xl2 border border-gray-200 overflow-hidden shadow-soft hidden">
+  <div class="p-6 sm:p-8">
+    <div id="badges-container" class="flex flex-wrap items-center gap-2 mb-4"></div>
+    <h1 id="article-title" class="font-heading font-extrabold text-ink text-3xl sm:text-4xl leading-tight mb-3"></h1>
+    <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
+      <time id="article-date"></time>
+      <span id="article-views"></span>
+    </div>
+  </div>
+
+  <div id="featured-image-container" class="px-6 sm:px-8 hidden">
+    <img id="featured-image" src="" alt="" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-xl2 shadow-sub">
+  </div>
+
+  <div class="p-6 sm:p-8">
+    <div id="article-content-text" class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg"></div>
+  </div>
+
+  <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
+    <p id="article-author" class="font-semibold text-ink">Author: Loading...</p>
+    <p class="text-xs text-gray-500">Author</p>
+  </div>
+</article>
+
+<!-- COMMENTS -->
+<section class="mt-6 border-t border-gray-200 p-6 sm:p-8 bg-white rounded-xl2 shadow-sub">
+  <h2 class="text-xl font-heading font-extrabold text-ink mb-4">Comments</h2>
+
+  <div id="comments-container" class="space-y-4 mb-6">
+    <p id="no-comments" class="text-gray-500 text-sm">No comments yet.</p>
+  </div>
+
+  {% if user.is_authenticated %}
+  <form id="comment-form" class="flex gap-2">
+    {% csrf_token %}
+    <textarea id="comment-input" rows="2" class="w-full border border-gray-300 rounded-xl2 p-2 focus:outline-none focus:ring-2 focus:ring-ink/20" placeholder="Write a comment..."></textarea>
+    <button type="submit" class="bg-brandred text-white px-4 py-2 rounded-xl2 font-bold active:translate-y-px">Post</button>
+  </form>
+  {% else %}
+  <p class="text-sm text-gray-500">Please <a href="{% url 'main:login' %}" class="text-brandred underline">login</a> to comment.</p>
+  {% endif %}
+</section>
+
 <script>
-const NEWS_DETAIL_ENDPOINT = "{% url 'news:show_json_by_id' news.id %}";
+  /* Endpoints */
+  const NEWS_DETAIL_ENDPOINT = "{% url 'news:show_json_by_id' news.id %}";
+  const COMMENTS_ENDPOINT    = "{% url 'news:get_comments'   news.id %}";
+  const ADD_COMMENT_ENDPOINT = "{% url 'news:add_comment'    news.id %}";
 
-const loadingState = document.getElementById('loading-state');
-const errorState = document.getElementById('error-state');
-const articleContent = document.getElementById('article-content');
-const badgesContainer = document.getElementById('badges-container');
-const articleTitle = document.getElementById('article-title');
-const articleDate = document.getElementById('article-date');
-const articleViews = document.getElementById('article-views');
-const featuredImageContainer = document.getElementById('featured-image-container');
-const featuredImage = document.getElementById('featured-image');
-const articleContentText = document.getElementById('article-content-text');
-const articleAuthor = document.getElementById('article-author');
-
-function showState(state) {
-  loadingState.classList.toggle('hidden', state !== 'loading');
-  errorState.classList.toggle('hidden', state !== 'error');
-  articleContent.classList.toggle('hidden', state !== 'ready');
-}
-
-function getCategoryLabel(code) {
-  const map = { update:'Update', exclusive:'Exclusive', match:'Match', rumor:'Rumor', analysis:'Analysis' };
-  return map[code] || code;
-}
-
-function renderArticle(news) {
-  articleTitle.textContent = news.title;
-  document.title = `${news.title} - GarudaLounge News`;
-
-  badgesContainer.innerHTML = '';
-  const cat = document.createElement('span');
-  cat.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white';
-  cat.textContent = getCategoryLabel(news.category);
-  badgesContainer.appendChild(cat);
-
-  if (news.is_featured) {
-    const f = document.createElement('span');
-    f.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800';
-    f.textContent = 'Featured';
-    badgesContainer.appendChild(f);
+  /* CSRF via cookie (benar untuk fetch) */
+  function getCookie(name){
+    const v = `; ${document.cookie}`.split(`; ${name}=`);
+    if (v.length === 2) return v.pop().split(';').shift();
   }
-  if (news.news_views > 20) {
-    const h = document.createElement('span');
-    h.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800';
-    h.textContent = 'Hot';
-    badgesContainer.appendChild(h);
+  const CSRF = getCookie('csrftoken');
+
+  /* DOM */
+  const loadingState = document.getElementById('loading-state');
+  const errorState   = document.getElementById('error-state');
+  const articleEl    = document.getElementById('article-content');
+
+  const badgesEl     = document.getElementById('badges-container');
+  const titleEl      = document.getElementById('article-title');
+  const dateEl       = document.getElementById('article-date');
+  const viewsEl      = document.getElementById('article-views');
+  const figWrapEl    = document.getElementById('featured-image-container');
+  const figEl        = document.getElementById('featured-image');
+  const contentEl    = document.getElementById('article-content-text');
+  const authorEl     = document.getElementById('article-author');
+
+  const commentsWrap = document.getElementById('comments-container');
+  const noComments   = document.getElementById('no-comments');
+  const formEl       = document.getElementById('comment-form');
+  const inputEl      = document.getElementById('comment-input');
+
+  function showState(s){
+    loadingState.classList.toggle('hidden', s !== 'loading');
+    errorState.classList.toggle('hidden',   s !== 'error');
+    articleEl.classList.toggle('hidden',    s !== 'ready');
   }
 
-  articleDate.textContent = new Date(news.created_at).toLocaleString();
-  articleViews.textContent = `${news.news_views} views`;
-
-  if (news.thumbnail) {
-    featuredImage.src = news.thumbnail;
-    featuredImage.alt = news.title;
-    featuredImageContainer.classList.remove('hidden');
-  } else {
-    featuredImageContainer.classList.add('hidden');
+  function catLabel(x){
+    const m = { update:'Update', exclusive:'Exclusive', match:'Match', rumor:'Rumor', analysis:'Analysis', transfer:'Transfer' };
+    return m[x] || x;
   }
 
-  articleContentText.textContent = news.content || '';
-  articleAuthor.textContent = `Author: ${news.user_username || 'Anonymous'}`;
-}
-
-async function loadNewsDetail() {
-  try {
-    showState('loading');
-    const res = await fetch(NEWS_DETAIL_ENDPOINT, { headers: { Accept: 'application/json' } });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    renderArticle(data);
-    showState('ready');
-  } catch (err) {
-    console.error('Error loading news detail:', err);
-    showState('error');
+  function badge(text, extraClass){
+    const span = document.createElement('span');
+    span.className = `inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold ${extraClass}`;
+    span.textContent = text;
+    return span;
   }
-}
 
-loadNewsDetail();
+  function renderArticle(n){
+    titleEl.textContent = n.title || '';
+    document.title = `${n.title || 'News Detail'} - GarudaLounge News`;
+
+    badgesEl.innerHTML = '';
+    badgesEl.appendChild(badge(catLabel(n.category), 'bg-ink text-white'));
+    if (n.is_featured) badgesEl.appendChild(badge('Featured', 'bg-yellow-100 text-yellow-800'));
+    if ((n.news_views||0) > 20) badgesEl.appendChild(badge('Hot', 'bg-red-100 text-brandred'));
+
+    if (n.created_at){
+      dateEl.textContent = new Date(n.created_at).toLocaleString();
+    } else { dateEl.textContent = ''; }
+    viewsEl.textContent = `${n.news_views||0} views`;
+
+    if (n.thumbnail){
+      figEl.src = n.thumbnail;
+      figEl.alt = n.title || '';
+      figWrapEl.classList.remove('hidden');
+    } else {
+      figWrapEl.classList.add('hidden');
+    }
+
+    contentEl.textContent = n.content || '';
+    authorEl.textContent  = `Author: ${n.user_username || 'Anonymous'}`;
+  }
+
+  async function loadNews(){
+    try{
+      showState('loading');
+      const r = await fetch(NEWS_DETAIL_ENDPOINT, { headers: { 'Accept': 'application/json' }});
+      if (!r.ok) throw new Error('Failed to fetch');
+      const n = await r.json();
+      renderArticle(n);
+      showState('ready');
+    }catch(e){
+      console.error(e);
+      showState('error');
+    }
+  }
+
+  async function loadComments(){
+    try{
+      const r = await fetch(COMMENTS_ENDPOINT);
+      const data = await r.json();
+      const items = Array.isArray(data.comments) ? data.comments : [];
+      commentsWrap.innerHTML = '';
+      if (!items.length){ noComments.classList.remove('hidden'); return; }
+      noComments.classList.add('hidden');
+      items.forEach(c=>{
+        const el = document.createElement('div');
+        el.className = 'border border-gray-200 p-3 rounded-xl2 bg-white shadow-sub';
+        el.innerHTML = `
+          <p class="font-semibold text-sm">${c.user}</p>
+          <p>${c.content}</p>
+          <p class="text-xs text-gray-500 mt-1">${c.created_at}</p>
+        `;
+        commentsWrap.appendChild(el);
+      });
+    }catch(e){ console.error('comments', e); }
+  }
+
+  if (formEl){
+    formEl.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const content = (inputEl.value || '').trim();
+      if (!content) return;
+
+      try{
+        const r = await fetch(ADD_COMMENT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json', 'X-CSRFToken': CSRF },
+          body: JSON.stringify({ content })
+        });
+        if (!r.ok) throw new Error('Failed');
+        inputEl.value = '';
+        loadComments();
+      }catch(_){ alert('Failed to post comment'); }
+    });
+  }
+
+  // init
+  loadNews();
+  loadComments();
 </script>
-{% endblock content %}
+{% endblock %}
