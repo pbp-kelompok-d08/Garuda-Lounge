@@ -222,11 +222,11 @@
       <span>GarudaLounge</span>
     </div>
     <div class="nav-menu">
-      <a href="{% url 'match:show_match' %}">Match</a>
-      <a href="{% url 'ProfileAktif:show_main' %}">Pemain</a>
-      <a href="{% url 'merchandise:show_merch' %}">Merch</a>
-      <a href="{% url 'news:show_news_main' %}">News</a>
-      <a href="#">Legend</a>
+      <a href="{% url 'match:show_match' %}">match</a>
+      <a href="{% url 'ProfileAktif:show_main' %}">pemain</a>
+      <a href="{% url 'merchandise:show_merch' %}">merch</a>
+      <a href="{% url 'news:show_news_main' %}">news</a>
+      <a href="{% url 'ProfileLegend:show_profile_legend' %}">legend</a>
     </div>
     <div class="nav-right">
       <div class="profile-section">
@@ -257,7 +257,7 @@
 
       <!-- === LIST CARD STYLE === -->
       <div class="hero-buttons">
-        <a href="{% url 'match:show_match' %}"  class="btn">
+        <a href="#" class="btn">
           <span>Jelajahi Jadwal Match</span>
           <button class="lihat">Lihat</button>
         </a>
@@ -273,7 +273,7 @@
           <span>Baca Berita Menarik</span>
           <button class="lihat">Lihat</button>
         </a>
-        <a href="#" class="btn">
+        <a href="{% url 'ProfileLegend:show_profile_legend' %}" class="btn">
           <span>Galeri Pemain Legend</span>
           <button class="lihat">Lihat</button>
         </a>

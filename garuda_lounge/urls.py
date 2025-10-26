@@ -24,5 +24,5 @@ urlpatterns = [
     path('merchandise/', include('merchandise.urls', namespace='merchandise')),
     path("news/", include(("news.urls", "news"), namespace="news")),
     path('ProfileAktif/', include('ProfileAktif.urls', namespace='ProfileAktif')),
-#     path('ProfileLegend/', include('ProfileLegend.urls', namespace='ProfileLegend')),
+    path('ProfileLegend/', include('ProfileLegend.urls', namespace='ProfileLegend')),
  ]

@@ -1,0 +1,308 @@
+{% extends 'base_legend.html' %}
+{% load static %}
+
+{% block title %}Legend Players{% endblock title %}
+
+{% block content %}
+<style>
+  :root{
+    --bg:#E7E3DD; --red:#AA1515; --black:#111; --white:#fff;
+    --red-soft: rgba(170,21,21,.22);
+    --red-soft-2: rgba(170,21,21,.32);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--black);
+  }
+
+  .wrap{
+    max-width:1000px;
+    margin:0 auto;
+    padding:40px 16px;
+    text-align:center;
+  }
+
+  /* Back button */
+  .back-btn {
+    background: var(--red);
+    color: var(--white);
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow:0 4px 10px var(--red-soft);
+    transition:background .2s, transform .2s;
+    margin-bottom: 24px;
+    display:inline-block;
+  }
+  .back-btn:hover{
+    background:#8b1010;
+    transform:translateY(-2px);
+  }
+
+  /* Title */
+  .title{
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    color:var(--red);
+    font-size:1.8rem;
+    margin:24px 0;
+  }
+
+  /* Modal button */
+  .tambah-btn{
+    background:var(--red);
+    color:var(--white);
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .2s;
+    font-family:'Inter',sans-serif;
+  }
+  .tambah-btn:hover{
+    background:#8b1010;
+  }
+
+  /* Grid */
+  .player-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1rem;
+    padding:1rem 0;
+  }
+  @media (max-width:1024px) {
+    .player-grid { grid-template-columns:repeat(3,1fr); }
+  }
+  @media (max-width:768px) {
+    .player-grid { grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:480px) {
+    .player-grid { grid-template-columns:repeat(1,1fr); }
+  }
+
+  /* Card legend */
+  .player-card{
+    background:white;
+    border:1.5px solid var(--red);
+    border-radius:16px;
+    box-shadow:0 4px 10px var(--red-soft);
+    overflow:hidden;
+    transition:.3s;
+    display:flex; flex-direction:column;
+  }
+  .player-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px var(--red-soft-2);
+  }
+
+  .player-card img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+  }
+
+  .player-content{
+    padding:1rem;
+    text-align:left;
+    gap:.3rem;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .player-name{
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    color:var(--red);
+    margin:.2rem 0 .1rem;
+    line-height:1.2;
+  }
+
+  .player-info{ font-size:.9rem; color:#333; margin:.1rem 0; }
+
+  .btn-detail{
+    background:var(--red);
+    color:white;
+    width:100%;
+    border-radius:8px;
+    display:inline-block;
+    text-align:center;
+    padding:8px;
+    margin-top:8px;
+  }
+  .btn-detail:hover{ filter:brightness(1.08); }
+
+  /* Modal */
+  .modal{
+    display:none;
+    position:fixed;
+    z-index:2000;
+    left:0;top:0;width:100%;height:100%;
+    background:rgba(0,0,0,.4);
+    overflow-y:auto;
+  }
+
+  .modal-content{
+    background:white;
+    width:90%;
+    max-width:450px;
+    margin:5% auto;
+    padding:0;
+    border-radius:12px;
+    border:2px solid var(--red);
+    overflow:hidden;
+  }
+
+  .modal-header{
+    padding:18px 22px;
+    border-bottom:2px solid var(--red);
+  }
+
+  .modal-header h2{
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    color:var(--red);
+    margin:0 0 6px;
+  }
+
+  .close{
+    float:right;
+    font-size:24px;
+    cursor:pointer;
+  }
+
+  .form-container{ padding:22px; }
+  .form-group{ margin-bottom:16px; }
+  label{ font-weight:600; font-size:.9rem; }
+
+  input,select{
+    width:100%;
+    padding:10px 12px;
+    border:2px solid #ddd;
+    border-radius:8px;
+    font-family:'Inter',sans-serif;
+  }
+
+  input:focus,select:focus{
+    border-color:var(--red);
+    outline:none;
+    box-shadow:0 0 0 3px var(--red-soft);
+  }
+
+  .submit-btn{
+    width:100%;
+    background:var(--red);
+    color:white;
+    padding:10px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.2s;
+  }
+  .submit-btn:hover{ background:#8b1010; }
+</style>
+
+<div class="wrap">
+  <a href="{% url 'main:show_main' %}" class="back-btn">← Back to Main Page</a>
+
+  <h1 class="title">Pemain Legend Timnas Indonesia</h1>
+
+  <button onclick="showModal()" class="tambah-btn">+ Tambah Legend</button>
+
+  <div id="loading" class="centered hidden">⏳ Loading...</div>
+  <div id="error" class="centered hidden">⚠️ Gagal Muat Data</div>
+  <div id="empty" class="centered hidden">Belum ada legend.</div>
+  <div id="grid" class="player-grid hidden"></div>
+</div>
+
+<!-- Modal -->
+<div id="legendModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Tambah Legend</h2>
+    </div>
+    <div class="form-container">
+      <form id="legendForm" action="{% url 'ProfileLegend:create_legend' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label>Nama</label>
+          <input name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Posisi</label>
+          <select name="position" required>
+            <option value="">Pilih</option>
+            <option value="Kiper">Kiper</option>
+            <option value="Bek">Bek</option>
+            <option value="Gelandang">Gelandang</option>
+            <option value="Penyerang">Penyerang</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Klub</label>
+          <input name="club" required>
+        </div>
+
+        <div class="form-group">
+          <label>Umur</label>
+          <input type="number" name="age" required>
+        </div>
+
+        <div class="form-group">
+          <label>URL Foto</label>
+          <input type="url" name="photo_url">
+        </div>
+
+        <button class="submit-btn">Tambah Legend</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API="{% url 'ProfileLegend:show_json' %}";
+  const grid=document.getElementById("grid");
+  const empty=document.getElementById("empty");
+
+  function showModal(){
+    legendModal.style.display="block";
+  }
+  function closeModal(){
+    legendModal.style.display="none";
+  }
+
+  window.onclick=e=>{
+    if(e.target==legendModal) closeModal();
+  }
+
+  function card(p){
+    return `
+    <div class="player-card">
+      <img src="${p.photo_url || "https://via.placeholder.com/200"}">
+      <div class="player-content">
+        <div class="player-name">${p.name}</div>
+        <p class="player-info"><b>Posisi:</b> ${p.position}</p>
+        <p class="player-info"><b>Klub:</b> ${p.club}</p>
+        <p class="player-info"><b>Umur:</b> ${p.age}</p>
+        <a href="/ProfileLegend/detail/${p.id}/" class="btn-detail">Detail Legend</a>
+      </div>
+    </div>`;
+  }
+
+  async function load(){
+    const r=await fetch(API);
+    const d=await r.json();
+    if(!d.length){ empty.classList.remove("hidden"); return }
+    grid.classList.remove("hidden");
+    grid.innerHTML=d.map(card).join("");
+  }
+
+  load();
+</script>
+
+{% endblock content %}
