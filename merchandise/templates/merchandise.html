@@ -36,11 +36,11 @@
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 6;  /* Safari, Chrome lama */
-    line-clamp: 6;          /* properti standar modern */
+    -webkit-line-clamp: 2;  /* Safari, Chrome lama */
+    line-clamp: 2;          /* properti standar modern */
 
     overflow: hidden;
-    max-height: calc(1.55em * 6);
+    max-height: calc(1.55em * 2);
     word-break: break-word;
   }
 
@@ -48,9 +48,9 @@
   /* mobile: tampilkan lebih sedikit baris biar rapi */
   @media (max-width:640px){
   .excerpt{
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    max-height: calc(1.55em * 4);
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    max-height: calc(1.55em * 2);
   }
 }
 
@@ -237,7 +237,7 @@
         <div style="margin-top:auto; display:flex; gap:12px; align-items:center;">
           <a href="${detailUrl}" class="btn-mini">Lihat →</a>
           ${canEdit ? `
-            <a href="/merchanadise/${n.id}/edit/" class="btn-mini">Edit</a>
+            <a href="/merchandise/${n.id}/edit/" class="btn-mini">Edit</a>
             <button type="button" class="btn-mini delete-merch" data-id="${n.id}" data-url="${deleteUrl}" style="color:#b3261e;">Delete</button>
           ` : ``}
         </div>

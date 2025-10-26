@@ -126,12 +126,12 @@ def add_merch_entry_ajax(request):
 
 #  JSON / XML SERIALIZERS
 def show_xml(request):
-    merch_list = Merch.objects.all().order_by('-created_at')
+    merch_list = Merch.objects.all()
     xml_data = serializers.serialize("xml", merch_list)
     return HttpResponse(xml_data, content_type="application/xml; charset=utf-8")
 
 def show_json(request):
-    merch_list = Merch.objects.select_related('user').all().order_by('-created_at')
+    merch_list = Merch.objects.select_related('user').all()
     data = [
         {
             'id': str(merch.id),

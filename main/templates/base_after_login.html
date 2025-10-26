@@ -223,7 +223,7 @@
     </div>
     <div class="nav-menu">
       <a href="#">match</a>
-      <a href="#">pemain</a>
+      <a href="{% url 'ProfileAktif:show_main' %}">pemain</a>
       <a href="{% url 'merchandise:show_merch' %}">merch</a>
       <a href="{% url 'news:show_news_main' %}">news</a>
       <a href="#">legend</a>
@@ -261,7 +261,7 @@
           <span>Jelajahi Jadwal Match</span>
           <button class="lihat">Lihat</button>
         </a>
-        <a href="#" class="btn">
+        <a href="{% url 'ProfileAktif:show_main' %}" class="btn">
           <span>Daftar Pemain Aktif</span>
           <button class="lihat">Lihat</button>
         </a>

@@ -48,9 +48,9 @@
 
       {% with urlname=request.resolver_match.url_name %}
       <div class="hidden sm:flex items-center gap-6 text-sm font-semibold">
-        <a href="/match/"  class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">match</a>
-        <a href="/pemain/" class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">pemain</a>
-        <a href="/merchandise/"  class="relative {% if urlname in 'show_merch show_merch_detail create_merch edit_merch' %}text-brandred{% endif %} hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:bg-brandred after:transition-all {% if urlname in 'show_merch show_merch_detail create_merch edit_merch' %}after:w-full{% else %}after:w-0 hover:after:w-full{% endif %}">
+        <a href="{% url 'match:show_match' %}"  class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">match</a>
+        <a href="{% url 'ProfileAktif:show_main' %}" class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">pemain</a>
+        <a href="{% url 'merchandise:show_merch' %}"  class="relative {% if urlname in 'show_merch show_merch_detail create_merch edit_merch' %}text-brandred{% endif %} hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:bg-brandred after:transition-all {% if urlname in 'show_merch show_merch_detail create_merch edit_merch' %}after:w-full{% else %}after:w-0 hover:after:w-full{% endif %}">
           merch
         </a>
 
