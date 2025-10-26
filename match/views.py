@@ -18,15 +18,16 @@ def show_match(request):
     }
     return render(request, "match.html", context)
 
-def add_match(request):
-    form = PertandinganForm(request.POST or None)
+# Diganti karena sudah ada yang pakai ajax
+# def add_match(request):
+#     form = PertandinganForm(request.POST or None)
 
-    if form.is_valid() and request.method == "POST":
-        form.save()
-        return redirect('match:show_match')
+#     if form.is_valid() and request.method == "POST":
+#         form.save()
+#         return redirect('match:show_match')
 
-    context = {'form': form}
-    return render(request, "add_match.html", context)
+#     context = {'form': form}
+#     return render(request, "add_match.html", context)
 
 def show_match_details(request, id):
     pertandingan = get_object_or_404(Pertandingan, pk=id)
@@ -89,18 +90,19 @@ def show_match_details(request, id):
     
     return render(request, 'match_details.html', context)
 
-def edit_match(request, id):
-    pertandingan = get_object_or_404(Pertandingan, pk=id)
-    form = PertandinganForm(request.POST or None, instance=pertandingan)
-    if form.is_valid() and request.method == 'POST':
-        form.save()
-        return redirect('match:show_match')
+# Diganti karena sudah pakai yang versi ajax
+# def edit_match(request, id):
+#     pertandingan = get_object_or_404(Pertandingan, pk=id)
+#     form = PertandinganForm(request.POST or None, instance=pertandingan)
+#     if form.is_valid() and request.method == 'POST':
+#         form.save()
+#         return redirect('match:show_match')
 
-    context = {
-        'form': form
-    }
+#     context = {
+#         'form': form
+#     }
 
-    return render(request, "edit_match.html", context)
+#     return render(request, "edit_match.html", context)
 
 def delete_match(request, id):
     pertandingan = get_object_or_404(Pertandingan, pk=id)
@@ -154,51 +156,52 @@ def show_match_json(request):
 
     return JsonResponse(data, safe=False)
     
-def show_json_by_id(request, match_id):
-    try:
-        p = Pertandingan.objects.select_related('user').get(pk=match_id)
-        data = {
-           'id': str(p.id),
-            'jenis_pertandingan': str(p.jenis_pertandingan),
-            'tim_tuan_rumah': str(p.tim_tuan_rumah),
-            'tim_tamu': str(p.tim_tamu),
-            'bendera_tuan_rumah': str(p.bendera_tuan_rumah),
-            'bendera_tamu': str(p.bendera_tamu),
-            'tanggal': str(p.tanggal),
-            'stadion': str(p.stadion),
-            'skor_tuan_rumah': str(p.skor_tuan_rumah),
-            'skor_tamu': str(p.skor_tamu),
-            'pencetak_gol_tuan_rumah': str(p.pencetak_gol_tuan_rumah),
-            'pencetak_gol_tamu': str(p.pencetak_gol_tamu),
-            'starter_tuan_rumah': str(p.starter_tuan_rumah),
-            'starter_tamu': str(p.starter_tamu),
-            'pengganti_tuan_rumah': str(p.pengganti_tuan_rumah),
-            'pengganti_tamu': str(p.pengganti_tamu),
-            'manajer_tuan_rumah': str(p.manajer_tuan_rumah),
-            'manajer_tamu': str(p.manajer_tamu),
-            'highlight': str(p.highlight),
-            'penguasaan_bola_tuan_rumah': str(p.penguasaan_bola_tuan_rumah),
-            'penguasaan_bola_tamu': str(p.penguasaan_bola_tamu),
-            'tembakan_tuan_rumah': str(p.tembakan_tuan_rumah),
-            'tembakan_tamu': str(p.tembakan_tamu),
-            'on_target_tuan_rumah': str(p.on_target_tuan_rumah),
-            'on_target_tamu': str(p.on_target_tamu),
-            'akurasi_umpan_tuan_rumah': str(p.akurasi_umpan_tuan_rumah),
-            'akurasi_umpan_tamu': str(p.akurasi_umpan_tamu),
-            'pelanggaran_tuan_rumah': str(p.pelanggaran_tuan_rumah),
-            'pelanggaran_tamu': str(p.pelanggaran_tamu),
-            'kartu_kuning_tuan_rumah': str(p.kartu_kuning_tuan_rumah),
-            'kartu_kuning_tamu': str(p.kartu_kuning_tamu),
-            'kartu_merah_tuan_rumah': str(p.kartu_merah_tuan_rumah),
-            'kartu_merah_tamu': str(p.kartu_merah_tamu),
-            'offside_tuan_rumah': str(p.offside_tuan_rumah),
-            'offside_tamu': str(p.offside_tamu),
-            'corner_tuan_rumah': str(p.corner_tuan_rumah),
-            'corner_tamu': str(p.corner_tamu),   
-        }
-        return JsonResponse(data)
-    except Pertandingan.DoesNotExist:
-        return JsonResponse({'detail': 'Not found'}, status=404)
+# def show_json_by_id(request, match_id):
+#     try:
+#         p = Pertandingan.objects.select_related('user').get(pk=match_id)
+#         data = {
+#            'id': str(p.id),
+#             'jenis_pertandingan': str(p.jenis_pertandingan),
+#             'tim_tuan_rumah': str(p.tim_tuan_rumah),
+#             'tim_tamu': str(p.tim_tamu),
+#             'bendera_tuan_rumah': str(p.bendera_tuan_rumah),
+#             'bendera_tamu': str(p.bendera_tamu),
+#             'tanggal': str(p.tanggal),
+#             'stadion': str(p.stadion),
+#             'skor_tuan_rumah': str(p.skor_tuan_rumah),
+#             'skor_tamu': str(p.skor_tamu),
+#             'pencetak_gol_tuan_rumah': str(p.pencetak_gol_tuan_rumah),
+#             'pencetak_gol_tamu': str(p.pencetak_gol_tamu),
+#             'starter_tuan_rumah': str(p.starter_tuan_rumah),
+#             'starter_tamu': str(p.starter_tamu),
+#             'pengganti_tuan_rumah': str(p.pengganti_tuan_rumah),
+#             'pengganti_tamu': str(p.pengganti_tamu),
+#             'manajer_tuan_rumah': str(p.manajer_tuan_rumah),
+#             'manajer_tamu': str(p.manajer_tamu),
+#             'highlight': str(p.highlight),
+#             'penguasaan_bola_tuan_rumah': str(p.penguasaan_bola_tuan_rumah),
+#             'penguasaan_bola_tamu': str(p.penguasaan_bola_tamu),
+#             'tembakan_tuan_rumah': str(p.tembakan_tuan_rumah),
+#             'tembakan_tamu': str(p.tembakan_tamu),
+#             'on_target_tuan_rumah': str(p.on_target_tuan_rumah),
+#             'on_target_tamu': str(p.on_target_tamu),
+#             'akurasi_umpan_tuan_rumah': str(p.akurasi_umpan_tuan_rumah),
+#             'akurasi_umpan_tamu': str(p.akurasi_umpan_tamu),
+#             'pelanggaran_tuan_rumah': str(p.pelanggaran_tuan_rumah),
+#             'pelanggaran_tamu': str(p.pelanggaran_tamu),
+#             'kartu_kuning_tuan_rumah': str(p.kartu_kuning_tuan_rumah),
+#             'kartu_kuning_tamu': str(p.kartu_kuning_tamu),
+#             'kartu_merah_tuan_rumah': str(p.kartu_merah_tuan_rumah),
+#             'kartu_merah_tamu': str(p.kartu_merah_tamu),
+#             'offside_tuan_rumah': str(p.offside_tuan_rumah),
+#             'offside_tamu': str(p.offside_tamu),
+#             'corner_tuan_rumah': str(p.corner_tuan_rumah),
+#             'corner_tamu': str(p.corner_tamu),   
+#         }
+#         return JsonResponse(data)
+#     except Pertandingan.DoesNotExist:
+#         return JsonResponse({'detail': 'Not found'}, status=404)
+
 
 @require_POST # Memastikan view ini hanya menerima request POST
 def add_match_ajax(request):

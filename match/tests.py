@@ -1,5 +1,10 @@
 from django.test import TestCase, Client
+
+from match.forms import PertandinganForm
 from .models import Pertandingan
+from django.urls import reverse
+import uuid
+import datetime
 
 class MatchTest(TestCase):
     def test_match_url_is_exist(self):
@@ -26,7 +31,7 @@ class MatchTest(TestCase):
             skor_tuan_rumah=1,
             skor_tamu=0,
             pencetak_gol_tuan_rumah="Zidane Iqbal 76'",
-            #pencetak_gol_tamu="", # coba ini
+            pencetak_gol_tamu="", # coba ini
             starter_tuan_rumah="Jalal Hasan;Hussein Ali;Zaid Tahseen;Merchas Doski;Manaf Younis;Bashar Resan;Amir Al-Ammari;Kevin Yakob;Ibrahim Bayesh;Mohamed Ali;Sherko Karim Gubari",
             starter_tamu="Maarten Paes;Dean James;Jay Idzes;Kevin Diks;Rizky Ridho;Thom Haye;Calvin Verdonk;Joey Pelupessy; Ricky Kambuaya;Eliano Reijnders;Mauro Ziljstra",
             pengganti_tuan_rumah="Rebin Sulaka;Youssef Amyn;Zidane Iqbal;Ali jAsim;Amar Muhsin;Fahad Talib;Akam Hashim;Hasan Abdulkareem;Ahmed Al-Hajjaj;Aimar Sher;Mustafa Saadoon;Ahmed Basil",
@@ -63,7 +68,7 @@ class MatchTest(TestCase):
         self.assertEqual(pertandingan.skor_tuan_rumah, 1)
         self.assertEqual(pertandingan.skor_tamu, 0)
         self.assertEqual(pertandingan.pencetak_gol_tuan_rumah, "Zidane Iqbal 76'")
-        #self.assertEqual(pertandingan.pencetak_gol_tamu, "")
+        self.assertEqual(pertandingan.pencetak_gol_tamu, "")
         self.assertEqual(pertandingan.starter_tuan_rumah, "Jalal Hasan;Hussein Ali;Zaid Tahseen;Merchas Doski;Manaf Younis;Bashar Resan;Amir Al-Ammari;Kevin Yakob;Ibrahim Bayesh;Mohamed Ali;Sherko Karim Gubari")
         self.assertEqual(pertandingan.starter_tamu, "Maarten Paes;Dean James;Jay Idzes;Kevin Diks;Rizky Ridho;Thom Haye;Calvin Verdonk;Joey Pelupessy; Ricky Kambuaya;Eliano Reijnders;Mauro Ziljstra")
         self.assertEqual(pertandingan.pengganti_tuan_rumah, "Rebin Sulaka;Youssef Amyn;Zidane Iqbal;Ali jAsim;Amar Muhsin;Fahad Talib;Akam Hashim;Hasan Abdulkareem;Ahmed Al-Hajjaj;Aimar Sher;Mustafa Saadoon;Ahmed Basil")
@@ -116,3 +121,80 @@ class MatchTest(TestCase):
         self.assertEqual(pertandingan.offside_tamu,0)
         self.assertEqual(pertandingan.corner_tuan_rumah,0)
         self.assertEqual(pertandingan.corner_tamu,0)
+
+
+class MatchViewsTestCase(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.match1_uuid = uuid.uuid4()
+        self.match2_uuid = uuid.uuid4()
+
+        # Data dummy
+        self.pertandingan1 = Pertandingan.objects.create(
+            id=self.match1_uuid,
+            jenis_pertandingan="Kualifikasi Piala Dunia",
+            tim_tuan_rumah="Indonesia",
+            tim_tamu="Irak",
+            tanggal="2025/12/01",
+            skor_tuan_rumah=0,
+            skor_tamu=2,
+        )
+        self.pertandingan2 = Pertandingan.objects.create(
+            id=self.match2_uuid,
+            jenis_pertandingan="Piala Asia",
+            tim_tuan_rumah="Jepang",
+            tim_tamu="Indonesia",
+            tanggal="2025/12/01",
+            skor_tuan_rumah=3,
+            skor_tamu=1,
+        )
+        
+        # Data valid untuk form POST
+        self.valid_form_data = {
+            "jenis_pertandingan": "Persahabatan",
+            "tim_tuan_rumah": "Timor Leste",
+            "tim_tamu": "Indonesia",
+            "tanggal": "2025/12/01",
+            "skor_tuan_rumah": 0,
+            "skor_tamu": 5,
+        }
+        
+        # Data tidak valid untuk form POST 
+        self.invalid_form_data = {
+            "jenis_pertandingan": "Test Invalid",
+            "tim_tuan_rumah": "Tim A",
+            "tim_tamu": "Tim B",
+            "tanggal": 123, 
+            "skor_tuan_rumah": 1,
+            "skor_tamu": 1,
+        }
+    
+    # Berhasil Menghapus dan redirect
+    def test_delete_match_view_success(self):
+        match_to_delete_id = self.pertandingan1.id 
+        url = reverse('match:delete_match', args=[match_to_delete_id])
+        initial_count = Pertandingan.objects.count()
+
+        response = self.client.post(url) 
+
+        # Cek status dan URL redirect
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('match:show_match'))
+
+        # Cek apakah objek sudah terhapus dari database
+        self.assertEqual(Pertandingan.objects.count(), initial_count - 1)
+        with self.assertRaises(Pertandingan.DoesNotExist):
+            Pertandingan.objects.get(pk=match_to_delete_id)
+
+    # Delete match yang tidak ada
+    def test_delete_match_view_not_found(self):
+        non_existent_uuid = uuid.uuid4() # Buat UUID acak yang tidak ada
+        url = reverse('match:delete_match', args=[non_existent_uuid])
+
+        # Coba akses URL dengan id yang tidak ada
+        response = self.client.post(url)
+
+        # Cek status
+        self.assertEqual(response.status_code, 404)
+        
