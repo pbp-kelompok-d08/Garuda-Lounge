@@ -16,11 +16,11 @@ from .models import LandingPage
 @login_required(login_url='/login')
 def show_main(request):
     items = [
-        {"title": "Jelajahi Jadwal Match", "link": "#"},
+        {"title": "Jelajahi Jadwal Match", "link": "/match/"},
         {"title": "Daftar Pemain Aktif", "link": reverse("ProfileAktif:show_main")},
         {"title": "Koleksi Merchandise", "link": "/merchandise/"},
         {"title": "Baca Berita Menarik", "link": "/news/"},
-        {"title": "Galeri Pemain Legend", "link": "#"},
+        {"title": "Galeri Pemain Legend", "link": "/ProfileLegend/"},
     ]
 
     context = {

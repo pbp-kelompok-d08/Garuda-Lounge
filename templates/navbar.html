@@ -185,8 +185,8 @@
 
             <div class="nav-menu">
                 <a href="{% url 'match:show_match' %}">Match</a>
-                <a href="#">Pemain</a>
-                <a href="#">Merch</a>
+                <a href="{% url 'ProfileAktif:show_main' %}">Pemain</a>
+                <a href="{% url 'merchandise:show_merch' %}">Merch</a>
                 <a href="{% url 'news:show_news_main' %}" class="active">News</a>
                 <a href="#">Legend</a>
             </div>
@@ -236,9 +236,9 @@
             </div>
 
             <div class="nav-menu">
-                <a href="#">match</a>
-                <a href="#">pemain</a>
-                <a href="#">merch</a>
+                <a href="{% url 'match:show_match' %}">Match</a>
+                <a href="{% url 'ProfileAktif:show_main' %}">Pemain</a>
+                <a href="{% url 'merchandise:show_merch' %}">Merch</a>
                 <a href="{% url 'news:show_news_main' %}" class="active">news</a>
                 <a href="#">legend</a>
             </div>
