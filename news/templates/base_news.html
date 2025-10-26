@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Garuda Lounge{% endblock %}</title>
+
+  <!-- Fonts: Montserrat (800/900) & Inter (500/600) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Montserrat:wght@800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN + custom palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#E7E3DD',
+            brandred: '#AA1515',
+            ink: '#111111',
+            pure: '#FFFFFF',
+          },
+          boxShadow: {
+            soft: '0 6px 18px rgba(17,17,17,0.08)',
+            sub: '0 2px 6px rgba(17,17,17,0.06)',
+          },
+          borderRadius: { xl2: '14px' },
+          fontFamily: {
+            heading: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-cream text-ink font-body font-medium">
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-10 bg-white/70 backdrop-blur-md shadow-sub">
+    <nav class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="{% static 'images/garuda_logo.png' %}" alt="GarudaLounge Logo" class="w-9 h-9 object-contain" />
+        <span class="font-heading font-extrabold text-brandred text-lg tracking-tight">GarudaLounge</span>
+      </div>
+
+      {% with urlname=request.resolver_match.url_name %}
+      <div class="hidden sm:flex items-center gap-6 text-sm font-semibold">
+        <a href="/match/"  class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">match</a>
+        <a href="/pemain/" class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">pemain</a>
+        <a href="/merch/"  class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">merch</a>
+
+        <a href="{% url 'news:show_news_main' %}"
+           class="relative {% if urlname in 'show_news_main show_news_detail show_news_detail_slug create_news edit_news' %}text-brandred{% endif %} hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:bg-brandred after:transition-all {% if urlname in 'show_news_main show_news_detail show_news_detail_slug create_news edit_news' %}after:w-full{% else %}after:w-0 hover:after:w-full{% endif %}">
+           news
+        </a>
+
+        <a href="/legend/" class="relative hover:text-brandred after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 hover:after:w-full after:bg-brandred after:transition-all">legend</a>
+      </div>
+      {% endwith %}
+
+      <div class="flex items-center gap-3">
+        {% if request.user.is_authenticated %}
+          <div class="flex items-center gap-2 bg-pure px-3 py-1.5 rounded-full shadow-sub text-brandred font-semibold">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user" class="w-7 h-7 rounded-full object-cover" />
+            <span>{{ request.user.username }}</span>
+          </div>
+          <form action="{% url 'main:logout_user' %}" method="post" class="m-0">
+            {% csrf_token %}
+            <button class="bg-brandred text-white px-3.5 py-2 rounded-xl2 font-bold active:translate-y-px">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="bg-brandred text-white px-3.5 py-2 rounded-xl2 font-bold active:translate-y-px">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  <!-- Subbar (otomatis by url_name) -->
+  {% with urlname=request.resolver_match.url_name %}
+  <div class="max-w-6xl mx-auto px-6 pt-2">
+    {% if urlname == 'show_news_main' %}
+      <a href="{% url 'main:show_main' %}" class="inline-flex items-center gap-2 text-sm font-bold text-white bg-brandred px-3 py-2 rounded-xl2 shadow-sub">← Back to Main Page</a>
+    {% elif urlname in 'show_news_detail show_news_detail_slug create_news edit_news' %}
+      <a href="{% url 'news:show_news_main' %}" class="inline-flex items-center gap-2 text-sm font-bold text-white bg-brandred px-3 py-2 rounded-xl2 shadow-sub">← Back to News</a>
+    {% endif %}
+  </div>
+  {% endwith %}
+
+  <main class="max-w-6xl mx-auto px-6 py-8">
+    {% if messages %}
+      {% for m in messages %}
+        <div class="mb-3 rounded-xl2 border border-emerald-200 bg-emerald-50 px-3 py-2 text-emerald-800 shadow-sub">{{ m }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
