@@ -30,26 +30,46 @@
         <span>Garuda </span> <span>Lounge </span> <span>Match</span>
     </h1>
 
-    {% if user.is_superuser %}
-      <div style="text-align: center; margin: 20px 0;">
-          <!-- <a href="{% url 'match:add_match' %}"> -->
-              <button onclick="showMatchModal()" style="
-                  background-color: #a4161a;
-                  color: white;
-                  border: none;
-                  padding: 10px 16px;
-                  border-radius: 8px;
-                  font-weight: 600;
-                  cursor: pointer;
-                  transition: 0.3s;
-              "
-              onmouseover="this.style.backgroundColor='#6e0f11'"
-              onmouseout="this.style.backgroundColor='#a4161a'">
-                  + Tambah Match
-              </button>
-          <!-- </a> -->
+    <div class="mb-6 flex flex-wrap justify-start items-center gap-4"> 
+        
+      {% if user.is_superuser %}
+        <div> 
+            <button type="button" onclick="showMatchModal()" style="
+                    background-color: #a4161a;
+                    color: white;
+                    border: none;
+                    padding: 10px 16px; /* Padding besar */
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: 0.3s;
+                "
+                onmouseover="this.style.backgroundColor='#6e0f11'"
+                onmouseout="this.style.backgroundColor='#a4161a'">
+                + Tambah Match
+            </button>
+        </div>
+      {% endif %}
+
+
+      <div class="flex flex-wrap justify-center gap-3">
+            <button type="button" class="filter-button active" data-filter="all" onclick="filterMatches('all')">
+                Semua Match
+            </button>
+            <button type="button" class="filter-button" data-filter="kualifikasi piala dunia" onclick="filterMatches('kualifikasi piala dunia')">
+                Kualifikasi Piala Dunia
+            </button>
+            <button type="button" class="filter-button" data-filter="piala asia" onclick="filterMatches('piala asia')">
+                Piala Asia
+            </button>
+            <button type="button" class="filter-button" data-filter="piala asean" onclick="filterMatches('piala asean')"> Piala ASEAN 
+            </button>
+            <button type="button" class="filter-button" data-filter="pertandingan persahabatan" onclick="filterMatches('pertandingan persahabatan')">
+                Pertandingan Persahabatan
+            </button>
+        </div>
+        
       </div>
-    {% endif %}
 
     <div id="loading" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
       <svg class="animate-spin h-8 w-8 text-red-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -76,17 +96,18 @@
 
 // Configuration
 const MATCH_API_ENDPOINT = "{% url 'match:show_match_json' %}";
-const CURRENT_USER_ID = "{{ user.id|default_if_none:'' }}"; // Untuk tombol Edit/Delete
-const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";
+const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";  // Untuk tombol Edit/Delete
 
 // DOM Elements
 const loadingSpinner = document.getElementById('loading');
 const errorMessage = document.getElementById('error');
 const emptyStateDisplay = document.getElementById('empty');
 const matchGridContainer = document.getElementById('grid');
+const filterButtons = document.querySelectorAll('.filter-button'); // Ambil semua tombol filter
 
 // State Variable
 let allMatchData = [];
+let currentFilter = 'all';
 
 function toTitleCase(str) {
   if (!str) return ''; // Mengatasi string kosong
@@ -109,12 +130,19 @@ function displayPageSection({ showLoading = false, showError = false, showEmpty 
   }
 }
 
-/**
- * ===================================================================
- * FUNGSI UTAMA BARU: Membangun Kartu Pertandingan
- * Ini adalah pengganti buildNewsCardElement()
- * ===================================================================
- */
+function updateButtonStyles() {
+    filterButtons.forEach(button => {
+        const filterValue = button.getAttribute('data-filter');
+        // Tambah/Hapus kelas 'active' berdasarkan currentFilter
+        if (filterValue.toLowerCase() === currentFilter.toLowerCase()) {
+            button.classList.add('active'); 
+        } else {
+            button.classList.remove('active');
+        }
+    });
+}
+
+
 function buildMatchCardElement(item) {
     const article = document.createElement('article');
     // Ini adalah HTML/CSS dari file card_match.html Anda sebelumnya
@@ -196,16 +224,36 @@ function buildMatchCardElement(item) {
 
 // Render semua kartu pertandingan
 function renderAllMatchCards(matchItems) {
-  matchGridContainer.innerHTML = '';
-  if (matchItems.length === 0) {
+  matchGridContainer.innerHTML = ''; // Kosongkan grid
+
+  // Filter data berdasarkan currentFilter [Permintaan #1]
+  const filteredMatches = allMatchData.filter(item => {
+      if (currentFilter === 'all') {
+          return true; // Tampilkan semua
+      }
+      // Perbandingan aman (case-insensitive & handle null)
+      const jenisPertandinganLower = (item.jenis_pertandingan ?? '').toLowerCase();
+      return jenisPertandinganLower === currentFilter.toLowerCase();
+  });
+
+  // Render hasil filter
+  if (filteredMatches.length === 0) {
+    emptyStateDisplay.querySelector('h3').textContent = `Tidak ada pertandingan "${toTitleCase(currentFilter)}"`;
+    emptyStateDisplay.querySelector('p').textContent = 'Coba pilih filter lain atau tambahkan pertandingan baru.';
     displayPageSection({ showEmpty: true });
   } else {
-    matchItems.forEach(item => {
+    filteredMatches.forEach(item => {
       const cardElement = buildMatchCardElement(item);
       matchGridContainer.appendChild(cardElement);
     });
     displayPageSection({ showGrid: true });
   }
+}
+
+function filterMatches(category) {
+    currentFilter = category.toLowerCase(); // Update state filter (selalu lowercase)
+    renderAllMatchCards();    // Render ulang kartu
+    updateButtonStyles();     // Update style tombol
 }
 
 // Fetch data pertandingan dari server
@@ -223,6 +271,8 @@ async function fetchMatchesFromServer() {
 
     const matchData = await response.json();
     allMatchData = matchData || [];
+    renderAllMatchCards(); // Render pertama kali (filter 'all')
+    updateButtonStyles(); // Set style tombol 'all' aktif
     
     renderAllMatchCards(allMatchData);
   } catch (error) {

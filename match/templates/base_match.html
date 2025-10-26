@@ -343,6 +343,36 @@
           transform: scale(1.05);
       }
 
+      .filter-button {
+            /* Style dasar (tidak aktif) [Permintaan #3] */
+            background-color: #ffffff; /* Background putih */
+            color: #a4161a;            /* Teks merah */
+            border: 2px solid #a4161a; /* Border merah */
+            padding: 10px 16px;        /* Padding SAMA dengan tombol Add Match */
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s; 
+            box-sizing: border-box; 
+        }
+
+        .filter-button:hover {
+            background-color: #fcebeb; 
+            transform: scale(1.03);    
+        }
+
+        .filter-button.active {
+            /* Style aktif (sama seperti Add Match) [Permintaan #3] */
+            background-color: #a4161a; 
+            color: white;            
+            border-color: #a4161a;     /* Atau transparent */
+        }
+
+        .filter-button.active:hover {
+            background-color: #7f0f12; 
+            transform: scale(1.03);    
+        }
+
     </style>
   </head>
   <body class="bg-cream min-h-screen flex flex-col">
