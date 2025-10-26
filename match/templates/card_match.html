@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Card</title>
     <style>
+
+        /* btw ini tidak kepakai karena card pertandingan diformat pakai script yang ada di match.html, terus style nya dibawa ke base_match.htmml */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f4f4;
@@ -14,7 +16,7 @@
             padding: 20px;
         }
 
-        /* Kontainer card pertandingan */
+        /* container card pertandingan */
         .card-match {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
@@ -25,12 +27,11 @@
             padding: 16px;
         }
 
-        /* Header card untuk jenis pertandingan dan tanggal */
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85em; /* 14px beda sama root yang 16px */
+            font-size: 0.85em; 
             color: #555;
             border-bottom: 1px solid #f0f0f0;
             padding-bottom: 12px;
@@ -45,58 +46,56 @@
             text-align: right;
         }
 
-        /* Body kartu (tim, skor, dan highlight) */
         .card-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px; /* jarak antara bendera dan skor dengan tombol highlight */
+            gap: 16px; 
         }
 
-        /* Kolom kiri: berisi 2 baris tim */
+
         .match-details {
-            flex-grow: 1; /* Ambil sisa ruang */
+            flex-grow: 1; 
             display: flex;
             flex-direction: column;
-            gap: 16px; /* Jarak antara baris tim tuan rumah dan tim tamu */
+            gap: 16px; 
         }
 
-        /* Satu baris tim (Info vs Skor) */
+   
         .team-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* Info tim (Bendera & Nama) */
         .team-info {
             display: flex;
             align-items: center;
-            gap: 12px; /* Jarak antara bendera dan nama */
+            gap: 12px;
         }
 
         .team-info img {
-            width: 40px; /* Ukuran bendera */
+            width: 40px;
             height: auto;
             border: 1px solid #eee;
             border-radius: 4px;
         }
 
         .team-info span {
-            font-size: 1.1em; /* 18px */
+            font-size: 1.1em;
             font-weight: 600;
             color: #333;
         }
 
-        /* Skor (di paling kanan baris tim) */
+    
         .skor {
-            font-size: 1.2em; /* 20px */
+            font-size: 1.2em; 
             font-weight: 700;
             color: #111;
-            padding-left: 16px; /* Jarak agar tidak menempel nama tim jika nama terlalu panjang */
+            padding-left: 16px; 
         }
 
-        /* Tombol Highlight (Kolom kanan) */
+
         .highlight-link a {
             display: block;
             background-color: #f0f0f0;
@@ -106,7 +105,7 @@
             color: #333;
             font-weight: 600;
             font-size: 0.9em;
-            white-space: nowrap; /* Mencegah teks "Lihat Highlight" terpotong */
+            white-space: nowrap; 
             transition: background-color 0.2s;
         }
 

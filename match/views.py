@@ -222,9 +222,9 @@ def add_match_ajax(request):
 # Ambil data dari match yang udah ada untuk dibuatkan form edit nya
 def get_edit_form_html(request, id):
     pertandingan = get_object_or_404(Pertandingan, pk=id)
-    form = PertandinganForm(instance=pertandingan) # Buat form yang sudah diisi
+    form = PertandinganForm(instance=pertandingan) # Ambil form berisi data pertandingan
     
-    # Render file partial _partial_edit_form.html menjadi string
+    # Render html form nya
     html = render_to_string('form.html', {'form': form}, request=request)
     
     return JsonResponse({'html': html})

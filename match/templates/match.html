@@ -93,7 +93,6 @@
 
 
 <script>
-
 // Configuration
 const MATCH_API_ENDPOINT = "{% url 'match:show_match_json' %}";
 const IS_SUPERUSER_STRING = "{{ user.is_superuser|yesno:'true,false' }}";  // Untuk tombol Edit/Delete
@@ -125,7 +124,6 @@ function displayPageSection({ showLoading = false, showError = false, showEmpty 
   matchGridContainer.classList.toggle('hidden', !showGrid);
   
   if (showGrid) {
-    // Terapkan kelas grid dari match.html lama Anda
     matchGridContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
   }
 }
@@ -133,7 +131,7 @@ function displayPageSection({ showLoading = false, showError = false, showEmpty 
 function updateButtonStyles() {
     filterButtons.forEach(button => {
         const filterValue = button.getAttribute('data-filter');
-        // Tambah/Hapus kelas 'active' berdasarkan currentFilter
+        // Tentukan button filter yang dipilih agar di-styling
         if (filterValue.toLowerCase() === currentFilter.toLowerCase()) {
             button.classList.add('active'); 
         } else {
@@ -145,7 +143,6 @@ function updateButtonStyles() {
 
 function buildMatchCardElement(item) {
     const article = document.createElement('article');
-    // Ini adalah HTML/CSS dari file card_match.html Anda sebelumnya
     article.className = 'card-match'; 
 
     // Sanitasi data untuk keamanan (dari main.html)
@@ -160,21 +157,19 @@ function buildMatchCardElement(item) {
     const skorTamu = DOMPurify.sanitize(item.skor_tamu);
     const highlightLink = DOMPurify.sanitize(item.highlight);
 
-   // URL untuk tombol (dari main.html)
+   // URL untuk tombol match details dan delete
     const linkDetail = `{% url 'match:show_match_details' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
     const linkDelete = `{% url 'match:delete_match' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', item.id);
 
-    // Tombol Edit/Delete (hanya untuk superuser)
+    // Tombol edit dan delete (hanya untuk superuser)
     let editDeleteHtml = ''; 
     if (IS_SUPERUSER_STRING === "true") {
-        // 1. Perbaiki HTML yang rusak & tambahkan kelas baru
         editDeleteHtml = `<div class='flex space-x-2'>
             <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
             <a href='${linkDelete}' class='card-action-link card-action-delete'>Delete</a>
           </div>`;
     }
 
-    // Ini adalah struktur HTML dari file card_match.html Anda
     const cardHtml = `
         <div class="card-header">
             <span class="jenis-pertandingan">
@@ -225,12 +220,12 @@ function buildMatchCardElement(item) {
 function renderAllMatchCards(matchItems) {
   matchGridContainer.innerHTML = ''; // Kosongkan grid
 
-  // Filter data berdasarkan currentFilter [Permintaan #1]
+  // Filter data berdasarkan currentFilter 
   const filteredMatches = allMatchData.filter(item => {
       if (currentFilter === 'all') {
-          return true; // Tampilkan semua
+          return true; // Tampilkan semua card pertandingan
       }
-      // Perbandingan aman (case-insensitive & handle null)
+      // Ubah jadi case insensitive
       const jenisPertandinganLower = (item.jenis_pertandingan ?? '').toLowerCase();
       return jenisPertandinganLower === currentFilter.toLowerCase();
   });
@@ -250,7 +245,7 @@ function renderAllMatchCards(matchItems) {
 }
 
 function filterMatches(category) {
-    currentFilter = category.toLowerCase(); // Update state filter (selalu lowercase)
+    currentFilter = category.toLowerCase(); // Update state filter 
     renderAllMatchCards();    // Render ulang kartu
     updateButtonStyles();     // Update style tombol
 }
@@ -270,7 +265,7 @@ async function fetchMatchesFromServer() {
 
     const matchData = await response.json();
     allMatchData = matchData || [];
-    renderAllMatchCards(); // Render pertama kali (filter 'all')
+    renderAllMatchCards(); // Render pertama kali pakai filter 'all'
     updateButtonStyles(); // Set style tombol 'all' aktif
     
     renderAllMatchCards(allMatchData);
@@ -280,7 +275,7 @@ async function fetchMatchesFromServer() {
   }
 }
 
-// Bakal digunakan buat hapus dan edit match juga
+// Bakal digunakan buat edit match juga
 document.addEventListener('matchAdded', function() {
     // Refresh data without page reload
     fetchMatchesFromServer();

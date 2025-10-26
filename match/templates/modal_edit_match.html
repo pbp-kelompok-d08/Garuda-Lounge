@@ -23,11 +23,11 @@
             
         <div id="edit-form-content" class="px-6 pt-1 pb-5 space-y-2 font-[Inter] text-[#111111]">
             
-            <div id="edit-form-loading" class="text-center p-8">
+            <!-- <div id="edit-form-loading" class="text-center p-8">
                 <svg class="animate-spin h-6 w-6 text-red-600 inline-block" ...>
                    </svg>
                 <p class="text-gray-500 mt-2">Loading data...</p>
-            </div>
+            </div> -->
         </div>
     </form>
 
@@ -48,16 +48,15 @@
 </div>
 
 <script>
-  // Fungsi untuk menampilkan modal Edit
   async function showEditModal(matchId) {
     const modal = document.getElementById('editMatchModal');
     const modalContent = document.getElementById('editMatchModalContent');
     const formContent = document.getElementById('edit-form-content');
-    const loadingSpinner = document.getElementById('edit-form-loading');
+    // const loadingSpinner = document.getElementById('edit-form-loading');
     
     // Tampilkan modal dan spinner
     modal.classList.remove('hidden');
-    loadingSpinner.style.display = 'block';
+    // loadingSpinner.style.display = 'block';
     formContent.innerHTML = ''; // Kosongkan form lama
     setTimeout(() => {
       modalContent.classList.remove('opacity-0', 'scale-95');
