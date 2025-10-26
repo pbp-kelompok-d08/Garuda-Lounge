@@ -1,0 +1,82 @@
+{% extends 'base_legend.html' %}
+{% load static %}
+
+{% block title %}Tambah Pemain Legend{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white rounded-2xl shadow-md border border-gray-200 p-8">
+
+    <h1 class="font-heading text-2xl text-[#AA1515] mb-6 text-center">
+        Tambah Pemain Legend
+    </h1>
+
+    <form method="POST" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Nama -->
+        <div>
+            <label class="block text-sm font-medium text-[#111111] mb-1">
+                Nama Pemain
+            </label>
+            <input type="text" name="name" required
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#AA1515] outline-none" />
+        </div>
+
+        <!-- Posisi -->
+        <div>
+            <label class="block text-sm font-medium text-[#111111] mb-1">
+                Posisi
+            </label>
+            <select name="position" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-[#AA1515] outline-none">
+                <option value="GK">Goalkeeper</option>
+                <option value="DF">Defender</option>
+                <option value="MF">Midfielder</option>
+                <option value="FW">Forward</option>
+            </select>
+        </div>
+
+        <!-- Klub -->
+        <div>
+            <label class="block text-sm font-medium text-[#111111] mb-1">
+                Klub
+            </label>
+            <input type="text" name="club" required
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#AA1515] outline-none" />
+        </div>
+
+        <!-- Umur -->
+        <div>
+            <label class="block text-sm font-medium text-[#111111] mb-1">
+                Umur
+            </label>
+            <input type="number" name="age" min="15" max="60" required
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#AA1515] outline-none" />
+        </div>
+
+        <!-- URL Foto -->
+        <div>
+            <label class="block text-sm font-medium text-[#111111] mb-1">
+                URL Foto
+            </label>
+            <input type="url" name="photo_url" required
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#AA1515] outline-none" />
+        </div>
+
+        <!-- Tombol -->
+        <div class="pt-2">
+            <button type="submit"
+                class="w-full bg-[#AA1515] text-white font-semibold py-2 rounded-lg hover:bg-[#8F1212] transition">
+                Tambah Pemain Legend
+            </button>
+        </div>
+    </form>
+
+    <div class="text-center mt-6">
+        <a href="{% url 'ProfileLegend:show_profile_legend' %}"
+           class="text-sm font-medium text-[#AA1515] hover:underline">
+           ← Kembali ke Daftar Legend
+        </a>
+    </div>
+</div>
+{% endblock %}

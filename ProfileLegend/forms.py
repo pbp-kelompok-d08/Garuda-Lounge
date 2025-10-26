@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from ProfileLegend.models import Player
+from ProfileLegend.models import LegendPlayer
 
-class PlayerForm(ModelForm):
+class LegendPlayerForm(ModelForm):
     class Meta:
-        model = Player
-        fields = ["nama", "posisi", "klub", "umur", "foto"]
+        model = LegendPlayer
+        fields = ["name", "position", "club", "age", "photo_url"]

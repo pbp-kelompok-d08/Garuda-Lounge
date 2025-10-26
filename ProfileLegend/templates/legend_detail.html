@@ -1,24 +1,25 @@
-{% extends 'base_profileAktif.html' %}
+{% extends 'base_legend.html' %}
 
 {% block content %}
 <div class="player-detail-container">
-  <!-- Kembali ke Daftar Pemain -->
+  
+  <!-- Tombol Kembali -->
   <div class="back-button-container">
-    <a href="{% url 'ProfileAktif:show_main' %}">
-      <button class="back-btn">← Back to Player List</button>
+    <a href="{% url 'ProfileLegend:show_profile_legend' %}">
+      <button class="back-btn">← Back to Legend List</button>
     </a>
   </div>
 
   <!-- Foto Pemain -->
-  <img src="{{ player.foto }}" alt="{{ player.nama }}" width="300" style="border-radius: 10px; object-fit: cover;" />
+  <img src="{{ player.photo_url }}" alt="{{ player.name }}" />
 
   <!-- Info Pemain -->
-  <div class="info" style="text-align: left; margin-top: 20px;">
-    <h2 style="font-size: 1.8rem; color: var(--red);">{{ player.nama }}</h2>
-    <p><strong>Posisi:</strong> {{ player.get_posisi_display }}</p>
-    <p><strong>Klub:</strong> {{ player.klub }}</p>
-    <p><strong>Umur:</strong> {{ player.umur }} tahun</p>
-    <p><strong>Market Value:</strong> Rp {{ player.market_value }} Miliar</p>
+  <div class="info">
+    <h2>{{ player.name }}</h2>
+    <p><strong>Posisi:</strong> {{ player.position }}</p>
+    <p><strong>Klub:</strong> {{ player.club }}</p>
+    <p><strong>Umur:</strong> {{ player.age }} tahun</p>
+    <p><strong>Status:</strong> ✅ Legend</p>
   </div>
 </div>
 
@@ -30,61 +31,74 @@
   }
 
   .player-detail-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:40px;
+    font-family:'Inter', sans-serif;
   }
 
   .player-detail-container img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    width:300px;
+    height:300px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 6px 14px var(--red-soft);
+    border:2px solid var(--red);
   }
 
   .info {
-    text-align: left;
-    font-family: 'Montserrat', sans-serif;
+    text-align:left;
+    font-family:'Montserrat', sans-serif;
+    background:white;
+    padding:18px 24px;
+    border-radius:14px;
+    border:2px solid var(--red);
+    box-shadow:0 6px 14px var(--red-soft);
+    width:340px;
   }
 
   .info h2 {
-    font-size: 1.8rem;
-    color: var(--red);
+    font-size:1.9rem;
+    color:var(--red);
+    margin:.2rem 0 .8rem;
+    font-weight:800;
   }
 
   .info p {
-    font-size: 1rem;
-    color: #333;
-    margin: 5px 0;
+    font-size:1.05rem;
+    color:#333;
+    margin:6px 0;
+    line-height:1.4;
   }
 
-  /* Styling untuk tombol kembali */
+  /* Tombol Back */
   .back-button-container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;  /* Tombol di kiri */
-    padding-left: 20px;           /* Tambah jarak kiri */
-    margin-bottom: 20px;
+    width:100%;
+    display:flex;
+    justify-content:flex-start;
+    padding-left:40px;
+    margin-bottom:20px;
   }
 
   .back-btn {
-    background-color: var(--red);
-    color: var(--white);
-    font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
-    padding: 8px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-    border: none;
+    background-color:var(--red);
+    color:var(--white);
+    font-weight:bold;
+    font-family:'Montserrat', sans-serif;
+    padding:8px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    text-decoration:none;
+    border:none;
+    box-shadow:0 4px 10px var(--red-soft);
+    transition:.2s;
   }
 
   .back-btn:hover {
-    background-color: #8b1010;  /* Ganti warna saat dihover */
+    background-color:#8b1010;
+    transform:translateY(-2px);
   }
 </style>
 
