@@ -45,13 +45,13 @@
 
     <div class="flex flex-col sm:flex-row gap-3 px-6 py-5 border-t border-gray-200 bg-[#E7E3DD] rounded-b-2xl">
       <button type="button"
-              class="order-2 sm:order-1 w-full sm:w-auto px-6 py-3 border-2 border-[#111111] text-[#111111] bg-white rounded-xl font-bold hover:bg-[#f5f5f5] transition"
+              class="order-2 sm:order-1 w-full sm:w-auto px-6 py-3 border-2 border-[#111111] text-[#111111] bg-white rounded-xl font-bold hover:bg-[#f5f5f5] transition hover:scale-105"
               onclick="hideMatchModal()">
         Cancel
       </button>
       <button type="submit"
               form="matchForm"
-              class="order-1 sm:order-2 w-full sm:w-auto px-6 py-3 bg-[#AA1515] text-white rounded-xl font-bold border-2 border-[#111111] hover:brightness-110 hover:-translate-y-0.5 transition">
+              class="order-1 sm:order-2 w-full sm:w-auto px-6 py-3 bg-[#AA1515] text-white rounded-xl font-bold border-2 border-[#111111] hover:brightness-110 hover:-translate-y-0.5 transition hover:scale-105">
         Simpan Pertandingan
       </button>
     </div>
@@ -78,8 +78,6 @@
   }
 
   async function addMatchEntry() {
-    // PENTING: Anda harus membuat URL 'match:add_match_ajax' ini di match/urls.py
-    // dan view-nya di match/views.py
     const res = await fetch("{% url 'match:add_match_ajax' %}", {
       method: "POST",
       body: new FormData(document.querySelector('#matchForm')),
@@ -87,13 +85,10 @@
 
     document.getElementById("matchForm").reset();
     hideMatchModal();
+    
+    showToast('Success', 'Match berhasil ditambahkan!', 'success');
 
-    // Tampilkan toast
-    if (typeof showToast === 'function') {
-      showToast('Success', 'Match berhasil ditambahkan!', 'success');
-    }
-
-    // Trigger refresh data di halaman match.html (jika Anda menggunakan AJAX di sana)
+    // Trigger refresh di match.html
     document.dispatchEvent(new CustomEvent('matchAdded'));
   }
 

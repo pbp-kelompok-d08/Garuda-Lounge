@@ -68,10 +68,6 @@
 
     <div id="empty" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
       <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada pertandingan</h3>
-      <p class="text-gray-500 mb-6">Tambahkan pertandingan baru untuk ditampilkan di sini.</p>
-      <a href="{% url 'match:add_match' %}" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
-        + Tambah Match
-      </a>
     </div>
 </div>
 
@@ -147,7 +143,7 @@ function buildMatchCardElement(item) {
         // 1. Perbaiki HTML yang rusak & tambahkan kelas baru
         editDeleteHtml = `<div class='flex space-x-2'>
             <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
-            <a href='${linkDelete}' class='card-action-link card-action-delete' onclick='return confirm("Yakin ingin menghapus match ini?")'>Delete</a>
+            <a href='${linkDelete}' class='card-action-link card-action-delete'>Delete</a>
           </div>`;
     }
 
@@ -234,6 +230,12 @@ async function fetchMatchesFromServer() {
     displayPageSection({ showError: true });
   }
 }
+
+// Bakal digunakan buat hapus dan edit match juga
+document.addEventListener('matchAdded', function() {
+    // Refresh data without page reload
+    fetchMatchesFromServer();
+});
 
 // Initialize page
 function initializeMatchPage() {

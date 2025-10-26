@@ -31,36 +31,62 @@ def add_match(request):
 def show_match_details(request, id):
     pertandingan = get_object_or_404(Pertandingan, pk=id)
 
-    # Field yang text nya dipisahkan oleh titik koma, kita split dulu sebelum di-render biar nampilinnya rapih
-    pencetak_gol_tuan_rumah_list = pertandingan.pencetak_gol_tuan_rumah.split(';')
-    pencetak_gol_tamu_list = pertandingan.pencetak_gol_tamu.split(';')
+    pencetak_gol_tuan_rumah_list = pertandingan.pencetak_gol_tuan_rumah
+    pencetak_gol_tamu_list = pertandingan.pencetak_gol_tamu
 
-    starters_tuan_rumah_list = pertandingan.starter_tuan_rumah.split(';')
-    starters_tamu_list = pertandingan.starter_tamu.split(';')
+    starters_tuan_rumah_list = pertandingan.starter_tuan_rumah
+    starters_tamu_list = pertandingan.starter_tamu
 
-    pengganti_tuan_rumah_list = pertandingan.pengganti_tuan_rumah.split(';')
-    pengganti_tamu_list = pertandingan.pengganti_tamu.split(';')
+    pengganti_tuan_rumah_list = pertandingan.pengganti_tuan_rumah
+    pengganti_tamu_list = pertandingan.pengganti_tamu
 
-    starters_paired = list(itertools.zip_longest(
-    starters_tuan_rumah_list, 
-    starters_tamu_list, 
-    fillvalue=''
-    ))
-
-    # Pasangkan list pengganti
-    pengganti_paired = list(itertools.zip_longest(
-        pengganti_tuan_rumah_list, 
-        pengganti_tamu_list, 
-        fillvalue=''
-    ))
-    
     context = {
         'pertandingan': pertandingan,
-        'pencetak_gol_tuan_rumah': pencetak_gol_tuan_rumah_list,
-        'pencetak_gol_tamu': pencetak_gol_tamu_list,
-        'starters_paired': starters_paired,
-        'pengganti_paired': pengganti_paired,
     }
+    
+    # Field yang text nya dipisahkan oleh titik koma, kita split dulu sebelum di-render biar nampilinnya rapih
+    if (pencetak_gol_tuan_rumah_list != None): 
+        pencetak_gol_tuan_rumah_list = pencetak_gol_tuan_rumah_list.split(';')
+        context['pencetak_gol_tuan_rumah'] = pencetak_gol_tuan_rumah_list
+        
+    if (pencetak_gol_tamu_list != None): 
+        pencetak_gol_tamu_list = pencetak_gol_tamu_list.split(';')
+        context['pencetak_gol_tamu'] = pencetak_gol_tamu_list
+
+    if (starters_tuan_rumah_list != None): 
+        starters_tuan_rumah_list = starters_tuan_rumah_list.split(';')
+        context['starters_tuan_rumah'] = starters_tuan_rumah_list
+    
+    if (starters_tamu_list != None):
+        starters_tamu_list = starters_tamu_list.split(';')
+        context['starters_tamu'] = starters_tamu_list
+
+    if (pengganti_tuan_rumah_list != None):
+        pengganti_tuan_rumah_list = pengganti_tuan_rumah_list.split(';')
+        context['pengganti_tuan_rumah'] = pengganti_tuan_rumah_list
+    
+    if (pengganti_tamu_list != None):
+        pengganti_tamu_list = pengganti_tamu_list.split(';')
+        context['pengganti_tamu'] = pengganti_tamu_list
+
+    if (starters_tuan_rumah_list != None) & (starters_tamu_list != None):
+        starters_paired = list(itertools.zip_longest(
+        starters_tuan_rumah_list, 
+        starters_tamu_list, 
+        fillvalue=''
+        ))
+        context['starters_paired'] = starters_paired
+
+    if (pengganti_tuan_rumah_list != None) & (pengganti_tamu_list != None):
+        # Pasangkan list pengganti
+        pengganti_paired = list(itertools.zip_longest(
+            pengganti_tuan_rumah_list, 
+            pengganti_tamu_list, 
+            fillvalue=''
+        ))
+        context['pengganti_paired'] = pengganti_paired
+    
+    
     return render(request, 'match_details.html', context)
 
 def edit_match(request, id):
@@ -82,7 +108,7 @@ def delete_match(request, id):
     return HttpResponseRedirect(reverse('match:show_match'))
 
 def show_match_json(request):
-    pertandingan_list = Pertandingan.objects.all()
+    pertandingan_list = Pertandingan.objects.all().order_by('-tanggal')
     data = [
         { # sebernya yang perlu cuma yang tampil di match.html aja kayak nama tim, jeni pertandingan, bender, skor, highlight
             'id': str(p.id),

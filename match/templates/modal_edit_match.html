@@ -99,12 +99,10 @@
 
     hideEditModal();
 
-    if (typeof showToast === 'function') {
-      showToast('Success', 'Match berhasil diperbarui!', 'success');
-    }
+    showToast('Success', 'Match berhasil diperbarui!', 'success');
     
     // Trigger refresh di match.html
-    document.dispatchEvent(new CustomEvent('matchAdded')); // Kita pakai event yang sama
+    document.dispatchEvent(new CustomEvent('matchAdded'));
   }
 
   // Event listener untuk tombol "Simpan Perubahan"
