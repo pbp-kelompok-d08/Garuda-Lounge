@@ -93,6 +93,8 @@
     badgesEl.innerHTML = '';
     badgesEl.appendChild(badge(catLabel(n.category), 'bg-ink text-white'));
 
+    priceEl.textContent = `Rp. ${n.price || ''}`;
+
     if (n.thumbnail){
       figEl.src = n.thumbnail;
       figEl.alt = n.name || '';
