@@ -5,7 +5,7 @@ class PertandinganForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(PertandinganForm, self).__init__(*args, **kwargs)
         
-        # Definisikan kelas styling Tailwind
+        # Agar form bisa di-styling, definisikan kelas tailwind-nnya
         tailwind_classes = "mt-1 block w-full rounded-md shadow-sm sm:text-sm custom-form-field"
         
         # Terapkan kelas ke semua field

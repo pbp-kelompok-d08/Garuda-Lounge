@@ -84,108 +84,108 @@
        
         <div class="border-t" style="border-color: #AA1515;">
             {% if pertandingan.jenis_pertandingan|title != "Pertandingan Persahabatan" %}
-            <div class="flex border-b border-gray-200">
-                <button id="tab-lineup" class="tab-button active">
-                    Susunan Pemain
-                </button>
-                <button id="tab-stats" class="tab-button">
-                    Statistik
-                </button>
-            </div>
-
-            <div>
-                <div id="content-lineup" class="tab-content p-6 md:p-8">
-                    <div class="space-y-3 max-w-lg mx-auto">
-                        
-                        <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a">Starting Eleven</h3>
-                        <div class="space-y-1 text-sm">
-                            {% for tuan_rumah, tamu in starters_paired %}
-                            <div class="grid grid-cols-2 gap-4">
-                                <span class="font-semibold text-left">{{ tuan_rumah }}</span>
-                                <span class="font-semibold text-right">{{ tamu }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a; margin-top: 2rem;">Pengganti</h3>
-                        <div class="space-y-1 text-sm">
-                            {% for tuan_rumah, tamu in pengganti_paired %}
-                            <div class="grid grid-cols-2 gap-4">
-                                <span class="font-semibold text-left">{{ tuan_rumah }}</span>
-                                <span class="font-semibold text-right">{{ tamu }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                    </div>
+                <div class="flex border-b border-gray-200">
+                    <button id="tab-lineup" class="tab-button active">
+                        Susunan Pemain
+                    </button>
+                    <button id="tab-stats" class="tab-button">
+                        Statistik
+                    </button>
                 </div>
 
-                <div id="content-stats" class="tab-content p-6 md:p-8" style="display: none;">
-                    <div class="space-y-3 max-w-lg mx-auto">
+                <div>
+                    <div id="content-lineup" class="tab-content p-6 md:p-8">
+                        <div class="space-y-3 max-w-lg mx-auto">
+                            
+                            <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a">Starting Eleven</h3>
+                            <div class="space-y-1 text-sm">
+                                {% for tuan_rumah, tamu in starters_paired %}
+                                <div class="grid grid-cols-2 gap-4">
+                                    <span class="font-semibold text-left">{{ tuan_rumah }}</span>
+                                    <span class="font-semibold text-right">{{ tamu }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
 
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
-                            <span class="stat-label" style="color:#a4161a">Penguasaan Bola</span>
-                            <span class="font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
+                            <h3 class="text-lg font-semibold mb-4 text-center" style="color:#a4161a; margin-top: 2rem;">Pengganti</h3>
+                            <div class="space-y-1 text-sm">
+                                {% for tuan_rumah, tamu in pengganti_paired %}
+                                <div class="grid grid-cols-2 gap-4">
+                                    <span class="font-semibold text-left">{{ tuan_rumah }}</span>
+                                    <span class="font-semibold text-right">{{ tamu }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+
                         </div>
+                    </div>
 
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Tembakan</span>
-                            <span class="font-semibold">{{ pertandingan.tembakan_tamu }}</span>
+                    <div id="content-stats" class="tab-content p-6 md:p-8" style="display: none;">
+                        <div class="space-y-3 max-w-lg mx-auto">
+                            {% if pertandingan.jenis_pertandingan|title != "Piala Asean" %}
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.penguasaan_bola_tuan_rumah }}%</span>
+                                    <span class="stat-label" style="color:#a4161a">Penguasaan Bola</span>
+                                    <span class="font-semibold">{{ pertandingan.penguasaan_bola_tamu }}%</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.tembakan_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Tembakan</span>
+                                    <span class="font-semibold">{{ pertandingan.tembakan_tamu }}</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Tembakan ke Gawang</span>
+                                    <span class="font-semibold">{{ pertandingan.on_target_tamu }}</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
+                                    <span class="stat-label" style="color:#a4161a">Akurasi Umpan</span>
+                                    <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Pelanggaran</span>
+                                    <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Kartu Kuning</span>
+                                    <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Kartu Merah</span>
+                                    <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Offside</span>
+                                    <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
+                                </div>
+
+                                <div class="stat-row">
+                                    <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}</span>
+                                    <span class="stat-label" style="color:#a4161a">Sepak Pojok</span>
+                                    <span class="font-semibold">{{ pertandingan.corner_tamu }}</span>
+                                </div>
+                            {% endif %}
                         </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.on_target_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Tembakan ke Gawang</span>
-                            <span class="font-semibold">{{ pertandingan.on_target_tamu }}</span>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tuan_rumah }}%</span>
-                            <span class="stat-label" style="color:#a4161a">Akurasi Umpan</span>
-                            <span class="font-semibold">{{ pertandingan.akurasi_umpan_tamu }}%</span>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.pelanggaran_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Pelanggaran</span>
-                            <span class="font-semibold">{{ pertandingan.pelanggaran_tamu }}</span>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Kartu Kuning</span>
-                            <span class="font-semibold">{{ pertandingan.kartu_kuning_tamu }}</span>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.kartu_merah_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Kartu Merah</span>
-                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.offside_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Offside</span>
-                            <span class="font-semibold">{{ pertandingan.kartu_merah_tamu }}</span>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="font-semibold">{{ pertandingan.corner_tuan_rumah }}</span>
-                            <span class="stat-label" style="color:#a4161a">Sepak Pojok</span>
-                            <span class="font-semibold">{{ pertandingan.corner_tamu }}</span>
-                        </div>
-
                     </div>
                 </div>
-            </div>
             {% endif %}
 
             <div class="border-t" style="border-color: #AA1515;">
                 <div class="p-4 mt-1 text-left">
                     <span class="text-lg font-semibold" style="color:#a4161a"> Tempat: </span>
-                    <span class="text-lg text-gray-900 font-semibold">{{ pertandingan.stadion }}</span>
+                    <span class="text-lg text-gray-900 font-semibold">Stadion {{ pertandingan.stadion }}</span>
                 </div>
             </div>
         </div>
@@ -199,7 +199,7 @@
     const contentStats = document.getElementById('content-stats');
 
     tabLineup.addEventListener('click', () => {
-        // Tampilkan konten lineup, sembunyikan stats
+        // Tampilkan susunan pemain
         contentLineup.style.display = 'block';
         contentStats.style.display = 'none';
 
@@ -209,7 +209,7 @@
     });
 
     tabStats.addEventListener('click', () => {
-        // Tampilkan konten stats, sembunyikan lineup
+        // Tampilkan statistik
         contentLineup.style.display = 'none';
         contentStats.style.display = 'block';
 

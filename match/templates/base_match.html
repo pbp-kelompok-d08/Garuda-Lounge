@@ -195,7 +195,7 @@
           background-color: #f0f0f0;
       }
       .tab-button.active {
-          color: #a4161a; /* Warna merah Anda */
+          color: #a4161a; 
           background-color: #fff;
           border-bottom: 3px solid #a4161a;
       }
@@ -213,12 +213,11 @@
           border: 1px solid #e0e0e0;
           border-radius: 12px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-          /* max-width: 600px; -- Dihapus agar responsif dengan grid */
           width: 100%;
           padding: 16px;
       }
 
-      /* Header card untuk jenis pertandingan dan tanggal */
+      /* header card (jenis pertandingan dan tanggal) */
       .card-header {
           display: flex;
           justify-content: space-between;
@@ -245,7 +244,7 @@
           color: #000000;
       }
 
-      /* Body kartu (tim, skor, dan highlight) */
+      /* body card (tim, skor, dan highlight) */
       .card-body {
           display: flex;
           justify-content: space-between;
@@ -255,7 +254,7 @@
           padding-bottom: 16px;
       }
 
-      /* Kolom kiri: berisi 2 baris tim */
+      /* kolom kiri (2 baris tim) */
       .match-details {
           flex-grow: 1; 
           display: flex;
@@ -263,14 +262,14 @@
           gap: 16px; 
       }
 
-      /* Satu baris tim (Info vs Skor) */
+      /* satu baris tim (bendera, nama, skor) */
       .team-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
       }
 
-      /* Info tim (Bendera & Nama) */
+      /* info tim (bendera, nama) */
       .team-info {
           display: flex;
           align-items: center;
@@ -290,7 +289,7 @@
           color: #333;
       }
 
-      /* Skor (di paling kanan baris tim) */
+      /* skor (di paling kanan baris tim) */
       .skor {
           font-size: 1.2em; 
           font-weight: 700;
@@ -298,7 +297,7 @@
           padding-left: 16px; 
       }
 
-      /* Tombol Highlight (Kolom kanan) */
+      /* tombol highlight (paling kanan) */
       .highlight-link a {
           display: block;
           background-color: #a4161a;
@@ -316,7 +315,7 @@
         transform: scale(1.05);
       }
 
-      /* Samakan ukuran tombol macth details, edit, dan delete */
+      /* action button di card (macth details, edit, dan delete) */
       .card-action-link {
           font-size: 0.875rem; 
           font-weight: 500; 
@@ -342,6 +341,34 @@
       .card-action-link:hover {
           transform: scale(1.05);
       }
+
+      /* style default tombol filter */
+      .filter-button {
+            background-color: #ffffff; 
+            color: #a4161a;            
+            border: 2px solid #a4161a; 
+            padding: 10px 16px;        
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s; 
+            box-sizing: border-box; 
+        }
+
+        .filter-button:hover {
+            transform: scale(1.05);    
+        }
+
+        /* style tombol filter dipilih */
+        .filter-button.active {
+            background-color: #a4161a; 
+            color: white;            
+            border-color: #a4161a; 
+        }
+
+        .filter-button.active:hover {
+            transform: scale(1.05);    
+        }
 
     </style>
   </head>
