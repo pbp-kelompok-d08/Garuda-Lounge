@@ -10,6 +10,8 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import LandingPage
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_POST
 
 
 # MAIN PAGE 
@@ -91,6 +93,8 @@ def login_ajax(request):
 
 
 # LOGOUT 
+@require_POST
+@csrf_protect
 def logout_user(request):
     logout(request)
     response = HttpResponseRedirect(reverse('main:login_user'))

@@ -32,7 +32,6 @@
 
     <div class="mb-6 flex flex-wrap justify-center items-center gap-4"> 
         
-
         <div> 
             <button type="button" onclick="showMatchModal()" style="
                     background-color: #a4161a;
@@ -49,7 +48,6 @@
                 + Tambah Match
             </button>
         </div>
-
 
 
       <!-- <div class="flex flex-wrap justify-center gap-3"> -->
@@ -164,10 +162,10 @@ function buildMatchCardElement(item) {
     // Tombol edit dan delete (hanya untuk superuser)
     let editDeleteHtml = ''; 
     // if (IS_SUPERUSER_STRING === "true") {
-    editDeleteHtml = `<div class='flex space-x-2'>
-        <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
-        <a href='${linkDelete}' class='card-action-link card-action-delete'>Delete</a>
-      </div>`;
+        editDeleteHtml = `<div class='flex space-x-2'>
+            <button type="button" onclick="showEditModal('${item.id}')" class='card-action-link'>Edit</button>
+            <a href='${linkDelete}' class='card-action-link card-action-delete'>Delete</a>
+          </div>`;
     // }
 
     const cardHtml = `
