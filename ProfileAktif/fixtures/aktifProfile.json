@@ -1,0 +1,698 @@
+[
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "1ef5249a-cded-47d3-a0a1-5d739d04eb53",
+    "fields": {
+      "nama": "Maarten Paes",
+      "posisi": "Goalkeeper",
+      "klub": "FC Dallas",
+      "umur": 27,
+      "market_value": 31.29,
+      "foto": "https://i.pinimg.com/originals/6a/91/41/6a9141745cf2a962e26614f6fc31d364.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "2410e73f-7109-42a1-a54b-87a229b3f84f",
+    "fields": {
+      "nama": "Emil Audero Mulyadi",
+      "posisi": "Goalkeeper",
+      "klub": "US Cremonese",
+      "umur": 28,
+      "market_value": 55.62,
+      "foto": "https://i.pinimg.com/originals/6a/91/41/6a9141745cf2a962e26614f6fc31d364.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "71c15ece-0e89-494f-b8d8-a9c7bf1d3ca2",
+    "fields": {
+    "nama": "Nadeo Argawinata",
+    "posisi": "Goalkeeper",
+    "klub": "Borneo FC",
+    "umur": 28,
+    "market_value": 5.65,
+    "foto": "https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/p1/1000/2024/01/15/IMG_20240115_154549-3251580420.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "2ec847bb-b109-4d19-a5e9-a6d104d77443",
+    "fields": {
+    "nama": "Ernando Ari Sutaryadi",
+    "posisi": "Goalkeeper",
+    "klub": "Persebaya Surabaya",
+    "umur": 23,
+    "market_value": 5.21,
+    "foto": "https://img.okezone.com/content/2024/04/02/49/2991668/reaksi-ernando-ari-liga-1-ditunda-selama-piala-asia-u-23-2024-mungkin-pemain-senang-libur-tapi-pemilik-enggak-NC5Z7qbsyl.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "71f09b71-1d34-4a4b-9f3f-31e4de5a0b89",
+    "fields": {
+    "nama": "Reza Arya Pratama",
+    "posisi": "Goalkeeper",
+    "klub": "PSM Makassar",
+    "umur": 25,
+    "market_value": 3.04,
+    "foto": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2025/10/04/e1PmfOp9qQX46XVYajLBcFXGndOwt7UWcjQprU0C-1651604651.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "3830f7ff-2889-4ae8-9214-fdda562a9b80",
+    "fields": {
+    "nama": "Muhammad Adi Satryo",
+    "posisi": "Goalkeeper",
+    "klub": "Arema FC",
+    "umur": 24,
+    "market_value": 3.48,
+    "foto": "https://asset-2.tribunnews.com/tribunnewswiki/foto/bank/images/muhammad-adi-satryo-kiper-temnas.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "92326a26-d227-4d04-a76d-23e17fa2d6a9",
+    "fields": {
+    "nama": "Syahrul Trisna",
+    "posisi": "Goalkeeper",
+    "klub": "Borneo FC Samarinda",
+    "umur": 29,
+    "market_value": 2.61,
+    "foto": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2025/07/07/DzZFNAgq5juk0GGKbgQeXW9WZJ6AHoGBQXO6rKwL-1419806777.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "76ea2046-41e0-46fa-9222-bc0de694dc9f",
+    "fields": {
+    "nama": "Muhamad Riyandi",
+    "posisi": "Goalkeeper",
+    "klub": "PERSIS Solo",
+    "umur": 25,
+    "market_value": 3.48,
+    "foto": "https://imgcdn.espos.id/@espos/images/2022/05/muhammad-riyandi.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "1996f38a-f858-40c6-8ff5-e585ed50e8e4",
+    "fields": {
+    "nama": "Jay Idzes",
+    "posisi": "Defender",
+    "klub": "US Sassuolo Calcio",
+    "umur": 25,
+    "market_value": 130.36,
+    "foto": "https://i.pinimg.com/736x/48/01/55/480155075f774bd5ef3cccd291c1ef60.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "23d87c1e-8100-4bbb-bdb2-55522bbfc9bb",
+    "fields": {
+    "nama": "Mees Hilgers",
+    "posisi": "Defender",
+    "klub": "FC Twente",
+    "umur": 24,
+    "market_value": 86.91,
+    "foto": "https://static.promediateknologi.id/crop/112x405:1246x1143/750x500/webp/photo/p1/100/2024/10/01/461557319_1831214180742841_6972110893340296651_n-705232174.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "fb47638b-68f6-4f35-ba77-195d1df61ec0",
+    "fields": {
+    "nama": "Kevin Diks",
+    "posisi": "Defender",
+    "klub": "Borussia Monchengladbach",
+    "umur": 29,
+    "market_value": 86.91,
+    "foto": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2025/07/11/diks-2727865604.png"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "94cede64-123c-47bf-b777-1d196edc80a0",
+    "fields": {
+    "nama": "Calvin Verdonk",
+    "posisi": "Defender",
+    "klub": "LOSC Lille",
+    "umur": 28,
+    "market_value": 52.14,
+    "foto": "https://img.okezone.com/content/2025/04/22/51/3132836/calvin_verdonk-0UOt_large.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "8a7e80dc-ba0a-48c0-8cf5-14c73dbe2b4d",
+    "fields": {
+    "nama": "Dean James",
+    "posisi": "Defender",
+    "klub": "Go Ahead Eagles",
+    "umur": 25,
+    "market_value": 31.29,
+    "foto": "https://i.pinimg.com/736x/09/78/1e/09781ed8df9b6ebb164430f03254c1da.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "e32b5e45-8060-4f5b-8967-24317a41a28d",
+    "fields": {
+    "nama": "Sandy Walsh",
+    "posisi": "Defender",
+    "klub": "Buriram United",
+    "umur": 30,
+    "market_value": 13.91,
+    "foto": "https://i.pinimg.com/1200x/70/b9/1b/70b91bd20e6e93d2539d46d8013c79c0.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "a1b3f5d6-f907-442a-8ae0-9b5dbd73116c",
+    "fields": {
+    "nama": "Jordi Amat",
+    "posisi": "Defender",
+    "klub": "Persija Jakarta",
+    "umur": 33,
+    "market_value": 11.3,
+    "foto": "https://img.okezone.com/content/2023/01/07/51/2741802/jordi-amat-soroti-kekecewaan-suporter-usai-timnas-indonesia-ditahan-0-0-vietnam-kami-telah-berjuang-fDacbtRLIh.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "e42641fa-315c-4be6-a5b7-135da98ff77f",
+    "fields": {
+    "nama": "Rizky Ridho",
+    "posisi": "Defender",
+    "klub": "Persija Jakarta",
+    "umur": 23,
+    "market_value": 9.56,
+    "foto": "https://mu4.co.id/wp-content/uploads/2023/05/rizki_ridho.png"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "36d21764-fd5e-4ee9-853c-590cc619ebea",
+    "fields": {
+    "nama": "Asnawi Mangkualam",
+    "posisi": "Defender",
+    "klub": "Port FC",
+    "umur": 26,
+    "market_value": 7.82,
+    "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROYB4DeWNt0U5ow0A3Q60rVcoPdPmpeu1r0A&s"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "a21f14f2-5d4d-4e5f-8bd8-3fd691294875",
+    "fields": {
+    "nama": "Nathan Tjoe-A-On",
+    "posisi": "Defender",
+    "klub": "Willem II",
+    "umur": 23,
+    "market_value": 6.08,
+    "foto": "https://tangselpos.id/storage/2025/06/pemain-timnas-nathan-tjoe-a-on-lagi-tidak-punya-klub-19062025-071059.webp"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "591cc1cb-c116-44c3-a8b2-23894a8bb3c4",
+    "fields": {
+    "nama": "Justin Hubner",
+    "posisi": "Defender",
+    "klub": "Fortuna Sittard",
+    "umur": 22,
+    "market_value": 5.21,
+    "foto": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/69/2024/09/17/ClipDownApp_459174648_1484769176252118_7363263252332072287_n-366621758.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "1c2c2c41-5390-4e8b-af13-58524d3f1595",
+    "fields": {
+    "nama": "Yance Sayuri",
+    "posisi": "Defender",
+    "klub": "Malut United",
+    "umur": 28,
+    "market_value": 5.21,
+    "foto": "https://img.okezone.com/content/2023/09/08/51/2879773/gagal-bela-timnas-indonesia-yance-sayuri-dipastikan-menepi-hingga-sebulan-usai-ditemukan-robekan-7-cm-OHrlru0qUQ.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "4702c193-f85a-45c8-81b7-60dc5bc0be49",
+    "fields": {
+    "nama": "Muhammad Ferarri",
+    "posisi": "Defender",
+    "klub": "Persija Jakarta",
+    "umur": 22,
+    "market_value": 4.78,
+    "foto": "https://img.inews.co.id/media/1200/files/inews_new/2023/08/24/Muhammad_Ferarri.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "a76e750f-f9fa-47a0-a080-a4b17b60445d",
+    "fields": {
+    "nama": "Wahyu Prasetyo",
+    "posisi": "Defender",
+    "klub": "Dewa United",
+    "umur": 27,
+    "market_value": 4.78,
+    "foto": "https://www.footballdatabase.eu/images/photos/players/a_404/404731.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "be853744-9577-4fd2-90bf-5678e0693faa",
+    "fields": {
+    "nama": "Shayne Pattynama",
+    "posisi": "Defender",
+    "klub": "Buriram United",
+    "umur": 27,
+    "market_value": 4.35,
+    "foto": "https://img.okezone.com/content/2024/02/01/51/2963959/kisah-shayne-pattynama-yang-masih-belum-dapat-klub-setelah-bela-timnas-indonesia-di-piala-asia-2023-GJqHAVuCSt.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "96d4f9f8-c86a-4a5a-be62-79033b44a2b0",
+    "fields": {
+    "nama": "Elkan Baggott",
+    "posisi": "Defender",
+    "klub": "Ipswich Town",
+    "umur": 22,
+    "market_value": 3.48,
+    "foto": "https://assets.goal.com/images/v3/bltc44d05bed69f2e5d/Elkan_Baggott.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "55245041-e3c4-4387-8892-38b07dbf8243",
+    "fields": {
+    "nama": "Pratama Arhan",
+    "posisi": "Defender",
+    "klub": "Bangkok United",
+    "umur": 23,
+    "market_value": 3.48,
+    "foto": "https://cdns.klimg.com/mav-prod-resized/480x/ori/feedImage/2023/6/20/1687223018621-7o0u.jpeg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "ca2fa07e-824b-4043-ab37-932a5e6aca27",
+    "fields": {
+    "nama": "Edo Febriansah",
+    "posisi": "Defender",
+    "klub": "Dewa United",
+    "umur": 28,
+    "market_value": 5.21,
+    "foto": "https://www.bandungfootball.com/wp-content/uploads/2023/05/69AB8A63-6E68-4BC8-AC80-BBED549042C4-1140x570.png"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "df76f788-b742-4d45-86ff-fbd573f722da",
+    "fields": {
+    "nama": "Fachruddin Aryanto",
+    "posisi": "Defender",
+    "klub": "Madura United",
+    "umur": 36,
+    "market_value": 1.74,
+    "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Fachruddin_Aryanto_-_53616037561_%28cropped%29.png/960px-Fachruddin_Aryanto_-_53616037561_%28cropped%29.png"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "712908b3-5e35-4a73-a7db-116897f0aeed",
+    "fields": {
+    "nama": "Hansamu Yama Pranata",
+    "posisi": "Defender",
+    "klub": "Persija Jakarta",
+    "umur": 30,
+    "market_value": 3.04,
+    "foto": "https://pbs.twimg.com/media/DsBUHIFU4AIQo7D.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "885a0dec-1062-4418-bb6c-1c782786d5db",
+    "fields": {
+    "nama": "Thom Haye",
+    "posisi": "Midfielder",
+    "klub": "Persib Bandung",
+    "umur": 30,
+    "market_value": 17.38,
+    "foto": "https://i.pinimg.com/736x/94/0f/9a/940f9af0ebefc1e688cf3ea1561c953e.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "85acab78-8844-41df-9c75-18a30ebf8e8d",
+    "fields": {
+    "nama": "Eliano Reijnders",
+    "posisi": "Midfielder",
+    "klub": "Persib Bandung",
+    "umur": 24,
+    "market_value": 10.43,
+    "foto": "https://garuda.tv/wp-content/uploads/2025/05/Eliano-Reijnders-Pemain-Timnas-Indonesia-Dok.-Istimewa.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "aa11fc26-a2cc-4c49-a75e-7d30984c1c8d",
+    "fields": {
+    "nama": "Marc Klok",
+    "posisi": "Midfielder",
+    "klub": "Persib Bandung",
+    "umur": 32,
+    "market_value": 6.95,
+    "foto": "https://imgsrv2.voi.id/qW0S3TGUXN9nXPrsTnKUjts4GFtf3xwIRm7jiWPYIzA/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8zNDA1MDYvMjAyMzEyMTkxODA2LW1haW4uY3JvcHBlZF8xNzAyOTg0MDMwLmpwZw.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "8a05004b-febc-4b0e-b9a3-d7f90660a09e",
+    "fields": {
+      "nama": "Ricky Kambuaya",
+      "posisi": "Midfielder",
+      "klub": "Dewa United",
+      "umur": 29,
+      "market_value": 5.65,
+      "foto": "https://rakyat.news/wp-content/uploads/2025/03/Pemain-Timnas-Indonesia-Ricky-Kambuaya.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "ba142fe2-18c7-4007-b7e2-1acc3468607f",
+    "fields": {
+      "nama": "Beckham Putra",
+      "posisi": "Midfielder",
+      "klub": "Persib Bandung",
+      "umur": 23,
+      "market_value": 5.21,
+      "foto": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2025/06/07/Beckham-Putra-Nugraha-Dery-Ridwansah-13JPG-3224678153.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "83c362de-a18e-43e6-bf69-2c7baa6f6898",
+    "fields": {
+      "nama": "Ivar Jenner",
+      "posisi": "Midfielder",
+      "klub": "FC Utrecht U21",
+      "umur": 21,
+      "market_value": 5.21,
+      "foto": "https://i.pinimg.com/736x/28/b3/ba/28b3ba20c1d41a6d15ef82a836da5928.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "e86f1943-8d0b-4ca0-a730-82d9fb1c36bb",
+    "fields": {
+      "nama": "Arkhan Fikri",
+      "posisi": "Midfielder",
+      "klub": "Arema FC",
+      "umur": 20,
+      "market_value": 4.78,
+      "foto": "https://cdns.klimg.com/bola.net/library/upload/21/2023/02/arkhan-1_0a32852.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "a80e4c91-1f8c-420d-9fb1-c8ade59162d6",
+    "fields": {
+      "nama": "Rachmat Irianto",
+      "posisi": "Midfielder",
+      "klub": "Persebaya Surabaya",
+      "umur": 26,
+      "market_value": 4.35,
+      "foto": "https://www.persebaya.id/thumbs/medium/uploads/player/7/rachmat-irianto-60ac82b3d4af3.png"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "657b6e06-81e2-489a-89d3-d18b18250aa0",
+    "fields": {
+      "nama": "Joey Pelupessy",
+      "posisi": "Midfielder",
+      "klub": "Lommel SK",
+      "umur": 32,
+      "market_value": 4.35,
+      "foto": "https://cdns.klimg.com/bola.net/resized/810x540/library/upload/21/2025/03/996x664/joey-pelupessy-timna_3d22576.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "e013cb7e-ec8b-4a1b-b0f8-99eb81ce6efa",
+    "fields": {
+      "nama": "Adam Alis",
+      "posisi": "Midfielder",
+      "klub": "Persib Bandung",
+      "umur": 31,
+      "market_value": 4.35,
+      "foto": "https://img.okezone.com/content/2021/03/06/51/2373320/man-of-the-match-timnas-indonesia-u-23-vs-ps-tira-persikabo-adam-alis-eWkdnD0Vtw.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "bb0695e4-c8e7-46a3-b581-5e86ac978c79",
+    "fields": {
+      "nama": "Syahrian Abimanyu",
+      "posisi": "Midfielder",
+      "klub": "Persik Kediri",
+      "umur": 26,
+      "market_value": 3.04,
+      "foto": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSSpOKYjpKhgdktFICYeu9U4HRoJGQMAczmjbY2SiI-6htULWcf2UJnc9SnAjnfjSs6H6z4fNduMxkL_L_5lYeEQmN7DetYvBseGT8XAw"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "9023dada-e639-4a8b-ad9f-3109e07ee27e",
+    "fields": {
+      "nama": "Saddil Ramdani",
+      "posisi": "Midfielder",
+      "klub": "Persib Bandung",
+      "umur": 26,
+      "market_value": 5.21,
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/0/06/Saddil_Ramdani_-_53615168282.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "cad32c0a-1aa1-4799-b38e-15094fba066c",
+    "fields": {
+      "nama": "Marselino Ferdinan",
+      "posisi": "Forward",
+      "klub": "AS Trencin",
+      "umur": 21,
+      "market_value": 2.61,
+      "foto": "https://static.promediateknologi.id/crop/75x292:1003x936/0x0/webp/photo/p2/227/2024/11/20/marselino-ferdinan-pencetak-gol-kemenangan-indonesia-vs-arab-saudi-730046897.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "919d7b76-e063-455e-a443-ffee89593835",
+    "fields": {
+      "nama": "Ole Romeny",
+      "posisi": "Forward",
+      "klub": "Oxford United",
+      "umur": 25,
+      "market_value": 20.86,
+      "foto": "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/57/2025/03/26/Screenshot_2025-03-26-04-33-54-823_cominstagramandroid21-3592794009.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "088f1ff3-37f9-4311-8aec-eac86ee3ad61",
+    "fields": {
+      "nama": "Miliano Jonathans",
+      "posisi": "Forward",
+      "klub": "FC Utrecht",
+      "umur": 21,
+      "market_value": 15.64,
+      "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1aJMmzpn6JXSRLhmd2mnunGR9vumCzZy3Gg&s"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "9e7620fa-3ba6-48e1-bba8-4fe57d018fce",
+    "fields": {
+      "nama": "Ragnar Oratmangoen",
+      "posisi": "Forward",
+      "klub": "FC Dender",
+      "umur": 27,
+      "market_value": 10.43,
+      "foto": "https://diaspora.id/wp-content/uploads/2025/01/snapinst.app_4719402_9eebf42-e1737682958681.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "a01dcfb7-bb06-47cd-a61c-52d2476390bc",
+    "fields": {
+      "nama": "Egy Maulana Vikri",
+      "posisi": "Forward",
+      "klub": "Dewa United",
+      "umur": 25,
+      "market_value": 6.08,
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Egy_Maulana_-_53616379169.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "44f69dff-9fc4-4366-ba64-3b38d1a4adbb",
+    "fields": {
+      "nama": "Yakob Sayuri",
+      "posisi": "Forward",
+      "klub": "Malut United",
+      "umur": 28,
+      "market_value": 6.08,
+      "foto": "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/30/2024/02/28/1000228077-4240941417.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "04e9fc13-47f8-429f-82a8-271b8600f400",
+    "fields": {
+      "nama": "Ramadhan Sananta",
+      "posisi": "Forward",
+      "klub": "DPMM FC",
+      "umur": 22,
+      "market_value": 4.78,
+      "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXcu0U2FaX03feySceFdeKX9TBUfMVnYKJbw&s"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "077124e1-54cf-4218-9fa7-fef448d32d4d",
+    "fields": {
+      "nama": "Stefano Lilipaly",
+      "posisi": "Forward",
+      "klub": "Dewa United",
+      "umur": 35,
+      "market_value": 3.91,
+      "foto": "https://asset.kompas.com/crops/z5gi71ohI0Tmihq7vD5L-eWFGXk=/0x0:5184x3456/1200x800/data/photo/2023/09/09/64fbf28a7b144.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "eab3b32d-cced-418e-a344-845e3130c04f",
+    "fields": {
+      "nama": "Septian Bagaskara",
+      "posisi": "Forward",
+      "klub": "Dewa United",
+      "umur": 28,
+      "market_value": 3.91,
+      "foto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU1U0rj9N6xtNgVt0931kESG907sPDZk5e4Q&s"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "00dc8d9c-f411-4be1-aaf3-fb18cb1f96ff",
+    "fields": {
+      "nama": "Hokky Caraka",
+      "posisi": "Forward",
+      "klub": "Persita",
+      "umur": 21,
+      "market_value": 3.48,
+      "foto": "https://indopop.id/storage/gambar/Hokky%20Caraka%201%20021020257.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "92b647e3-ce85-48d0-9d3c-da79b1ce32cd",
+    "fields": {
+      "nama": "Dimas Drajad",
+      "posisi": "Forward",
+      "klub": "Malut United",
+      "umur": 28,
+      "market_value": 3.48,
+      "foto": "https://cdn.rri.co.id/berita/Bukittinggi/o/1717242107245-52430-dimas-drajad-timnas-indonesia/m8gv2btujp5j8mw.webp"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "d285c3d3-f149-4367-a9d3-22a539b93425",
+    "fields": {
+      "nama": "Witan Sulaeman",
+      "posisi": "Forward",
+      "klub": "Persija",
+      "umur": 24,
+      "market_value": 4.78,
+      "foto": "https://asset.kompas.com/crops/QS7TYO8KLAbp_HCdOsUGeVMrH60=/27x36:1961x1325/1200x800/data/photo/2022/12/23/63a58a5020374.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "36e4953b-0f17-4a82-a51c-530d8e010e07",
+    "fields": {
+      "nama": "Dendy Sulistyawan",
+      "posisi": "Forward",
+      "klub": "Bhayangkara FC",
+      "umur": 28,
+      "market_value": 2.61,
+      "foto": "https://pict.sindonews.net/dyn/850/pena/news/2023/12/21/11/1281977/biodata-dendy-sulistyawan-striker-timnas-indonesia-andalan-shin-taeyong-yang-banyak-dikritik-netizen-indonesia-ttt.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "bfdf3e34-6bc0-4e38-8ab4-479c4b5330ca",
+    "fields": {
+      "nama": "Rafael Struick",
+      "posisi": "Forward",
+      "klub": "Dewa United",
+      "umur": 22,
+      "market_value": 2.61,
+      "foto": "https://image.idntimes.com/post/20240520/442994351-1183847242608312-3278676852742249367-n-010765870785b150c64da8fc831dab4d-35fc8dff55a9ba086f8b07655303967f.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "23307384-9bdc-4c21-ba51-f87de2a178f0",
+    "fields": {
+      "nama": "Ilija Spasojevic",
+      "posisi": "Forward",
+      "klub": "Bhayangkara FC",
+      "umur": 38,
+      "market_value": 1.74,
+      "foto": "https://assets.goal.com/images/v3/blt80c1691bd42f66cc/00b43ae1fdd0fc09e8614ca5dde403cfbe591c88.jpg?auto=webp&format=pjpg&width=3840&quality=60"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "da0f87d5-0c7e-4d61-a9a7-155382cde40f",
+    "fields": {
+      "nama": "Mauro Zijlstra",
+      "posisi": "Forward",
+      "klub": "FC Volendam",
+      "umur": 20,
+      "market_value": 1.3,
+      "foto": "https://beritanasional.com/storage/2025/10/mauro-zijlstra-1-08102025-121944.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "8e5daef6-8feb-4132-8de8-bb2db038f0ae",
+    "fields": {
+      "nama": "Muhammad Rafli",
+      "posisi": "Forward",
+      "klub": "Arema FC",
+      "umur": 26,
+      "market_value": 1.3,
+      "foto": "https://asset-2.tribunnews.com/suryamalang/foto/bank/images/biodata-muhammad-rafli-penyerang-arema-fc-di-piala-menpora-2021-langganan-masuk-timnas-indonesia.jpg"
+    }
+  },
+  {
+    "model": "ProfileAktif.Player",
+    "pk": "14121b49-4f0a-4534-b826-35c1870ebec1",
+    "fields": {
+      "nama": "mingyu",
+      "posisi": "Forward",
+      "klub": "svt",
+      "umur": 26,
+      "market_value": 23456789.0,
+      "foto": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2025/10/04/e1PmfOp9qQX46XVYajLBcFXGndOwt7UWcjQprU0C-1651604651.jpg"
+    }
+  }
+]

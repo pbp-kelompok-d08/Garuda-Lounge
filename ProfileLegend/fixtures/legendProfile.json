@@ -1,0 +1,542 @@
+[
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "01963c69-e193-4d04-9ad1-d02e6b7ec443",
+        "fields": {
+            "name": "Bambang Pamungkas",
+            "position": "Penyerang",
+            "age": 45,
+            "club": "Persija Jakarta",
+            "photo_url": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTM11_YH0U4pF6qZBRQdB3ZNGVE203CPIPCh37soS8FF5u3FOMh-ecB-eMRSwVhy-YBp-R-XY4868o7ua_BKQS3FzA1dasPChpUi1gtpyk",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "cc13cf95-8155-4f09-b3fb-b0750b4f9acd",
+        "fields": {
+            "name": "Kurniawan Dwi Yulianto",
+            "position": "Penyerang",
+            "age": 49,
+            "club": "Persitara Jakarta Utara",
+            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsg7yohRmz7zmdGUcRAHmCNtQ2C9dUx2nppw&s",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "1aa562ab-de5d-4529-a55a-9b56b146e1e0",
+        "fields": {
+            "name": "Bima Sakti",
+            "position": "Gelandang",
+            "age": 49,
+            "club": "Perseba Bangkalan",
+            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTpbVn_TYg_bTPons2FqVYfZqty530TagYEg&s",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "da5323eb-0dfb-4441-b4c0-0184417af2b1",
+        "fields": {
+            "name": "Ponaryo Astaman",
+            "position": "Gelandang",
+            "age": 46,
+            "club": "Borneo FC",
+            "photo_url": "https://cdn.grid.id/crop/0x0:0x0/700x465/photo/bolasport/medium_ca4cb0a46784b70afc055f311af4bcc4.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "7f999746-5c47-4fbc-95e2-a4f871d20e10",
+        "fields": {
+            "name": "Elie Aiboy",
+            "position": "Gelandang",
+            "age": 46,
+            "club": "Persip Pekalongan",
+            "photo_url": "https://upload.wikimedia.org/wikipedia/jv/3/30/Elie_Aiboy.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "fc6761df-2317-4091-b074-0330bfb3e724",
+        "fields": {
+            "name": "Ismed Sofyan",
+            "position": "Bek",
+            "age": 46,
+            "club": "Persiraja Banda Aceh",
+            "photo_url": "https://xyzonemedia.com/_next/image?url=https%3A%2F%2Fstorage.xyzone.media%2Fportal-bucket%2F2024%2F12%2Fbek-legendaris-ismed-sofyan-resmi-tinggalkan-persija-jakarta-uck.jpg&w=3840&q=75",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "0ee821f3-f928-41ec-8111-6d25af6acd9f",
+        "fields": {
+            "name": "Hendro Kartiko",
+            "position": "Kiper",
+            "age": 52,
+            "club": "Mitra Kukar",
+            "photo_url": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2024/11/18/hendro-kartiko-1933873508.jpeg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "79affb53-cf3a-4630-b38b-fe944581c512",
+        "fields": {
+            "name": "Firman Utina",
+            "position": "Gelandang",
+            "age": 43,
+            "club": "Bhayangkara FC",
+            "photo_url": "https://aktual.com/wp-content/uploads/2015/06/Firman-Utina-TakMaslah-jadi-Pemain-Cadangan.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "8b47e92e-54aa-402a-8fad-9851700f78fa",
+        "fields": {
+            "name": "Charis Yulianto",
+            "position": "Bek",
+            "age": 47,
+            "club": "Arema Indonesia",
+            "photo_url": "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/jawapos/2019/01/eks-bek-timnas-jalani-debut-melatih-bersama-borneo-fc-u-19_m_223993.jpeg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "f0323173-31f8-4aef-944e-41a31973418e",
+        "fields": {
+            "name": "Kurnia Sandy",
+            "position": "Kiper",
+            "age": 49,
+            "club": "Mitra Kukar",
+            "photo_url": "https://mediaindonesia.gumlet.io/news/2018/07/863763e77bdd4562bd2434ec42c36856.jpg?w=376&dpr=2.6",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "0404823e-5e52-4285-a216-e41308954fea",
+        "fields": {
+            "name": "Anang Maruf",
+            "position": "Bek",
+            "age": 48,
+            "club": "Persekap Pasuruan",
+            "photo_url": "https://cdns.klimg.com/bola.net/library/upload/21/2020/09/anang-maruf_21b6915.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "637e0258-20ee-4e77-825c-9178a6a51a9f",
+        "fields": {
+            "name": "Yeyen Tumena",
+            "position": "Bek",
+            "age": 49,
+            "club": "Persma Manado",
+            "photo_url": "https://cdn.rri.co.id/berita/Bukittinggi/t/1737692868143-3gqfrgfd67es40d/izggtble4zyd4z1.jpeg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "ffb8c4c9-f075-410a-aa78-235f4b99eb9e",
+        "fields": {
+            "name": "Eko Purjianto",
+            "position": "Bek",
+            "age": 49,
+            "club": "PSIS Semarang",
+            "photo_url": "https://img.a.transfermarkt.technology/portrait/big/53439-1622103755.jpg?lm=1",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "4fe264c6-c41c-43e6-b3ac-bbc8d116f87d",
+        "fields": {
+            "name": "Aji Santoso",
+            "position": "Bek",
+            "age": 55,
+            "club": "Arema FC",
+            "photo_url": "https://asset.kompas.com/crops/tvPF5xu4QhAY4ccZBq089kxfEkA=/0x0:1199x799/750x500/data/photo/2019/10/31/5dba999dee53c.jpeg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "2c863eb8-a685-48dc-8bc8-1bc78c001925",
+        "fields": {
+            "name": "Widodo Cahyono Putro",
+            "position": "Penyerang",
+            "age": 54,
+            "club": "Petrokimia Putra",
+            "photo_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Widodo_C._Putro.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "0007efaa-3ebb-43df-9fca-4d8b9bff68ec",
+        "fields": {
+            "name": "Rocky Putiray",
+            "position": "Penyerang",
+            "age": 55,
+            "club": "PSS Sleman",
+            "photo_url": "https://asset-2.tribunnews.com/pontianak/foto/bank/images/rochy-putiray_20180810_133016.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "a0e542f6-1170-4713-a3c6-5df9199da24d",
+        "fields": {
+            "name": "Indriyanto Nugroho",
+            "position": "Penyerang",
+            "age": 49,
+            "club": "Persik Kendal",
+            "photo_url": "https://img.idxchannel.com/images/idx/2022/09/19/Kisah_Indriyanto_Nugroho__Pesepa_Bola_Cepek_.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "0503d3c0-5ece-4052-bd65-0de91eae6775",
+        "fields": {
+            "name": "Robby Darwis",
+            "position": "Bek",
+            "age": 61,
+            "club": "Persib Bandung",
+            "photo_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Robby_Darwis_Pangeran_Bandung.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "61b14450-1b1b-4238-9f1b-f42cc2e9c346",
+        "fields": {
+            "name": "Bio Paulin",
+            "position": "Bek",
+            "age": 41,
+            "club": "PSGC Ciamis",
+            "photo_url": "https://images.bisnis.com/posts/2013/10/28/1024870/Bio-Paulin.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "b93dcc72-06b7-4e77-9f5b-80ae4889a7a2",
+        "fields": {
+            "name": "Irfan Bachdim",
+            "position": "Penyerang",
+            "age": 37,
+            "club": "Persik Kediri",
+            "photo_url": "https://cdn.medcom.id/dynamic/content/2020/02/16/1112543/lSQUewhcCJ.jpg?w=640",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "4f6e7d2c-15e2-4ee6-99bc-515959ba0dd7",
+        "fields": {
+            "name": "Titus Bonai",
+            "position": "Penyerang",
+            "age": 36,
+            "club": "Semen Padang",
+            "photo_url": "https://img.a.transfermarkt.technology/portrait/big/264237-1613432537.jpg?lm=1",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "e05e18b3-02b3-4b71-9a8f-2f4be4aeff47",
+        "fields": {
+            "name": "Greg Nwokolo",
+            "position": "Penyerang",
+            "age": 39,
+            "club": "Arema FC",
+            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGDuAZ9vVCNx9Nx_uYDY-5yOHwW5qTc4Bpdg&s",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "b48e91da-f3c7-4a69-bec1-270a2ae3bda0",
+        "fields": {
+            "name": "Imanuel Wanggai",
+            "position": "Gelandang",
+            "age": 37,
+            "club": "PSMS Medan",
+            "photo_url": "https://asset-2.tribunnews.com/tribunnews/foto/bank/images/imanuel-wanggai-meloww_20151215_032244.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "ff076021-30d8-40f4-9e75-2b5ccf6dd446",
+        "fields": {
+            "name": "Rully Nere",
+            "position": "Gelandang",
+            "age": 68,
+            "club": "Persija Jakarta",
+            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0qWvfM4SPcVGVEnkddAUjj2WDZq40Tfe67l2hBSF7RC6xl68ebhc_-blbjDpA4uoCbkQ&usqp=CAU",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "d8ca74ef-baf0-4482-a11b-c4999078349f",
+        "fields": {
+            "name": "Herry Kiswanto",
+            "position": "Bek",
+            "age": 70,
+            "club": "Krama Yudha Tiga Berlian",
+            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbVQpmjhrb3WUDVZeGGBIplNnNkKKz6BvZmscCGZ_YLQ3htwiyhwRlh5t1hn7C-vfV8uo&usqp=CAU",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "79bb5577-ea82-4958-a420-b95c5a030a9a",
+        "fields": {
+            "name": "Cristian Gonzales",
+            "position": "Penyerang",
+            "age": 49,
+            "club": "PSIM Yogyakarta",
+            "photo_url": "https://upload.wikimedia.org/wikipedia/jv/c/c8/Cristian_Gonzales.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "6a771cdc-86e6-485f-b7e7-cea411b7164a",
+        "fields": {
+            "name": "Boaz Solossa",
+            "position": "Penyerang",
+            "age": 39,
+            "club": "Persipura Jayapura",
+            "photo_url": "https://img.a.transfermarkt.technology/portrait/big/148088-1629699646.jpg?lm=1",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "5688ecab-a762-4f27-9268-f89a372cd1d5",
+        "fields": {
+            "name": "Ricardo Salampessy",
+            "position": "Bek",
+            "age": 41,
+            "club": "Persipura Jayapura",
+            "photo_url": "https://asset-2.tribunnews.com/tribunnews/foto/bank/images/20131219_060846_ricardo-salampessy-ff.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "183d837c-cb3f-4869-9bb3-9f4aa9d613c5",
+        "fields": {
+            "name": "Atep Rizal",
+            "position": "Gelandang",
+            "age": 40,
+            "club": "Persika 1951",
+            "photo_url": "https://mmc.tirto.id/image/otf/1240x0,q80/2017/09/29/atep--antara_ratio-16x9.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "b90a7a46-4171-4c6c-98f7-b7b6a671e455",
+        "fields": {
+            "name": "Maman Abdurrahman",
+            "position": "Bek",
+            "age": 43,
+            "club": "Persija Jakarta",
+            "photo_url": "https://asset-2.tribunnews.com/wartakota/foto/bank/images/maman-abdurrahman-141118.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "8756d81c-239a-4dbd-89c9-5c8d86f2f26d",
+        "fields": {
+            "name": "Markus Horison",
+            "position": "Kiper",
+            "age": 44,
+            "club": "Assalam FC",
+            "photo_url": "https://asset-2.tribunnews.com/makassar/foto/bank/images/markus-ho.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "0c4e6e9d-5a85-4117-892f-ad5d480eb1df",
+        "fields": {
+            "name": "Budi Sudarsono",
+            "position": "Penyerang",
+            "age": 45,
+            "club": "PSCS Cilacap",
+            "photo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Budi_Sudarsono_in_July_2020.jpg/250px-Budi_Sudarsono_in_July_2020.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "7a895aa0-638e-4c56-ae8f-c3c30cc9eb20",
+        "fields": {
+            "name": "Ilham Jaya Kesuma",
+            "position": "Penyerang",
+            "age": 47,
+            "club": "Mitra Kukar",
+            "photo_url": "https://media.suara.com/pictures/653x366/2022/04/15/66170-ilham-jaya-kesuma.webp",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "48d00267-ae3c-4db6-9d39-7fbe6a838e97",
+        "fields": {
+            "name": "Aris Indarto",
+            "position": "Bek",
+            "age": 47,
+            "club": "Persik Kediri",
+            "photo_url": "https://pbs.twimg.com/profile_images/449919320/Aris_20Indarto_resize_400x400.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "77e026f8-b46a-4166-ac0a-6216906f570a",
+        "fields": {
+            "name": "Agung Setyabudi",
+            "position": "Bek",
+            "age": 52,
+            "club": "Persis Solo",
+            "photo_url": "https://imgcdn.espos.id/@espos/images/2013/02/Agung-Setyabudi.jpg?quality=60",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "28750b38-4f97-4005-af30-029fbc80e14a",
+        "fields": {
+            "name": "Bejo Sugiantoro",
+            "position": "Bek",
+            "age": 48,
+            "club": "Persebaya Surabaya",
+            "photo_url": "https://cdn.ngopibareng.id/uploads/2025/2025-02-25/profil-bejo-sugiantoro-legenda-persebaya-meninggal-usia-47-tahun--thumbnail-498.webp",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "730af29c-d1dc-4558-88be-d022c359e03e",
+        "fields": {
+            "name": "Uston Nawawi",
+            "position": "Gelandang",
+            "age": 47,
+            "club": "Persebaya Surabaya",
+            "photo_url": "https://emosijiwaku.com/wp-content/uploads/2023/06/Copy-of-Foto-Website-3.png",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "d029a3dd-dd2e-4046-a1bb-addd3d767028",
+        "fields": {
+            "name": "Gendut Doni Christiawan",
+            "position": "Penyerang",
+            "age": 47,
+            "club": "Persikota Tangerang",
+            "photo_url": "https://assets.kompasiana.com/items/album/2020/12/27/save-20201227-103455-5fe80126d541df22cb696765.jpg?t=o&v=770",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "dc78e211-0f3f-440d-bff6-7ec35f9e03ed",
+        "fields": {
+            "name": "Mursyid Effendi",
+            "position": "Bek",
+            "age": 53,
+            "club": "Persebaya Surabaya",
+            "photo_url": "https://static.promediateknologi.id/crop/26x438:685x919/750x500/webp/photo/p1/465/2024/02/23/Screenshot_20240223-124300_Chrome-496942471.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "74172f6b-05cd-44a6-ba52-d87e9fddd99b",
+        "fields": {
+            "name": "Fakhri Husaini",
+            "position": "Gelandang",
+            "age": 60,
+            "club": "Pupuk Kaltim",
+            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWmmLt7DYDvX8MgY0MrRhCOJCHijCs1iqbyQ&s",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "4e7022b3-0a7e-4784-a76c-ea6bb52c7e60",
+        "fields": {
+            "name": "Ferril Hattu",
+            "position": "Gelandang",
+            "age": 63,
+            "club": "Petrokimia Putra",
+            "photo_url": "https://pbs.twimg.com/media/DlC0OLfUUAI6rKG?format=jpg&name=medium",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "c49be146-90f0-40c7-927a-cd1a027ed46c",
+        "fields": {
+            "name": "Oktovianus Maniani",
+            "position": "Penyerang",
+            "age": 34,
+            "club": "Persiba Balikpapan",
+            "photo_url": "https://barakata.id/wp-content/uploads/2019/09/d21386c204801f6a30b32ecbc3c053c1.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "039e1f7a-050f-452f-a8b3-60272ceb4d37",
+        "fields": {
+            "name": "Oktovianus Maniani",
+            "position": "Penyerang",
+            "age": 34,
+            "club": "Persiba Balikpapan",
+            "photo_url": "https://barakata.id/wp-content/uploads/2019/09/d21386c204801f6a30b32ecbc3c053c1.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "76a2b4a1-94f9-40e0-b3ee-5bff42e34271",
+        "fields": {
+            "name": "Oktovianus Maniani",
+            "position": "Penyerang",
+            "age": 34,
+            "club": "Persiba Balikpapan",
+            "photo_url": "https://barakata.id/wp-content/uploads/2019/09/d21386c204801f6a30b32ecbc3c053c1.jpg",
+            "is_legend": true
+        }
+    },
+    {
+        "model": "ProfileLegend.LegendPlayer",
+        "pk": "0849060e-efa7-429d-97ca-8f48bb05cc63",
+        "fields": {
+            "name": "Bambang Pamungkas",
+            "position": "Penyerang",
+            "age": 45,
+            "club": "Persija Jakarta",
+            "photo_url": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTM11_YH0U4pF6qZBRQdB3ZNGVE203CPIPCh37soS8FF5u3FOMh-ecB-eMRSwVhy-YBp-R-XY4868o7ua_BKQS3FzA1dasPChpUi1gtpyk",
+            "is_legend": true
+        }
+    }
+]
