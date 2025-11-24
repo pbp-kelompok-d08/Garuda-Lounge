@@ -37,18 +37,6 @@
     },
     {
         "model": "ProfileLegend.LegendPlayer",
-        "pk": "554e3139-0a0a-4bd1-92b0-75e24fc71e42",
-        "fields": {
-            "name": "Bima Sakti",
-            "position": "Gelandang",
-            "age": 49,
-            "club": "Perseba Bangkalan",
-            "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTpbVn_TYg_bTPons2FqVYfZqty530TagYEg&s",
-            "is_legend": true
-        }
-    },
-    {
-        "model": "ProfileLegend.LegendPlayer",
         "pk": "da5323eb-0dfb-4441-b4c0-0184417af2b1",
         "fields": {
             "name": "Ponaryo Astaman",
