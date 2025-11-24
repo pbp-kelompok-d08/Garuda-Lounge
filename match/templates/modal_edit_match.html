@@ -68,8 +68,7 @@
 
     const response = await fetch(`/match/${matchId}/get-form-html/`);
     const data = await response.json();
-    
-    // 2. Suntikkan HTML form ke dalam modal
+
     loadingSpinner.style.display = 'none';
     formContent.innerHTML = data.html;
   }
