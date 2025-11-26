@@ -15,4 +15,7 @@ urlpatterns = [
     # AJAX endpoints
     path('login-ajax/', views.login_ajax, name='login_ajax'),
     path('register-ajax/', views.register_ajax, name='register_ajax'),
+
+    path('proxy-image/', views.proxy_image, name='proxy_image'),
+    path('create-match-flutter/', views.create_match_flutter, name='create_match_flutter'),
 ]
