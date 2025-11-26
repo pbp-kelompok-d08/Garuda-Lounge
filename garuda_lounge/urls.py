@@ -25,4 +25,5 @@ urlpatterns = [
     path("news/", include(("news.urls", "news"), namespace="news")),
     path('ProfileAktif/', include('ProfileAktif.urls', namespace='ProfileAktif')),
     path('ProfileLegend/', include('ProfileLegend.urls', namespace='ProfileLegend')),
+    path('auth/', include('authentication.urls')),
  ]
