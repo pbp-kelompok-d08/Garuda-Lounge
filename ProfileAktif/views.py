@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.urls import reverse
+
 
 
 # 🌟 halaman utama (show semua pemain, atau tampilkan Marselino kalau kosong)
@@ -98,15 +100,17 @@ def show_json(request):
         {
             'id': str(p.id),
             'nama': p.nama,
-            'posisi': p.get_posisi_display(),  # biar muncul 'Goalkeeper' bukan 'GK'
+            'posisi': p.get_posisi_display(),  # teks untuk ditampilkan
+            'posisi_kode': p.posisi,           # kode GK/DF/MF/FW untuk <select>
             'klub': p.klub,
             'umur': p.umur,
-            'market_value': float(p.market_value),  # biar bisa dibaca JS
+            'market_value': float(p.market_value),
             'foto': p.foto,
         }
         for p in players
     ]
     return JsonResponse(data, safe=False)
+
 
 
 def show_xml_by_id(request, player_id):
@@ -146,3 +150,49 @@ def add_player_ajax(request):
     new_player.save()
 
     return HttpResponse(b"CREATED", status=201)
+
+@login_required(login_url='/login')
+def edit_player(request, id):
+    player = get_object_or_404(Player, pk=id)
+
+    if request.method == "POST":
+        form = PlayerForm(request.POST, instance=player)
+
+        if form.is_valid():
+            player = form.save()
+
+            # kalau dari AJAX
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'player_id': str(player.id),
+                })
+
+            # fallback biasa
+            return redirect('ProfileAktif:show_main')
+
+        # form tidak valid, kirim error ke AJAX
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': dict(form.errors),
+            }, status=400)
+
+    # fallback GET (jarang dipakai sekarang)
+    form = PlayerForm(instance=player)
+    context = {'form': form, 'player': player}
+    return render(request, "edit_player.html", context)
+
+
+@login_required(login_url='/login')
+def delete_player(request, id):
+    player = get_object_or_404(Player, pk=id)
+
+    # request dari AJAX
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        player.delete()
+        return JsonResponse({'success': True})
+
+    # fallback biasa (kalau dipanggil via link)
+    player.delete()
+    return HttpResponseRedirect(reverse('ProfileAktif:show_main'))
