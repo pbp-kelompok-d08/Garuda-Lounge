@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 app_name = "news"
@@ -23,6 +23,12 @@ urlpatterns = [
     path("detail/<uuid:id>/", views.show_news_detail_uuid, name="show_news_detail"),
     path("<uuid:id>/edit/", views.edit_news, name="edit_news"),
     path("<uuid:id>/delete/", views.delete_news, name="delete_news"),
+
+    # Include authentication app URLs (kalau kamu MAU auth di sini, tapi tadi kita bahas lebih enak di urls.py project)
+    path("auth/", include("authentication.urls")),
+
+    # proxy image → panggil dari views
+    path("proxy-image/", views.proxy_image, name="proxy_image"),
 
     # TERAKHIR: catch-all slug untuk detail publik
     path("<slug:slug>/", views.show_news_detail_slug, name="show_news_detail_slug"),
