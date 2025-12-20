@@ -1,14 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.urls import reverse
 from django.views.decorators.http import require_POST, require_GET
 from django.utils.html import strip_tags
 from django.contrib import messages
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import News, Comment
 from .forms import NewsForm, CommentForm
+
 import json
 import requests
 
@@ -28,12 +31,13 @@ def show_news_main(request):
     }
     return render(request, "news.html", context)
 
-# Detail (slug & uuid fallback)
+
 @login_required(login_url='/login')
 def show_news_detail_slug(request, slug):
     news = get_object_or_404(News, slug=slug)
     news.increment_views()
     return render(request, "news_detail.html", {"news": news})
+
 
 @login_required(login_url='/login')
 def show_news_detail_uuid(request, id):
@@ -41,7 +45,7 @@ def show_news_detail_uuid(request, id):
     news.increment_views()
     return render(request, "news_detail.html", {"news": news})
 
-# CREATE
+
 @login_required(login_url='/login')
 def create_news(request):
     form = NewsForm(request.POST or None)
@@ -61,10 +65,9 @@ def create_news(request):
     return render(request, "create_news.html", ctx)
 
 
-# EDIT
 @login_required(login_url='/login')
 def edit_news(request, id):
-    news = get_object_or_404(News, pk=id, user=request.user)  # batasi milik sendiri
+    news = get_object_or_404(News, pk=id, user=request.user)
     form = NewsForm(request.POST or None, instance=news)
 
     if request.method == 'POST' and form.is_valid():
@@ -82,74 +85,20 @@ def edit_news(request, id):
     return render(request, "create_news.html", ctx)
 
 
-# Delete News
 @require_POST
 @login_required(login_url='/login')
 def delete_news(request, id):
-    # 1) cek ada/tidak
     try:
         n = News.objects.get(pk=id)
     except News.DoesNotExist:
         return JsonResponse({'error': 'Not found'}, status=404)
 
-    # 2) cek kepemilikan
     if n.user_id != request.user.id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
-    # 3) hapus
     n.delete()
     return JsonResponse({'ok': True})
-    
-# AJAX: Create News
-@login_required(login_url='/login')
-@require_POST
-def add_news_entry_ajax(request):
-    if request.content_type == 'application/json':
-        body = json.loads(request.body.decode('utf-8'))
-        title = strip_tags(body.get("title", "")).strip()
-        content = strip_tags(body.get("content", "")).strip()
-        category = body.get("category", "")
-        thumbnail = body.get("thumbnail", "")
-        is_featured = bool(body.get("is_featured", False))
-    else:
-        title = strip_tags(request.POST.get("title", "")).strip()
-        content = strip_tags(request.POST.get("content", "")).strip()
-        category = request.POST.get("category", "")
-        thumbnail = request.POST.get("thumbnail", "")
-        is_featured = request.POST.get("is_featured") in ('on', 'true', '1')
 
-    if not title or not content or not category:
-        return JsonResponse({"error": "title, content, category wajib diisi."}, status=400)
-
-    n = News.objects.create(
-        title=title,
-        content=content,
-        category=category,
-        thumbnail=thumbnail or None,
-        is_featured=is_featured,
-        user=request.user,
-    )
-    data = {
-        'id': str(n.id),
-        'slug': n.slug,
-        'title': n.title,
-        'content': n.content,
-        'category': n.category,
-        'thumbnail': n.thumbnail,
-        'is_featured': n.is_featured,
-        'created_at': n.created_at.isoformat() if n.created_at else None,
-        'detail_url': n.get_absolute_url(),
-    }
-    return JsonResponse(data, status=201)
-
-# JSON/XML Serializers
-@require_GET
-def show_xml(request):
-    news_list = News.objects.all().order_by('-created_at')
-    xml_data = serializers.serialize("xml", news_list)
-    return HttpResponse(xml_data, content_type="application/xml; charset=utf-8")
-
-# JSON Views
 @require_GET
 def show_json(request):
     news_list = News.objects.select_related('user').all().order_by('-created_at')
@@ -171,14 +120,7 @@ def show_json(request):
     ]
     return JsonResponse(data, safe=False)
 
-# XML by ID
-@require_GET
-def show_xml_by_id(request, news_id):
-    news_item = get_object_or_404(News, pk=news_id)
-    xml_data = serializers.serialize("xml", [news_item])
-    return HttpResponse(xml_data, content_type="application/xml; charset=utf-8")
 
-# JSON by ID    
 @require_GET
 def show_json_by_id(request, id):
     n = get_object_or_404(News.objects.select_related('user'), pk=id)
@@ -197,7 +139,21 @@ def show_json_by_id(request, id):
     }
     return JsonResponse(data)
 
-# Komentar via AJAX
+
+@require_GET
+def show_xml(request):
+    news_list = News.objects.all().order_by('-created_at')
+    xml_data = serializers.serialize("xml", news_list)
+    return HttpResponse(xml_data, content_type="application/xml; charset=utf-8")
+
+
+@require_GET
+def show_xml_by_id(request, news_id):
+    news_item = get_object_or_404(News, pk=news_id)
+    xml_data = serializers.serialize("xml", [news_item])
+    return HttpResponse(xml_data, content_type="application/xml; charset=utf-8")
+
+
 @require_GET
 def get_comments(request, id):
     comments = Comment.objects.filter(news_id=id).select_related('user').order_by('-created_at')
@@ -212,7 +168,7 @@ def get_comments(request, id):
     ]
     return JsonResponse({'comments': data})
 
-# Tambah Komentar via AJAX
+
 @login_required(login_url='/login')
 @require_POST
 def add_comment(request, id):
@@ -240,21 +196,123 @@ def add_comment(request, id):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-# Image Proxy View
+@require_GET
 def proxy_image(request):
     image_url = request.GET.get('url')
     if not image_url:
-        return HttpResponse('No URL provided', status=400)
-    
+        return JsonResponse({'error': 'No URL provided'}, status=400)
+
     try:
-        # Fetch image from external source
-        response = requests.get(image_url, timeout=10)
-        response.raise_for_status()
-        
-        # Return the image with proper content type
-        return HttpResponse(
-            response.content,
-            content_type=response.headers.get('Content-Type', 'image/jpeg')
+        resp = requests.get(image_url, timeout=12, allow_redirects=True)
+        resp.raise_for_status()
+
+        content_type = resp.headers.get('Content-Type', '')
+        if not content_type.startswith('image/'):
+            return JsonResponse(
+                {'error': 'URL did not return an image', 'content_type': content_type},
+                status=415
+            )
+
+        return HttpResponse(resp.content, content_type=content_type)
+    except requests.exceptions.RequestException as e:
+        return JsonResponse({'error': f'Error fetching image: {str(e)}'}, status=502)
+
+@csrf_exempt
+def add_news_entry_ajax(request):
+    if request.method == 'POST':
+        try:
+            # Parse the JSON body from the request
+            data = json.loads(request.body.decode('utf-8'))
+            title = strip_tags(data.get("title", "")).strip()
+            content = strip_tags(data.get("content", "")).strip()
+            category = data.get("category", "").strip()
+            thumbnail = data.get("thumbnail", "").strip()
+            is_featured = bool(data.get("is_featured", False))
+
+            # Validate input fields
+            if not title or not content or not category:
+                return JsonResponse({"error": "Title, content, and category are required."}, status=400)
+
+            # Create the new news entry
+            new_news = News.objects.create(
+                title=title,
+                content=content,
+                category=category,
+                thumbnail=thumbnail or None,
+                is_featured=is_featured,
+                user=request.user
+            )
+
+            # Return the created news entry as JSON
+            return JsonResponse({
+                "status": "success",
+                "id": new_news.id,
+                "slug": new_news.slug,
+                "title": new_news.title,
+                "content": new_news.content,
+                "category": new_news.category,
+                "thumbnail": new_news.thumbnail,
+                "is_featured": new_news.is_featured,
+            }, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON payload."}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    else:
+        return JsonResponse({"error": "Invalid HTTP method."}, status=405)
+
+@csrf_exempt
+def create_news_flutter(request):
+    """
+    Endpoint untuk Flutter:
+    POST /news/create-flutter/
+    Body: JSON {title, content, category, thumbnail, is_featured}
+    Return: JSON
+    """
+
+    if request.method != "POST":
+        return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)
+
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {"status": "error", "message": "Not authenticated. Please login first."},
+            status=401
         )
-    except requests.RequestException as e:
-        return HttpResponse(f'Error fetching image: {str(e)}', status=500)
+
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except Exception:
+        return JsonResponse(
+            {"status": "error", "message": "Payload must be valid JSON."},
+            status=400
+        )
+
+    title = strip_tags(data.get("title", "")).strip()
+    content = strip_tags(data.get("content", "")).strip()
+    category = (data.get("category") or "").strip()
+    thumbnail = (data.get("thumbnail") or "").strip()
+    is_featured = bool(data.get("is_featured", False))
+
+    if not title or not content or not category:
+        return JsonResponse(
+            {"status": "error", "message": "title, content, category wajib diisi."},
+            status=400
+        )
+
+    allowed = {'transfer', 'update', 'exclusive', 'match', 'rumor', 'analysis'}
+    if category not in allowed:
+        return JsonResponse(
+            {"status": "error", "message": f"Invalid category: {category}"},
+            status=400
+        )
+
+    new_news = News.objects.create(
+        title=title,
+        content=content,
+        category=category,
+        thumbnail=thumbnail or None,
+        is_featured=is_featured,
+        user=request.user
+    )
+
+    return JsonResponse({"status": "success", "id": str(new_news.id)}, status=201)

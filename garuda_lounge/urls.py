@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from garuda_lounge.views import create_news_flutter
+
 urlpatterns = [
     path("auth/", include("authentication.urls")),
     path('admin/', admin.site.urls),
@@ -26,4 +28,5 @@ urlpatterns = [
     path("news/", include(("news.urls", "news"), namespace="news")),
     path('ProfileAktif/', include('ProfileAktif.urls', namespace='ProfileAktif')),
     path('ProfileLegend/', include('ProfileLegend.urls', namespace='ProfileLegend')),
+    path('create-flutter/', create_news_flutter, name='create_news_flutter'),
  ]
