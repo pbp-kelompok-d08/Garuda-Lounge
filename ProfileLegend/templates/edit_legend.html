@@ -1,0 +1,74 @@
+{% extends 'base_legend.html' %}
+{% load static %}
+
+{% block title %}Edit Pemain Legend{% endblock title %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white rounded-2xl shadow-md border border-gray-200 p-8 my-10">
+
+    <h1 class="font-heading text-2xl text-[#AA1515] mb-6 text-center font-bold">
+        Edit Pemain Legend: {{ legend.name }}
+    </h1>
+
+    <form method="POST" class="space-y-5">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label class="block text-sm font-medium text-[#111111] mb-1">
+                {{ field.label }}
+            </label>
+            {{ field }}
+            
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <p class="text-red-500 text-xs italic mt-1">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="pt-2">
+            <button type="submit"
+                class="w-full bg-[#AA1515] text-white font-semibold py-2 rounded-lg hover:bg-[#8F1212] transition duration-200 shadow-sm">
+                Simpan Perubahan
+            </button>
+        </div>
+    </form>
+
+    <div class="text-center mt-6">
+        <a href="{% url 'ProfileLegend:show_legend_detail' legend.id %}"
+           class="text-sm font-medium text-[#AA1515] hover:underline flex items-center justify-center gap-1">
+            <span>&#8592;</span> Kembali ke Detail Legend
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Styling agar input Django otomatis mengikuti desain Tailwind */
+    .form-group input[type="text"], 
+    .form-group input[type="number"], 
+    .form-group input[type="url"],
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+        transition: all 0.2s;
+    }
+    
+    .form-group select {
+        background-color: white;
+    }
+    
+    .form-group input:focus, 
+    .form-group select:focus {
+        border-color: #AA1515;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(170, 21, 21, .15);
+    }
+</style>
+{% endblock %}
