@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core import serializers
 from django.urls import reverse
+import json
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
@@ -167,3 +168,62 @@ def show_json_by_id(request, id):
         'user_username': n.user.username if n.user_id else None,
     }
     return JsonResponse(data)
+
+@csrf_exempt
+def create_merch_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        name = strip_tags(data.get("name", ""))  # Strip HTML tags
+        description = strip_tags(data.get("description", ""))  # Strip HTML tags
+        category = data.get("category", "")
+        price = data.get("price", "")
+        thumbnail = data.get("thumbnail", "")
+        product_link = data.get("product_link", "")
+        user = request.user
+        
+        new_merch = Merch(
+            name=name, 
+            description=description,
+            category=category,
+            price=price,
+            thumbnail=thumbnail,
+            product_link=product_link,
+            user=user
+        )
+        new_merch.save()
+        
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+    
+@csrf_exempt
+def edit_merch_flutter(request, id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            merch = Merch.objects.get(pk=id)
+            merch.name = strip_tags(data.get("name", ""))  # Strip HTML tags
+            merch.description = strip_tags(data.get("description", ""))  # Strip HTML tags
+            merch.category = data.get("category", "")
+            merch.price = data.get("price", "")
+            merch.thumbnail = data.get("thumbnail", "")
+            merch.product_link = data.get("product_link", "")
+
+            merch.save()
+        
+            return JsonResponse({"status": "success"}, status=200)
+        except Merch.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Not found"}, status=404)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_merch_flutter(request, id):
+    if request.method == 'POST':
+        try:
+            match = Merch.objects.get(pk=id)
+            match.delete()
+            return JsonResponse({"status": "success"}, status=200)
+        except Merch.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Match not found"}, status=404)
+    return JsonResponse({"status": "error"}, status=401)

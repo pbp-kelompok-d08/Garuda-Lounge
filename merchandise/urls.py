@@ -19,4 +19,9 @@ urlpatterns = [
 
     # AJAX
     path('add-merch-entry-ajax/', views.add_merch_entry_ajax, name='add_merch_entry_ajax'),
+
+    #Flutter
+    path('create-flutter/', views.create_merch_flutter, name='create_merch_flutter'),
+    path('edit-flutter/<uuid:id>/', views.edit_merch_flutter, name='edit_merch_flutter'),
+    path('delete-flutter/<uuid:id>/', views.delete_merch_flutter, name='delete_merch_flutter'),
     ]

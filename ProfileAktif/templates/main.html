@@ -170,9 +170,115 @@
   .centered { text-align:center; padding:3rem; }
   .hidden { display:none; }
 
+    .btn-edit,
+  .btn-delete {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.45rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 0.4rem;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+  }
+
+  .btn-edit {
+    background-color: #ffffff;
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+
+  .btn-edit:hover {
+    background-color: var(--red-soft);
+  }
+
+  .btn-delete {
+    background-color: #ffffff;
+    color: #b00020;
+    border: 1px solid #b00020;
+  }
+
+  .btn-delete:hover {
+    background-color: rgba(176,0,32,0.1);
+  }
+
+/* Styling wrapper filter */
+.filter-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 24px 0 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Label "Filter posisi" */
+.filter-label {
+    font-weight: 600;
+    color: var(--black);
+    font-size: 0.95rem;
+}
+
+/* Dropdown styling */
+#filter-posisi {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #b00020;
+    background-color: #fff;
+    font-size: 0.80rem;
+    font-family: 'Poppins', sans-serif;
+    color: #b00020;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    appearance: none;
+
+    /* arrow icon */
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23b00020' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+
+/* Saat hover */
+#filter-posisi:hover {
+    border-color: #b00020;
+    box-shadow: 0 3px 8px rgba(176,0,32,0.15);
+}
+
+
+/* Saat dropdown sedang dibuka (focus state) */
+#filter-posisi:focus {
+    background-color: #f1e5e5;        /* sama kayak tombol Edit */
+    color: #b00020;
+    border-color: #b00020;
+    box-shadow: 0 0 0 2px rgba(176, 0, 32, 0.25);
+}
+
+
+/* Style warna option di dalam dropdown */
+#filter-posisi option {
+    font-family: 'Poppins', sans-serif;
+    padding: 8px;
+    color: #b00020;
+    background-color: #ffffff;
+}
+
+/* Saat option di-hover (beberapa browser support) */
+#filter-posisi option:hover {
+    background-color: #f8dada;
+    color: #b00020;
+}
+
+
+
 /* Modal Styles - Red Theme */
 .modal {
-    display: none;
+    display: none;                 /* akan diubah ke "flex" dari JS saat dibuka */
     position: fixed;
     z-index: 1001;
     left: 0;
@@ -180,19 +286,22 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
-    overflow-y: auto;
+    
+    /* bikin konten di tengah */
+    display: none;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
     background-color: white;
-    margin: 2% auto;
     padding: 0;
     border-radius: 12px;
     width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     font-family: 'Inter', sans-serif;
-    border: 2px solid var(--red); /* STROKE MERAH */
+    border: 2px solid var(--red);
     overflow: hidden;
     max-height: 90vh;
     overflow-y: auto;
@@ -367,6 +476,19 @@
   </div>
 
   <h1 class="title">Pemain Aktif Timnas Indonesia</h1>
+  <!-- FILTER POSISI -->
+  <div class="filter-wrapper">
+    <span class="filter-label">Filter posisi</span>
+
+    <select id="filter-posisi">
+        <option value="">Semua posisi</option>
+        <option value="GK">Goalkeeper</option>
+        <option value="DF">Defender</option>
+        <option value="MF">Midfielder</option>
+        <option value="FW">Forward</option>
+    </select>
+  </div>
+
 
   <button 
     onclick="showPlayerModal()" 
@@ -451,6 +573,29 @@
   </div>
 </div>
 
+<!-- Modal Delete Pemain -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" onclick="closeDeleteModal()">&times;</span>
+      <h2>Hapus Pemain</h2>
+      <p>Yakin ingin menghapus pemain ini dari daftar?</p>
+    </div>
+
+    <div class="form-container">
+      <div style="margin-bottom: 16px; color:#444; font-size:0.95rem;">
+        Data pemain yang sudah dihapus tidak dapat dikembalikan.
+      </div>
+      <div class="button-group">
+        <button type="button" class="cancel-btn" onclick="closeDeleteModal()">Batal</button>
+        <button type="button" class="submit-btn" onclick="confirmDelete()">Hapus</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <script>
   const PLAYER_API_ENDPOINT = "{% url 'ProfileAktif:show_json' %}";
   const loading = document.getElementById("loading");
@@ -458,29 +603,95 @@
   const empty = document.getElementById("empty");
   const grid = document.getElementById("grid");
   const modal = document.getElementById("playerModal");
+  const deleteModal = document.getElementById("deleteModal");
+  let playerToDeleteId = null;
+  let isEditMode = false;
+  let editingPlayerId = null;
+  let playersCache = {};
+  let allPlayers = []; 
+
 
   // Modal functions
   function showPlayerModal() {
-    modal.style.display = "block";
-    document.body.style.overflow = "hidden"; // Prevent body scroll
+    isEditMode = false;
+    editingPlayerId = null;
+
+    const headerTitle = document.querySelector('#playerModal .modal-header h2');
+    const headerDesc = document.querySelector('#playerModal .modal-header p');
+    const form = document.getElementById('playerForm');
+
+    headerTitle.textContent = 'Tambah Pemain Baru';
+    headerDesc.textContent = 'Lengkapi data pemain aktif timnas Indonesia';
+    form.reset();
+
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
   }
+
 
   function closePlayerModal() {
       modal.style.display = "none";
       document.body.style.overflow = "auto"; // Restore body scroll
   }
 
+  function openDeleteModal(playerId) {
+    playerToDeleteId = playerId;
+    deleteModal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeDeleteModal() {
+    deleteModal.style.display = "none";
+    document.body.style.overflow = "auto";
+    playerToDeleteId = null;
+  }
+
+  function openEditModal(playerId) {
+    const player = playersCache[playerId];
+    if (!player) return;
+
+    isEditMode = true;
+    editingPlayerId = playerId;
+
+    const headerTitle = document.querySelector('#playerModal .modal-header h2');
+    const headerDesc = document.querySelector('#playerModal .modal-header p');
+    const form = document.getElementById('playerForm');
+
+    headerTitle.textContent = 'Edit Pemain';
+    headerDesc.textContent = 'Ubah data pemain aktif timnas Indonesia';
+
+    document.getElementById('nama').value = player.nama || '';
+    document.getElementById('posisi').value = player.posisi_kode || '';
+    document.getElementById('klub').value = player.klub || '';
+    document.getElementById('umur').value = player.umur || '';
+    document.getElementById('market_value').value = player.market_value || '';
+    document.getElementById('foto').value = player.foto || '';
+
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+
   // Close modal when clicking outside
   window.onclick = function(event) {
     if (event.target == modal) {
       closePlayerModal();
     }
+    if (event.target == deleteModal) {
+      closeDeleteModal();
+    }
   }
+
 
   // Close modal with Escape key
   document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && modal.style.display === 'block') {
+    if (event.key === 'Escape') {
+      if (modal.style.display === 'block' || modal.style.display === 'flex') {
         closePlayerModal();
+      }
+      if (deleteModal.style.display === 'block' || deleteModal.style.display === 'flex') {
+        closeDeleteModal();
+      }
     }
   });
 
@@ -503,19 +714,49 @@
         <p class="player-info"><strong>Klub:</strong> ${player.klub}</p>
         <p class="player-info"><strong>Umur:</strong> ${player.umur}</p>
         <p class="player-info"><strong>Market Value:</strong> Rp${player.market_value} Miliar</p>
-        <!-- Bagian tombol "Detail Pemain" -->
-        <div class="button-container">
+        <div class="button-container" style="flex-direction:column;align-items:stretch;">
           <a href="/ProfileAktif/player/${player.id}/" class="btn-detail">Detail Pemain</a>
+          <button type="button" class="btn-edit" onclick="openEditModal('${player.id}')">Edit</button>
+          <button type="button" class="btn-delete" onclick="openDeleteModal('${player.id}')">Delete</button>
         </div>
       </div>
     `;
     return card;
   }
 
+
   function renderPlayers(players) {
     grid.innerHTML = "";
-    players.forEach(player => grid.appendChild(createPlayerCard(player)));
+    playersCache = {};              // reset cache
+
+    players.forEach(player => {
+      playersCache[player.id] = player;
+      grid.appendChild(createPlayerCard(player));
+    });
   }
+
+  function applyFilter() {
+    const select = document.getElementById('filter-posisi');
+    const value = select.value;   // "", "GK", "DF", "MF", "FW"
+
+    let filtered = allPlayers;
+
+    if (value) {
+      filtered = allPlayers.filter(p => {
+        // pakai posisi_kode kalau ada, kalau tidak pakai posisi
+        return (p.posisi_kode || p.posisi) === value;
+      });
+    }
+
+    if (filtered.length === 0) {
+      grid.innerHTML = "";
+      showSection({ showEmpty: true });
+    } else {
+      renderPlayers(filtered);
+      showSection({ showGrid: true });
+    }
+  }
+
 
   async function fetchPlayers() {
     try {
@@ -523,17 +764,54 @@
       const response = await fetch(PLAYER_API_ENDPOINT);
       if (!response.ok) throw new Error("Gagal fetch data");
       const data = await response.json();
-      if (data.length === 0) {
+
+      allPlayers = data;   // simpan semua pemain di memori
+
+      if (allPlayers.length === 0) {
         showSection({ showEmpty: true });
       } else {
-        renderPlayers(data);
-        showSection({ showGrid: true });
+        applyFilter();     // langsung apply filter sesuai pilihan sekarang
       }
     } catch (err) {
       console.error(err);
       showSection({ showError: true });
     }
   }
+
+
+
+  async function confirmDelete() {
+    if (!playerToDeleteId) return;
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
+      const response = await fetch(`/ProfileAktif/player/${playerToDeleteId}/delete/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+
+      if (!response.ok) throw new Error('Gagal menghapus pemain');
+
+      const data = await response.json();
+      if (data.success) {
+        closeDeleteModal();
+        await fetchPlayers();  // refresh grid biar card langsung hilang
+        if (typeof showToast === 'function') {
+          showToast('Berhasil', 'Pemain berhasil dihapus', 'success');
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      if (typeof showToast === 'function') {
+        showToast('Error', 'Terjadi kesalahan saat menghapus pemain', 'error');
+      }
+    }
+  }
+
 
   // === AJAX submit untuk form Tambah Pemain ===
   // Pakai event delegation supaya tetap nempel meski modal dimuat ulang.
@@ -549,9 +827,15 @@
       submitBtn.textContent = 'Memproses...';
       submitBtn.disabled = true;
 
+      const wasEdit = isEditMode;   // simpan mode sebelum di-reset
+
       try {
         const formData = new FormData(form);
-        const response = await fetch(form.action, {
+        const url = wasEdit
+          ? `/ProfileAktif/player/${editingPlayerId}/edit/`
+          : form.action;
+
+        const response = await fetch(url, {
           method: 'POST',
           body: formData,
           headers: {
@@ -566,9 +850,18 @@
         if (data.success) {
           closePlayerModal();
           form.reset();
-          fetchPlayers(); // refresh grid
-          if (typeof showToast === 'function')
-            showToast('Berhasil!', 'Pemain berhasil ditambahkan', 'success');
+          isEditMode = false;
+          editingPlayerId = null;
+
+          await fetchPlayers(); // refresh grid
+
+          if (typeof showToast === 'function') {
+            showToast(
+              'Berhasil!',
+              wasEdit ? 'Data pemain berhasil diperbarui' : 'Pemain berhasil ditambahkan',
+              'success'
+            );
+          }
         } else {
           let msg = 'Data tidak valid.';
           if (data.errors) {
@@ -586,7 +879,15 @@
         submitBtn.disabled = false;
       }
     });
+
+    const filterSelect = document.getElementById('filter-posisi');
+    if (filterSelect) {
+      filterSelect.addEventListener('change', function() {
+        applyFilter();
+      });
+    }
   });
+
 
   // Initial fetch
   fetchPlayers();
