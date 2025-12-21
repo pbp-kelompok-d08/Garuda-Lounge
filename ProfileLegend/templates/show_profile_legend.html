@@ -5,304 +5,293 @@
 
 {% block content %}
 <style>
-  :root{
-    --bg:#E7E3DD; --red:#AA1515; --black:#111; --white:#fff;
-    --red-soft: rgba(170,21,21,.22);
-    --red-soft-2: rgba(170,21,21,.32);
+  :root {
+    --bg: #E7E3DD; --red: #AA1515; --black: #111; --white: #fff;
+    --red-soft: rgba(170, 21, 21, .15);
+    --red-soft-2: rgba(170, 21, 21, .25);
   }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg);
-    color: var(--black);
-  }
+  body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--black); }
 
-  .wrap{
-    max-width:1000px;
-    margin:0 auto;
-    padding:40px 16px;
-    text-align:center;
-  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 16px; text-align: center; }
 
-  /* Back button */
-  .back-btn {
-    background: var(--red);
-    color: var(--white);
-    font-weight: 700;
-    padding: 10px 18px;
-    border-radius: 10px;
-    text-decoration: none;
-    box-shadow:0 4px 10px var(--red-soft);
-    transition:background .2s, transform .2s;
-    margin-bottom: 24px;
-    display:inline-block;
+  /* Tombol Utama */
+  .back-btn, .tambah-btn {
+    display: inline-block; padding: 10px 20px; border-radius: 10px;
+    font-weight: 700; text-decoration: none; transition: .2s; border: none; cursor: pointer;
   }
-  .back-btn:hover{
-    background:#8b1010;
-    transform:translateY(-2px);
-  }
+  .back-btn { background: var(--white); color: var(--red); border: 1.5px solid var(--red); margin-bottom: 20px; }
+  .tambah-btn { background: var(--red); color: var(--white); box-shadow: 0 4px 10px var(--red-soft); }
+  .back-btn:hover, .tambah-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-  /* Title */
-  .title{
-    font-family:'Montserrat',sans-serif;
-    font-weight:800;
-    color:var(--red);
-    font-size:1.8rem;
-    margin:24px 0;
-  }
+  .title { font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--red); font-size: 2rem; margin: 20px 0; }
 
-  /* Modal button */
-  .tambah-btn{
-    background:var(--red);
-    color:var(--white);
-    padding:10px 14px;
-    border-radius:8px;
-    font-weight:600;
-    cursor:pointer;
-    transition:background .2s;
-    font-family:'Inter',sans-serif;
-  }
-  .tambah-btn:hover{
-    background:#8b1010;
-  }
+  /* Filter */
+  .filter-wrapper { margin: 20px 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
+  #filter-posisi { padding: 8px 12px; border-radius: 8px; border: 1.5px solid var(--red); font-family: 'Inter', sans-serif; }
 
-  /* Grid */
-  .player-grid {
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:1rem;
-    padding:1rem 0;
+  /* Grid & Card */
+  .player-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; padding: 20px 0; }
+  .player-card {
+    background: white; border: 1.5px solid var(--red); border-radius: 16px;
+    overflow: hidden; transition: .3s; display: flex; flex-direction: column; text-align: left;
   }
-  @media (max-width:1024px) {
-    .player-grid { grid-template-columns:repeat(3,1fr); }
-  }
-  @media (max-width:768px) {
-    .player-grid { grid-template-columns:repeat(2,1fr); }
-  }
-  @media (max-width:480px) {
-    .player-grid { grid-template-columns:repeat(1,1fr); }
-  }
+  .player-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--red-soft-2); }
+  .player-card img { width: 100%; height: 180px; object-fit: cover; }
+  .player-content { padding: 15px; }
+  .player-name { font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--red); font-size: 1.2rem; margin-bottom: 8px; }
+  .player-info { font-size: .85rem; margin: 4px 0; color: #444; }
 
-  /* Card legend */
-  .player-card{
-    background:white;
-    border:1.5px solid var(--red);
-    border-radius:16px;
-    box-shadow:0 4px 10px var(--red-soft);
-    overflow:hidden;
-    transition:.3s;
-    display:flex; flex-direction:column;
-  }
-  .player-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 18px var(--red-soft-2);
-  }
-
-  .player-card img{
-    width:100%;
-    height:160px;
-    object-fit:cover;
-  }
-
-  .player-content{
-    padding:1rem;
-    text-align:left;
-    gap:.3rem;
-    display:flex;
-    flex-direction:column;
-  }
-
-  .player-name{
-    font-family:'Montserrat',sans-serif;
-    font-weight:800;
-    color:var(--red);
-    margin:.2rem 0 .1rem;
-    line-height:1.2;
-  }
-
-  .player-info{ font-size:.9rem; color:#333; margin:.1rem 0; }
-
-  .btn-detail{
-    background:var(--red);
-    color:white;
-    width:100%;
-    border-radius:8px;
-    display:inline-block;
-    text-align:center;
-    padding:8px;
-    margin-top:8px;
-  }
-  .btn-detail:hover{ filter:brightness(1.08); }
+  /* Card Buttons */
+  .card-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .btn-detail { grid-column: span 2; background: var(--red); color: white; text-align: center; padding: 8px; border-radius: 6px; font-size: .9rem; }
+  .btn-edit { background: #eee; color: #333; padding: 6px; border-radius: 6px; border: none; cursor: pointer; font-size: .8rem; }
+  .btn-delete { background: #fee; color: var(--red); padding: 6px; border-radius: 6px; border: none; cursor: pointer; font-size: .8rem; }
 
   /* Modal */
-  .modal{
-    display:none;
-    position:fixed;
-    z-index:2000;
-    left:0;top:0;width:100%;height:100%;
-    background:rgba(0,0,0,.4);
-    overflow-y:auto;
-  }
-
-  .modal-content{
-    background:white;
-    width:90%;
-    max-width:450px;
-    margin:5% auto;
-    padding:0;
-    border-radius:12px;
-    border:2px solid var(--red);
-    overflow:hidden;
-  }
-
-  .modal-header{
-    padding:18px 22px;
-    border-bottom:2px solid var(--red);
-  }
-
-  .modal-header h2{
-    font-family:'Montserrat',sans-serif;
-    font-weight:800;
-    color:var(--red);
-    margin:0 0 6px;
-  }
-
-  .close{
-    float:right;
-    font-size:24px;
-    cursor:pointer;
-  }
-
-  .form-container{ padding:22px; }
-  .form-group{ margin-bottom:16px; }
-  label{ font-weight:600; font-size:.9rem; }
-
-  input,select{
-    width:100%;
-    padding:10px 12px;
-    border:2px solid #ddd;
-    border-radius:8px;
-    font-family:'Inter',sans-serif;
-  }
-
-  input:focus,select:focus{
-    border-color:var(--red);
-    outline:none;
-    box-shadow:0 0 0 3px var(--red-soft);
-  }
-
-  .submit-btn{
-    width:100%;
-    background:var(--red);
-    color:white;
-    padding:10px;
-    border-radius:8px;
-    font-weight:600;
-    transition:.2s;
-  }
-  .submit-btn:hover{ background:#8b1010; }
+  .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,.5); align-items: center; justify-content: center; }
+  .modal-content { background: white; width: 90%; max-width: 450px; border-radius: 15px; border: 2px solid var(--red); overflow: hidden; animation: slideDown 0.3s; }
+  @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-header { padding: 20px; border-bottom: 2px solid var(--red); display: flex; justify-content: space-between; align-items: center; }
+  .close { font-size: 28px; cursor: pointer; }
+  .form-container { padding: 20px; }
+  .form-group { margin-bottom: 15px; text-align: left; }
+  .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: .9rem; }
+  input, select { width: 100%; padding: 10px; border: 1.5px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+  .submit-btn { width: 100%; background: var(--red); color: white; padding: 12px; border-radius: 8px; font-weight: 700; border: none; cursor: pointer; margin-top: 10px; }
+  
+  .hidden { display: none; }
+  .centered { padding: 40px; color: #666; }
 </style>
 
 <div class="wrap">
-  <a href="{% url 'main:show_main' %}" class="back-btn">← Back to Main Page</a>
+  <div style="text-align: left;">
+    <a href="{% url 'main:show_main' %}" class="back-btn">← Back to Dashboard</a>
+  </div>
 
-  <h1 class="title">Pemain Legend Timnas Indonesia</h1>
+  <h1 class="title">Pemain Legend Timnas</h1>
 
-  <button onclick="showModal()" class="tambah-btn">+ Tambah Legend</button>
+  <div class="filter-wrapper">
+    <label>Filter:</label>
+    <select id="filter-posisi" onchange="applyFilter()">
+      <option value="">Semua Posisi</option>
+      <option value="Kiper">Kiper</option>
+      <option value="Bek">Bek</option>
+      <option value="Gelandang">Gelandang</option>
+      <option value="Penyerang">Penyerang</option>
+    </select>
+    <button onclick="showModal()" class="tambah-btn">+ Tambah Legend</button>
+  </div>
 
-  <div id="loading" class="centered hidden">⏳ Loading...</div>
-  <div id="error" class="centered hidden">⚠️ Gagal Muat Data</div>
-  <div id="empty" class="centered hidden">Belum ada legend.</div>
+  <div id="loading" class="centered">⏳ Memuat data...</div>
+  <div id="empty" class="centered hidden">Belum ada pemain legend.</div>
   <div id="grid" class="player-grid hidden"></div>
 </div>
 
-<!-- Modal -->
 <div id="legendModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
+      <h2 id="modalTitle">Tambah Legend</h2>
       <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Tambah Legend</h2>
     </div>
     <div class="form-container">
-      <form id="legendForm" action="{% url 'ProfileLegend:create_legend' %}" method="POST">
+      <form id="legendForm">
         {% csrf_token %}
-
         <div class="form-group">
-          <label>Nama</label>
-          <input name="name" required>
+          <label>Nama Lengkap</label>
+          <input name="name" id="f_name" required>
         </div>
-
         <div class="form-group">
           <label>Posisi</label>
-          <select name="position" required>
-            <option value="">Pilih</option>
+          <select name="position" id="f_position" required>
             <option value="Kiper">Kiper</option>
             <option value="Bek">Bek</option>
             <option value="Gelandang">Gelandang</option>
             <option value="Penyerang">Penyerang</option>
           </select>
         </div>
-
         <div class="form-group">
-          <label>Klub</label>
-          <input name="club" required>
+          <label>Klub Legend</label>
+          <input name="club" id="f_club" required>
         </div>
-
         <div class="form-group">
-          <label>Umur</label>
-          <input type="number" name="age" required>
+          <label>Umur Sekarang</label>
+          <input type="number" name="age" id="f_age" required>
         </div>
-
         <div class="form-group">
           <label>URL Foto</label>
-          <input type="url" name="photo_url">
+          <input type="url" name="photo_url" id="f_photo">
         </div>
-
-        <button class="submit-btn">Tambah Legend</button>
+        <button type="submit" class="submit-btn" id="submitBtn">Simpan Legend</button>
       </form>
     </div>
   </div>
 </div>
 
 <script>
-  const API="{% url 'ProfileLegend:show_json' %}";
-  const grid=document.getElementById("grid");
-  const empty=document.getElementById("empty");
+  // 1. KONFIGURASI ENDPOINT & STATE
+  const API_GET = "{% url 'ProfileLegend:show_json' %}";
+  const loading = document.getElementById("loading");
+  const error = document.getElementById("error");
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  const legendForm = document.getElementById("legendForm");
+  
+  let allPlayers = [];
+  let isEditMode = false;
+  let editId = null;
 
-  function showModal(){
-    legendModal.style.display="block";
-  }
-  function closeModal(){
-    legendModal.style.display="none";
-  }
-
-  window.onclick=e=>{
-    if(e.target==legendModal) closeModal();
-  }
-
-  function card(p){
-    return `
-    <div class="player-card">
-      <img src="${p.photo_url || "https://via.placeholder.com/200"}">
-      <div class="player-content">
-        <div class="player-name">${p.name}</div>
-        <p class="player-info"><b>Posisi:</b> ${p.position}</p>
-        <p class="player-info"><b>Klub:</b> ${p.club}</p>
-        <p class="player-info"><b>Umur:</b> ${p.age}</p>
-        <a href="/ProfileLegend/detail/${p.id}/" class="btn-detail">Detail Legend</a>
-      </div>
-    </div>`;
-  }
-
-  async function load(){
-    const r=await fetch(API);
-    const d=await r.json();
-    if(!d.length){ empty.classList.remove("hidden"); return }
-    grid.classList.remove("hidden");
-    grid.innerHTML=d.map(card).join("");
+  // 2. Fetch Data dari Server
+  async function loadPlayers() {
+    try {
+      // Tampilkan loading jika elemen ada
+      if (loading) loading.classList.remove("hidden");
+      
+      const r = await fetch(API_GET);
+      if (!r.ok) throw new Error("Gagal mengambil data");
+      allPlayers = await r.json();
+      applyFilter();
+    } catch (e) {
+      console.error("Gagal load:", e);
+      if (loading) loading.classList.add("hidden");
+    }
   }
 
-  load();
+  // 3. Render Grid & Filter
+  function applyFilter() {
+    const filterVal = document.getElementById("filter-posisi").value;
+    const filtered = filterVal ? allPlayers.filter(p => p.position === filterVal) : allPlayers;
+
+    if (loading) loading.classList.add("hidden");
+    
+    if (filtered.length === 0) {
+      grid.classList.add("hidden");
+      empty.classList.remove("hidden");
+    } else {
+      empty.classList.add("hidden");
+      grid.classList.remove("hidden");
+      grid.innerHTML = filtered.map(p => `
+        <div class="player-card">
+          <img src="${p.photo_url || 'https://via.placeholder.com/200'}" alt="${p.name}">
+          <div class="player-content">
+            <div class="player-name">${p.name}</div>
+            <p class="player-info"><b>Posisi:</b> ${p.position}</p>
+            <p class="player-info"><b>Klub:</b> ${p.club}</p>
+            <p class="player-info"><b>Umur:</b> ${p.age} thn</p>
+            <div class="card-btns">
+              <a href="/ProfileLegend/detail/${p.id}/" class="btn-detail">Lihat Detail</a>
+              <button onclick="openEdit('${p.id}')" class="btn-edit">Edit</button>
+              <button onclick="deletePlayer('${p.id}')" class="btn-delete">Hapus</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+  }
+
+  // 4. Modal Logic (Add & Edit)
+  function showModal() {
+    isEditMode = false;
+    editId = null;
+    legendForm.reset();
+    document.getElementById("modalTitle").innerText = "Tambah Legend";
+    document.getElementById("legendModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("legendModal").style.display = "none";
+  }
+
+  function openEdit(id) {
+    const p = allPlayers.find(i => i.id === id);
+    if (!p) return;
+    
+    isEditMode = true;
+    editId = id;
+    
+    document.getElementById("modalTitle").innerText = "Edit Legend";
+    document.getElementById("f_name").value = p.name || "";
+    document.getElementById("f_position").value = p.position || "";
+    document.getElementById("f_club").value = p.club || "";
+    document.getElementById("f_age").value = p.age || "";
+    document.getElementById("f_photo").value = p.photo_url || "";
+    
+    document.getElementById("legendModal").style.display = "flex";
+  }
+
+  // 5. AJAX Submit (Tambah & Edit)
+  legendForm.onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("submitBtn");
+    const originalBtnText = btn.innerText;
+    
+    btn.disabled = true;
+    btn.innerText = "Memproses...";
+
+    const formData = new FormData(legendForm);
+    const url = isEditMode ? `/ProfileLegend/edit/${editId}/` : "{% url 'ProfileLegend:create_legend' %}";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: formData,
+        headers: { 
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": formData.get("csrfmiddlewaretoken") // Lebih aman ambil dari form
+        }
+      });
+
+      const res = await response.json();
+      if (res.success) {
+        closeModal();
+        await loadPlayers();
+      } else {
+        alert("Gagal simpan data: " + JSON.stringify(res.errors));
+      }
+    } catch (err) {
+      alert("Terjadi kesalahan jaringan.");
+    } finally {
+      btn.disabled = false;
+      btn.innerText = originalBtnText;
+    }
+  };
+
+  // 6. Delete Logic (FIXED)
+  async function deletePlayer(id) {
+    // 1. Konfirmasi manual browser
+    if (!confirm("Apakah Anda yakin ingin menghapus pemain legend ini?")) return;
+    
+    // 2. Ambil CSRF Token dengan cara yang lebih pasti (dari form yang ada di page)
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
+      // 3. Pastikan URL sesuai dengan urls.py (Namespace:ID)
+      const response = await fetch(`/ProfileLegend/delete/${id}/`, {
+        method: "POST",
+        headers: { 
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": csrfToken
+        }
+      });
+
+      if (response.ok) {
+        const res = await response.json();
+        if (res.success) {
+          // 4. Refresh data secara seamless
+          await loadPlayers();
+        } else {
+          alert("Gagal menghapus: Respon server negatif.");
+        }
+      } else {
+        alert("Gagal menghapus: Server error (Status: " + response.status + ")");
+      }
+    } catch (e) {
+      console.error("Error saat delete:", e);
+      alert("Terjadi kesalahan jaringan saat mencoba menghapus.");
+    }
+  }
+
+  // Initial Load
+  loadPlayers();
 </script>
-
-{% endblock content %}
+{% endblock %}
