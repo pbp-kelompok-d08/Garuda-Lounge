@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
+from django.contrib.auth.decorators import login_required
 
 @csrf_exempt
 def login(request):
@@ -88,3 +89,10 @@ def logout(request):
             "status": False,
             "message": "Logout failed."
         }, status=401)
+
+@login_required
+def get_user_status(request):
+    return JsonResponse({
+        'is_staff': request.user.is_staff,
+        'username': request.user.username
+    })
