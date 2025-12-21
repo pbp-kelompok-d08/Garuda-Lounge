@@ -169,44 +169,40 @@ def get_comments(request, id):
     return JsonResponse({'comments': data})
 
 @csrf_exempt
-@require_POST
 def add_comment(request, id):
-    try:
-        body = json.loads(request.body.decode('utf-8'))
-        content = (body.get('content') or '').strip()
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
 
+    # kalau belum login, jangan create comment
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "Not authenticated"}, status=401)
+
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        content = (body.get("content") or "").strip()
         if not content:
-            return JsonResponse(
-                {'error': 'Komentar tidak boleh kosong.'},
-                status=400
-            )
+            return JsonResponse({"error": "Komentar tidak boleh kosong."}, status=400)
 
         news = get_object_or_404(News, id=id)
 
         comment = Comment.objects.create(
             news=news,
-            user=request.user if request.user.is_authenticated else None,
+            user=request.user,   # INI PENTING
             content=content,
             created_at=timezone.now()
         )
 
         return JsonResponse({
-            'id': str(comment.id),
-            'user': comment.user.username if comment.user else 'Anonymous',
-            'content': comment.content,
-            'created_at': comment.created_at.strftime('%d %b %Y, %H:%M')
+            "id": str(comment.id),
+            "user": comment.user.username,
+            "content": comment.content,
+            "created_at": comment.created_at.strftime("%d %b %Y, %H:%M"),
         }, status=201)
 
     except json.JSONDecodeError:
-        return JsonResponse(
-            {'error': 'Payload harus JSON.'},
-            status=400
-        )
+        return JsonResponse({"error": "Payload harus JSON."}, status=400)
     except Exception as e:
-        return JsonResponse(
-            {'error': str(e)},
-            status=500
-        )
+        return JsonResponse({"error": str(e)}, status=500)
 
 def proxy_image(request):
     image_url = request.GET.get('url')
