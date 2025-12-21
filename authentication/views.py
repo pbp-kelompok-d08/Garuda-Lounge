@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 from django.contrib.auth.models import User
+from django.contrib.auth import logout as auth_logout
 import json
 from django.contrib.auth.decorators import login_required
 
@@ -34,7 +36,6 @@ def login(request):
             "message": "Login failed, please check your username or password."
         }, status=401)
     
-
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
