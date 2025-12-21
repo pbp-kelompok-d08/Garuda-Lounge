@@ -10,6 +10,10 @@ from ProfileAktif.views import (
     add_player_ajax,
     edit_player,
     delete_player,
+    proxy_image,
+    create_player_flutter,
+    delete_player_flutter,
+    edit_player_flutter,
 )
 
 app_name = 'ProfileAktif'
@@ -25,4 +29,9 @@ urlpatterns = [
     path('xml/<uuid:player_id>/', show_xml_by_id, name='show_xml_by_id'),
     path('json/<uuid:player_id>/', show_json_by_id, name='show_json_by_id'),
     path('add-player-ajax/', add_player_ajax, name='add_player_ajax'),
+    path("proxy-image/", proxy_image, name="proxy_image"),
+    path("create-flutter/", create_player_flutter, name="create_player_flutter"),
+    path("delete-flutter/<uuid:id>/", delete_player_flutter, name="delete_player_flutter"),
+    path("edit-flutter/<uuid:id>/", edit_player_flutter, name="edit_player_flutter"),
+
 ]
