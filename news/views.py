@@ -168,54 +168,63 @@ def get_comments(request, id):
     ]
     return JsonResponse({'comments': data})
 
-
-@login_required(login_url='/login')
+@csrf_exempt
 @require_POST
 def add_comment(request, id):
     try:
         body = json.loads(request.body.decode('utf-8'))
         content = (body.get('content') or '').strip()
+
         if not content:
-            return JsonResponse({'error': 'Komentar tidak boleh kosong.'}, status=400)
+            return JsonResponse(
+                {'error': 'Komentar tidak boleh kosong.'},
+                status=400
+            )
 
         news = get_object_or_404(News, id=id)
+
         comment = Comment.objects.create(
             news=news,
-            user=request.user,
+            user=request.user if request.user.is_authenticated else None,
             content=content,
             created_at=timezone.now()
         )
+
         return JsonResponse({
             'id': str(comment.id),
-            'user': comment.user.username,
+            'user': comment.user.username if comment.user else 'Anonymous',
             'content': comment.content,
             'created_at': comment.created_at.strftime('%d %b %Y, %H:%M')
-        })
-    except json.JSONDecodeError:
-        return JsonResponse({'error': 'Payload harus JSON.'}, status=400)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        }, status=201)
 
-@require_GET
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {'error': 'Payload harus JSON.'},
+            status=400
+        )
+    except Exception as e:
+        return JsonResponse(
+            {'error': str(e)},
+            status=500
+        )
+
 def proxy_image(request):
     image_url = request.GET.get('url')
     if not image_url:
-        return JsonResponse({'error': 'No URL provided'}, status=400)
-
+        return HttpResponse('No URL provided', status=400)
+    
     try:
-        resp = requests.get(image_url, timeout=12, allow_redirects=True)
-        resp.raise_for_status()
-
-        content_type = resp.headers.get('Content-Type', '')
-        if not content_type.startswith('image/'):
-            return JsonResponse(
-                {'error': 'URL did not return an image', 'content_type': content_type},
-                status=415
-            )
-
-        return HttpResponse(resp.content, content_type=content_type)
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({'error': f'Error fetching image: {str(e)}'}, status=502)
+        # Fetch image from external source
+        response = requests.get(image_url, timeout=10)
+        response.raise_for_status()
+        
+        # Return the image with proper content type
+        return HttpResponse(
+            response.content,
+            content_type=response.headers.get('Content-Type', 'image/jpeg')
+        )
+    except requests.RequestException as e:
+        return HttpResponse(f'Error fetching image: {str(e)}', status=500)
 
 @csrf_exempt
 def add_news_entry_ajax(request):
@@ -263,13 +272,6 @@ def add_news_entry_ajax(request):
 
 @csrf_exempt
 def create_news_flutter(request):
-    """
-    Endpoint untuk Flutter:
-    POST /news/create-flutter/
-    Body: JSON {title, content, category, thumbnail, is_featured}
-    Return: JSON
-    """
-
     if request.method != "POST":
         return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)
 
