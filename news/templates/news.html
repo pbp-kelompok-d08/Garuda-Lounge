@@ -288,60 +288,72 @@
     applyFilter();
   });
 
-  /* ===== CREATE (AJAX) ===== */
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    const fd = new FormData(form);
+ /* ===== CREATE (AJAX) ===== */
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    try{
-      const res = await fetch(CREATE_API_ENDPOINT, {
-        method: "POST",
-        headers: { "X-CSRFToken": CSRF, "Accept":"application/json" },
-        body: fd,
-        credentials: "same-origin"
-      });
+  try {
+    const payload = {
+      title: form.title.value.trim(),
+      content: form.content.value.trim(),
+      category: form.category.value.trim(),
+      thumbnail: form.thumbnail.value.trim(),
+      is_featured: form.is_featured.checked,
+    };
 
-      let n = null;
-      if (res.headers.get('Content-Type')?.includes('application/json')) {
-        n = await res.json();
-      }
-      if (!res.ok) {
-        const msg = n?.error || 'Gagal menambah berita';
-        throw new Error(msg);
-      }
+    const res = await fetch(CREATE_API_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": CSRF,
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      credentials: "same-origin",
+    });
 
-      const temp = n || {
-        id: 'temp-' + Date.now(),
-        title: fd.get('title'),
-        content: fd.get('content'),
-        category: fd.get('category'),
-        thumbnail: fd.get('thumbnail'),
-        is_featured: fd.get('is_featured') === 'on',
-        created_at: new Date().toISOString(),
-        user_id: "{{ request.user.id|default_if_none:'' }}"
-      };
-      gridEl.prepend(buildNewsCard(temp));
-
-      closeModal();
-      
-      // 🎉 Tampilkan Toast Success
-      if (typeof showToast === 'function') {
-        showToast('Berita Berhasil Ditambahkan!', 'Berita kamu sudah dipublish.', 'success');
-      }
-      
-      // reset ke ALL supaya terlihat
-      activeFilter = 'all'; setTabs();
-      fetchNews();
-    }catch(err){
-      // ❌ Tampilkan Toast Error
-      if (typeof showToast === 'function') {
-        showToast('Gagal Menambah Berita!', err.message || 'Terjadi kesalahan saat mempublish berita.', 'error');
-      } else {
-        alert("no" + (err.message || "Gagal membuat berita."));
-      }
-      console.error(err);
+    let n = null;
+    const ct = res.headers.get("Content-Type") || "";
+    if (ct.includes("application/json")) {
+      n = await res.json();
     }
-  });
+
+    if (!res.ok) {
+      const msg = n?.error || "Gagal menambah berita";
+      throw new Error(msg);
+    }
+
+    // pakai response server kalau ada, kalau tidak fallback ke payload
+    const temp = n || {
+      id: "temp-" + Date.now(),
+      title: payload.title,
+      content: payload.content,
+      category: payload.category,
+      thumbnail: payload.thumbnail,
+      is_featured: payload.is_featured,
+      created_at: new Date().toISOString(),
+      user_id: "{{ request.user.id|default_if_none:'' }}",
+    };
+
+    gridEl.prepend(buildNewsCard(temp));
+    closeModal();
+
+    if (typeof showToast === "function") {
+      showToast("Berita Berhasil Ditambahkan!", "Berita kamu sudah dipublish.", "success");
+    }
+
+    activeFilter = "all";
+    setTabs();
+    fetchNews();
+  } catch (err) {
+    if (typeof showToast === "function") {
+      showToast("Gagal Menambah Berita!", err.message || "Terjadi kesalahan saat mempublish berita.", "error");
+    } else {
+      alert(err.message || "Gagal membuat berita.");
+    }
+    console.error(err);
+  }
+});
 
   /* ===== DELETE (POST + CSRF) ===== */
   gridEl.addEventListener('click', async (e) => {
